@@ -17,7 +17,7 @@ import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.context.TestEnvironment;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
 import com.gfk.senbot.framework.data.GenericUser;
-import com.gfk.senbot.framework.services.selenium.SeleniumNavigationService;
+import com.gfk.senbot.framework.services.selenium.NavigationService;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
