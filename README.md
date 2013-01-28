@@ -7,6 +7,13 @@ goals
 ======
 Our goal is to make it easy to create, run and report on automated tests for webbased applications (by using behavior driven development).
 
+features
+======
+* Cucumber based tests
+* Selenium based tests using different browsers
+* Run tests in parallel (Has some issue's)
+* Generate readable reports (Work in progress)
+
 prerequisites
 ======
 * Maven (http://maven.apache.org/)
