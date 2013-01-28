@@ -1,7 +1,11 @@
 senbot
 ======
 
-Java based Cucumber and Selenium framework. Makes it easy to build, run and report on automated tests.
+Java based Cucumber and Selenium framework.
+
+goals
+======
+Our goal is to make it easy to create, run and report on automated tests for webbased applications (by using behavior driven development).
 
 prerequisites
 ======
