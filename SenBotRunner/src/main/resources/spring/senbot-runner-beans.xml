@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+       
+  
+  	<context:component-scan base-package="cucumber.runtime.java.spring"/>
+    <context:annotation-config/>
+
+    <import resource="classpath*:/applicationContext.xml"/>
+  
+    
+    <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">  
+    	<property name="ignoreResourceNotFound" value="true" />
+        <property name="locations">  
+            <list>  
+            	<!-- The default values for the SenBot properties can be found in the senbot-runner-default.properties file on the classpath -->
+                <value>classpath:senbot-runner-default.properties</value>
+            	<!-- They can be overwritten by senbot-runner.properties file on the classpath -->
+                <value>classpath:senbot-runner.properties</value>
+            </list>  
+        </property>  
+    </bean> 
+    
+    <bean id="com.gfk.senbot.framework.context.SenBotContext" class="com.gfk.senbot.framework.context.SenBotContext">
+    	<constructor-arg value="${senBotContext.testResultsFolder}" index="0"/>
+    	<constructor-arg ref="com.gfk.senbot.framework.context.CucumberManager" index="1"/>
+    	<constructor-arg ref="com.gfk.senbot.framework.context.SeleniumManager" index="2"/>
+        <constructor-arg ref="com.gfk.senbot.framework.data.SenBotReferenceService" index="3"/>
+        <constructor-arg value="${senbotContext.alternateRuntimeResources}" index="4"/>
+    </bean>
+
+    <bean id="com.gfk.senbot.framework.context.CucumberManager" class="com.gfk.senbot.framework.context.CucumberManager">
+    	<constructor-arg value="${senBotContext.cucumberManager.scenarioCreationHook}" index="0"/>
+    </bean>
+
+    <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">
+    	<constructor-arg value="${senBotContext.referenceManager.dataPopulationClass}" index="0"/>
+    </bean>
+
+    <bean id="com.gfk.senbot.framework.context.SeleniumManager" class="com.gfk.senbot.framework.context.SeleniumManager">
+    	<constructor-arg value="${senBotContext.selenium.defaultDomain}" index="0"/>
+    	<constructor-arg value="${senBotContext.selenium.hubIP}" index="1"/>
+    	<constructor-arg value="${senBotContext.selenium.runOnGrid}" index="2"/>
+    	<constructor-arg value="${senBotContext.selenium.targetEnvironment}" index="3"/>
+    	<constructor-arg value="${senBotContext.selenium.defaultWindowWidth}" index="4"/>
+    	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="5"/>
+        <constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="6"/>
+        <constructor-arg value="${senBotContext.selenium.implicitTimeout}" index="7"/>
+    </bean>
+    
+    <!-- All util classes -->
+    
+    <bean id="com.gfk.senbot.framework.services.selenium.ElementService" class="com.gfk.senbot.framework.services.selenium.ElementService"/>
+    
+    <bean id="com.gfk.senbot.framework.services.selenium.FormService" class="com.gfk.senbot.framework.services.selenium.FormService">
+    	<constructor-arg ref="com.gfk.senbot.framework.services.selenium.ElementService" index="0"/>
+    </bean>
+    
+    <bean id="com.gfk.senbot.framework.services.selenium.NavigationService" class="com.gfk.senbot.framework.services.selenium.NavigationService">
+    	<constructor-arg ref="com.gfk.senbot.framework.services.selenium.ElementService" index="0"/>
+    </bean>
+
+    <bean id="com.gfk.senbot.framework.selenium.TableService" class="com.gfk.senbot.framework.services.selenium.TableService">
+    	<constructor-arg ref="com.gfk.senbot.framework.services.selenium.ElementService" index="0"/>
+    </bean>
+
+    <bean id="com.gfk.senbot.framework.services.APIAccessService" class="com.gfk.senbot.framework.services.APIAccessService"/>
+    
+</beans>

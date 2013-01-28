@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<title>Table test page</title>
+		<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+   		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
+   		<script>
+		    $(function() {
+		        $("#draggable").draggable();
+			    $("#drop").droppable({
+		            drop: function( event, ui ) {
+		                $( this ).addClass("dropSuccess");
+		            }
+		        });
+		    });
+		    
+   		</script>
+   		<style type="text/css">
+   			.block{
+   				border: 1px solid #000;
+   			}
+   			#drop #droppedSuccess{
+   				display: none;
+   			}
+   			#drop.dropSuccess #droppedSuccess{
+   				display: block;
+   			}
+   		</style>
+	</head>
+	<body>
+		<div class="block" id="draggable" style="width:100px;height:100px">Drag me</div>
+		<div class="block" id="drop" style="width:200px;height:200px;position:absolute;left:300px;top:200px">
+			Drop on me
+			<div id="droppedSuccess">Dropped!</div>
+		</div>
+	</body>
+</html>

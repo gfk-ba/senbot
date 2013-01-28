@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+        
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %-10d{dd MMM yyyy HH:mm:ss,SSS} [%t] %l - %m%n"/>
+        </layout>
+    </appender>
+    
+     <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="target/logs/drive_core_senbot.log"/>
+        <param name="Append" value="false"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p %-10d{dd MMM yyyy HH:mm:ss,SSS} [%t] %l - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="com.gfk" additivity="false">
+        <priority value="WARN"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+    
+    <root>
+        <priority value="FATAL"/>
+        <appender-ref ref="CONSOLE"/>        
+    </root>
+
+</log4j:configuration>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+<head>
+    <title>Delayed display</title>
+    <style>
+         button,
+         input,
+         textarea{
+          clear:both;
+          float:left;
+         }
+ 
+         #text{
+          display: none;
+         }
+         #text.show{
+          display: block;
+         }
+    </style>
+
+    <script>
+        function buttonClick(text) {
+            var element = document.getElementById('text');
+            element.className += " show";
+        }
+    </script>
+</head>
+<body>
+
+ <h1>Delayed display after button click</h1>
+    <div id="text">I should show after a delay</div>
+    <button id="delayedDisplayButton" name="Text 1" value="Button" onclick="return false;" ondblclick="buttonClick('Button');return false;">Button</button>
+
+</body>
+</html>

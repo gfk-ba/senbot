@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html>
+<head>
+    <title>Synchronisation</title>
+    <style>
+         button,
+         input,
+         textarea{
+          clear:both;
+          float:left;
+         }
+ 
+         #text{
+          display: none;
+         }
+         #text.show{
+          display: block;
+         }
+    </style>
+
+    <script>
+        function buttonClick() {
+            var element = document.getElementById('text');
+            element.className += " show";
+        }
+
+        function openNewWindowWithDelay() {
+			setTimeout(openNewWindow, 3000);
+        }
+
+        function openNewWindow() {
+            var textField = document.getElementById('textField');
+			window.open(textField.value, "_blank", "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=10, left=10");
+        }
+    </script>
+</head>
+<body>
+
+   <h1>Delayed display after button click</h1>
+   <div id="text">I should show after a delay</div>
+   <button id="delayedDisplayButton" name="Text 1" value="Button" onclick="buttonClick(); return false;">Button</button>
+   <br></br>
+   <input type="text" id="textField" />
+   <br></br>
+   <button id="openBrowserWindow" onclick="openNewWindowWithDelay();return false">Open new Browser window</button>
+
+</body>
+</html>

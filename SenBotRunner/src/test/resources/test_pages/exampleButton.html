@@ -1,0 +1,33 @@
+
+<html>
+<head>
+<title>Click-Buttons</title>
+<style>
+	button,
+	input,
+	textarea{
+		clear:both;
+		float:left;
+	}
+</style>
+
+<script>
+function buttonClick(text) {
+	document.getElementById('text').innerHTML='<div id="buttonClickText">' + text + '</div>';
+}
+</script>
+</head>
+<body>
+
+<h1>Button test page</h1>
+
+<form id="form" action="exampleButton.html">
+    <div id="text"></div>
+    <button name="Text 1" value="Button" onclick="buttonClick('Button');return false;">Button</button>
+    <input type="submit" name="Submit button" value="Submit button" title="clickMe" onclick="buttonClick('Submit button');return false;"/>
+    <input type="reset" name="Reset button" value="Reset button" onclick="buttonClick('Reset button');return false;"/>
+    <input type="button" name="Input button" value="Input button" onclick="buttonClick('Input button');return false;"/>
+</form>
+
+</body>
+</html>
