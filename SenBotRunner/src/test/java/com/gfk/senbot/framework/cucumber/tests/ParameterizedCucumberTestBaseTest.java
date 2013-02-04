@@ -1,4 +1,4 @@
-package com.gfk.senbot.framework.cucumber.tests;
+/* package com.gfk.senbot.framework.cucumber.tests;
 
 import org.junit.runner.RunWith;
 
@@ -17,3 +17,4 @@ import cucumber.api.junit.Cucumber;
 public class ParameterizedCucumberTestBaseTest extends CucumberTestBase {
 
 }
+*/
