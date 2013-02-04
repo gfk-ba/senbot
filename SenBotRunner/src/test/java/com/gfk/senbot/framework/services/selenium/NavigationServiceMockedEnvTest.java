@@ -29,14 +29,7 @@ public class NavigationServiceMockedEnvTest  extends AbstractSenbotServiceTest{
         	System.setProperty(SenBotContext.SENBOT_CONTEXT_ALTERNATE_RUNTIME_RESOURCES_PROPERTY_NAME, alternateRuntimeResources);        	
         }
     }
-	
-	@AfterClass
-	public static void cleanup() {
-		//make sure to cleanup the senbot so that this test does not interfere with other tests
-        System.clearProperty("senbotContext.alternateRuntimeResources");
-        SenBotContext.cleanupSenBot();
-	}
-
+	   
     @Test
     public void testNavigate_to_url_onUnixPath() throws Exception {
         //Cleanup the senbot so it will be initialiyed with the new property
