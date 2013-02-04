@@ -1,4 +1,3 @@
-@to-implement
 Feature: Wait for Loaders
   In order to be able to synchronize the test with the application
   As a test developer

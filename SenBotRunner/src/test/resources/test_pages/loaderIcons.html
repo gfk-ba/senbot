@@ -9,7 +9,6 @@
 			clear:both;
 			float:left;
         }
- 
         #text {
 			display: none;
         }
@@ -19,52 +18,34 @@
     </style>
 
     <script>
-    	function buttonClick() {
-			input.value = "0000";
-            var button = document.getElementById('button');
-            var wiki   = document.getElementById('wikipediaLogo');
-            var gfk    = document.getElementById('gfkLogo');
-            var apache = document.getElementById('apacheLogo');
 
+        var button 	 = document.getElementById('button');
+        var circle   = document.getElementById('circle');
+        var square   = document.getElementById('square');
+        var triangle = document.getElementById('triangle');
+
+	
+		function buttonClick() {
 			button.style.visibility  = "hidden";
-            gfk.style.visibility     = "visible";
+            square.style.visibility     = "visible";
 			setTimeout(stepOne, 5000);
-			input.value = "1111";
 		}
 
         function stepOne() {
-            var button = document.getElementById('button');
-            var wiki   = document.getElementById('wikipediaLogo');
-            var gfk    = document.getElementById('gfkLogo');
-            var apache = document.getElementById('apacheLogo');
-
-            gfk.style.visibility     = "hidden";
-            wiki.style.visibility    = "visible";
+            square.style.visibility     = "hidden";
+            circle.style.visibility    = "visible";
 			setTimeout(stepTwo, 5000);
-			input.value = "2222";
 		}
 
         function stepTwo() {
-            var button = document.getElementById('button');
-            var wiki   = document.getElementById('wikipediaLogo');
-            var gfk    = document.getElementById('gfkLogo');
-            var apache = document.getElementById('apacheLogo');
-
-            wiki.style.visibility  = "hidden";
-            apache.style.visibility  = "visible";
+            circle.style.visibility  = "hidden";
+            triangle.style.visibility  = "visible";
 			setTimeout(stepThree, 5000);
-			input.value = "3333";
 		}
 
         function stepThree() {
-            var button = document.getElementById('button');
-            var wiki   = document.getElementById('wikipediaLogo');
-            var gfk    = document.getElementById('gfkLogo');
-            var apache = document.getElementById('apacheLogo');
-
-            apache.style.visibility    = "hidden";
+            triangle.style.visibility    = "hidden";
 			button.style.visibility = "visible";
-			input.value = "4444";
 		}
     </script>
 
@@ -75,8 +56,8 @@
    <button id="button" onclick="buttonClick(); return false;">Button</button><br>
    <input id="input" type="text"/> <br><br>
    
-   <img id="gfkLogo"        src="gfklogo.png"        style="visibility:hidden"/><br><br>
-   <img id="wikipediaLogo"  src="wikipediaLogo.png"  style="visibility:hidden"/><br><br>
-   <img id="apacheLogo"     src="apacheLogo.png"     style="visibility:hidden"/><br><br> 
+   <img id="triangle"        src="triangle.png"        style="visibility:hidden"/><br><br>
+   <img id="square"  		 src="square.png"  		   style="visibility:hidden"/><br><br>
+   <img id="circle"     	 src="circle.png"     	   style="visibility:hidden"/><br><br> 
 </body>
 </html>
