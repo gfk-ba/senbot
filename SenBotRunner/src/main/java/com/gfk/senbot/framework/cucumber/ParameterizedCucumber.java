@@ -82,7 +82,7 @@ public class ParameterizedCucumber extends Parameterized {
             for (final CucumberFeature cucumberFeature : cucumberFeatures) {
 
             	
-            	log.debug("Load runner for test cucumberFeature: " + cucumberFeature.getFeature().getDescription() + " on evironment " + environment.toString());
+            	log.debug("Load runner for test cucumberFeature: " + cucumberFeature.getGherkinFeature().getDescription() + " on evironment " + environment.toString());
                 
 
             	FeatureRunner environmentFeatureRunner = new FeatureRunner(cucumberFeature, runtime, jUnitReporter) {

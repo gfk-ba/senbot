@@ -4,7 +4,7 @@
 
 	<groupId>com.gfk.senbot</groupId>
 	<artifactId>SenBotParent</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>SenBot Parent</name>
@@ -17,7 +17,7 @@
 
 	<properties>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
-		<info.cukes.version>1.1.1</info.cukes.version>
+		<info.cukes.version>1.1.2</info.cukes.version>
 	</properties>
 	
 	<contributors>

@@ -11,7 +11,8 @@ import cucumber.api.junit.Cucumber;
 @Cucumber.Options(format = {"pretty", "html:target/test-results"}, 
 		monochrome = true, 
 		glue = {"com.gfk"},
-		features = "src/test/resources/features", 
+		features = "src/test/resources/features",
+                tags = {"~@ignore", "~@to-implement", "~@random-failure", "~@broken"}, 
 		strict = true)
 public class ParameterizedCucumberTestBaseTest extends CucumberTestBase {
 

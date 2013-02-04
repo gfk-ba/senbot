@@ -17,8 +17,8 @@ public class WaitForLoadersStepsTest extends BaseStepDefinition {
     public static final By WIKIPEDIA_LOADER = By.id("wikipediaLogo");
     public static final By BUTTON           = By.id("button");
 
-    @Given("^in the source code the loder icons are assigned in the correct order$")
-    public void in_the_source_code_the_loder_icons_are_assigned_in_the_correct_order() throws Throwable {
+    @Given("^in the source code the loader icons are assigned in the correct order$")
+    public void in_the_source_code_the_loader_icons_are_assigned_in_the_correct_order() throws Throwable {
         ScenarioGlobals scenarioGlobals = getScenarioGlobals();
         scenarioGlobals.clearLoaderIndicators();
         scenarioGlobals.registerLoaderIndicators(GFK_LOADER, APACHE_LOADER, WIKIPEDIA_LOADER);
@@ -35,8 +35,8 @@ public class WaitForLoadersStepsTest extends BaseStepDefinition {
         synchronisationService.checkForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//*[@id='button'][contains(text()," + text + "')]")));
     }
 
-    @Given("^in the source code the loder icons are assigned in the wrong order$")
-    public void in_the_source_code_the_loder_icons_are_assigned_in_the_wrong_order() throws Throwable {
+    @Given("^in the source code the loader icons are assigned in the wrong order$")
+    public void in_the_source_code_the_loader_icons_are_assigned_in_the_wrong_order() throws Throwable {
         ScenarioGlobals scenarioGlobals = getScenarioGlobals();
         scenarioGlobals.clearLoaderIndicators();
         scenarioGlobals.registerLoaderIndicators(APACHE_LOADER, GFK_LOADER, WIKIPEDIA_LOADER);

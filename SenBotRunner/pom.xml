@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
-		<version>0.0.5-SNAPSHOT</version>
+		<version>0.0.6-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>SenBotRunner</artifactId>
@@ -129,13 +129,18 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<!-- skip the test phase as all tests will be run in the integration-test 
-					phase -->
 				<configuration>
-					<skipTests>true</skipTests>
+                                    <includes>
+                                            <include>**/*Test.java</include>
+                                    </includes>
+                                    <excludes>
+                                        <!-- Don't run the focus runner during the build -->
+                                        <exclude>**/CucumberFocusTest.java</exclude>
+                                    </excludes>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!-- Disabled parrallel execution due to not reporting of errors.
+                            <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 
@@ -151,20 +156,21 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-                    <excludes>
-                        <!-- Don't run the focus runner during the build -->
-                        <exclude>**/CucumberFocusTest.java</exclude>
-                    </excludes>
+                                        <excludes>
+                                            --><!-- Don't run the focus runner during the build -->
+                                            <!--<exclude>**/CucumberFocusTest.java</exclude>
+                                        </excludes>
 					<parallel>classes</parallel>
 					<forkMode>perthread</forkMode>
 					<threadCount>10</threadCount>
-					<!-- <debugForkedProcess>true</debugForkedProcess> -->
-				</configuration>
-			</plugin>
+					--><!-- <debugForkedProcess>true</debugForkedProcess> -->
+				<!--</configuration>
+			 </plugin>-->
 		</plugins>
 	</build>
 
-	<reporting>
+<!-- Disabled parrallel execution due to not reporting of errors.
+        <reporting>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -180,5 +186,5 @@
 			</plugin>
 		</plugins>
 	</reporting>
-
+ -->
 </project>

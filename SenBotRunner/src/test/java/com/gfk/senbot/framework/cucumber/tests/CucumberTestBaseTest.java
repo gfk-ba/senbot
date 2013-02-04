@@ -13,6 +13,7 @@ import cucumber.api.junit.Cucumber;
 		monochrome = true,
 		glue = {"com.gfk"},
 		features = "src/test/resources/features",
+                tags = {"~@ignore", "~@to-implement", "~@random-failure", "~@broken"}, 
 		strict = true)
 public class CucumberTestBaseTest extends CucumberTestBase {
 
