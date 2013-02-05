@@ -123,6 +123,13 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
     }
 
     @Test
+    public void testDragElementToBy() throws IOException, InterruptedException {
+        seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.DRAG_DROP_TEST_PAGE_URL);
+        seleniumElementService.dragElementTo(By.id("draggable"), By.id("drop"));
+        seleniumElementService.isElementVisible(By.id("droppedSuccess"), true);
+    }
+
+    @Test
     public void testDragElementTo() throws IOException, InterruptedException {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.DRAG_DROP_TEST_PAGE_URL);
         seleniumElementService.dragElementTo(ElementService.ID_LOCATOR_PREFIX + "draggable", ElementService.ID_LOCATOR_PREFIX + "drop");

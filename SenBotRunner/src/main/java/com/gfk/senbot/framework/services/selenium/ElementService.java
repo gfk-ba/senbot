@@ -243,6 +243,21 @@ public class ElementService extends BaseServiceHub {
     }
 
     /**
+     * Drags an element some place else
+     *  
+     * @param draggable The element to drag
+     * @param droppable The drop aim
+     * @throws InterruptedException
+     */
+    public void dragElementTo(By draggable, By droppable) throws InterruptedException {
+        WebDriver driver = getWebDriver();
+
+        Actions clickAndDrag = new Actions(getWebDriver());
+        clickAndDrag.dragAndDrop(driver.findElement(draggable), driver.findElement(droppable));
+        clickAndDrag.perform();
+    }
+
+    /**
      * Clicks a button.
      * Always use this method if you plan to run the tests on IE9
      * In IE9 element.click() does not in a reliable way on buttons.
