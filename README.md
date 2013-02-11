@@ -32,4 +32,4 @@ After a succesfull senbot build and test run you can use the Maven archetype to 
 mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DgroupId=com.gfk.demo -DartifactId=YourProjectName
 ```
 
-This should result in a new folder in your current directory called RunnerDemo, start and test it with ```mvn clean install```
+This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
