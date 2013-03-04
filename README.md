@@ -29,8 +29,7 @@ new project
 =======
 After a succesfull senbot build and test run you can use the Maven archetype to generate a new project based on the senbot framework.
 ```
-mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype
--DgroupId=com.gfk.demo -DartifactId=RunnerDemo
+mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DgroupId=com.gfk.demo -DartifactId=YourProjectName
 ```
 
-This should result in a new folder in your current directory called RunnerDemo, start and test it with ```mvn clean install```
+This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
