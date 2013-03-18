@@ -19,8 +19,8 @@ Feature: Test All Gherkin features
   Scenario: The navigation is removed from the view
     When I click on the link with id "testPage1"
      And I click on the link with id "hide_navigation_link"
-    Then the element "id:hide_navigation_link" is invisible
-     But the element "id:navigation" is visible
+    Then the element "id:hide_navigation_link" is "invisible"
+     But the element "id:navigation" is "visible"
    
   Scenario: Table data argument test
     When I visit the pages:
