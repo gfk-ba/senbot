@@ -69,6 +69,6 @@ public class FormServiceTest extends AbstractSenbotServiceTest {
         WebElement formElement = seleniumElementService.findExpectedElement(By.id("areaField"));
         assertNotEquals(expected, formElement.getAttribute("value"));
         
-        assertEquals(SenBotContext.getSenBotContext().getReferenceService().namespacenizeString(expected), formElement.getAttribute("value"));
+        assertEquals(SenBotContext.getSenBotContext().getReferenceService().namespaceString(expected), formElement.getAttribute("value"));
     }
 }

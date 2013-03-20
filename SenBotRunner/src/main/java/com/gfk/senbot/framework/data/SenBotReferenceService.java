@@ -13,6 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.By.ById;
 import org.openqa.selenium.By.ByXPath;
 
+import com.gfk.senbot.framework.context.CucumberManager;
+
 /**
  * A class to define global variables and reference them by a logical human readable way. 
  * This will help you instead to write tests like:
@@ -44,6 +46,8 @@ public class SenBotReferenceService {
 
     public static final String              NAME_SPACE_PREFIX                   = "NS:";
 
+    public static final String              SCENARIO_NAME_SPACE_PREFIX          = "SNS:";
+
     /**
      * Map to store generic reference objects by their respective class and name
      */
@@ -54,9 +58,11 @@ public class SenBotReferenceService {
     private ThreadLocal<String>             nameSpaceThreadLocale               = new ThreadLocal<String>() {
                                                                                     @Override
                                                                                     protected String initialValue() {
-                                                                                        return new Integer(UUID.randomUUID().hashCode()).toString() + "-";
+                                                                                        return "NS" + new Integer(UUID.randomUUID().hashCode()).toString() + "-";
                                                                                     }
                                                                                 };
+
+	private final CucumberManager cucumberManager;
 
     /**
      * Constructor 
@@ -71,9 +77,11 @@ public class SenBotReferenceService {
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public SenBotReferenceService(String populatorClassName) throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
+    public SenBotReferenceService(String populatorClassName,
+    		CucumberManager cucumberManager) throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
             IllegalAccessException, InvocationTargetException {
-        if (!StringUtils.isBlank(populatorClassName)) {
+        this.cucumberManager = cucumberManager;
+		if (!StringUtils.isBlank(populatorClassName)) {
             Constructor<?> constructor = Class.forName(populatorClassName).getConstructor();
             ReferenceServicePopulator populator = (ReferenceServicePopulator) constructor.newInstance();
             populator.populate(this);
@@ -187,10 +195,22 @@ public class SenBotReferenceService {
      * 
      * @param plainString The string that contains the name spacing string
      * @return The namespacenized string
+     * @throws  
      * @throws RuntimeExpression In case the name spacing string lives at the wrong location
      */
-    public String namespacenizeString(String plainString) throws RuntimeException {
-        return (plainString.replace(NAME_SPACE_PREFIX, nameSpaceThreadLocale.get()));
+    public String namespaceString(String plainString) throws RuntimeException {
+    	if(plainString.startsWith(NAME_SPACE_PREFIX)) {
+    		return (plainString.replace(NAME_SPACE_PREFIX, nameSpaceThreadLocale.get()));    		
+    	}
+    	if(plainString.startsWith(SCENARIO_NAME_SPACE_PREFIX)) {
+    		if(cucumberManager.getCurrentScenarioGlobals() == null) {
+    			throw new ScenarioNameSpaceAccessOutsideScenarioScopeException("You cannot fetch a Scneario namespace outside the scope of a scenario");
+    		}
+    		return (plainString.replace(SCENARIO_NAME_SPACE_PREFIX, cucumberManager.getCurrentScenarioGlobals().getNameSpace()));    		
+    	}
+    	else {
+    		return plainString;
+    	}
     }
 
     public void addReference(Class<?> referenceClass, String name, Object referenceObject) {

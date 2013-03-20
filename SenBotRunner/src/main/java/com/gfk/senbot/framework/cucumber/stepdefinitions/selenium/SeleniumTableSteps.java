@@ -29,6 +29,7 @@ public class SeleniumTableSteps extends BaseStepDefinition {
 		ExpectedTableDefinition expected = new ExpectedTableDefinition(expectedContent);
 		seleniumTableService.compareTable(expected, table);
 	}
+	
 
 	@Then("^the table \"(.*)\" should contain the columns$")
 	public void the_table_x_should_contain_columns(String tableDescriptor, DataTable expectedContent) throws Throwable {

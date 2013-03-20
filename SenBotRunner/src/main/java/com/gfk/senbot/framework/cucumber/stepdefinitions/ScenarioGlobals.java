@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,6 +39,7 @@ public class ScenarioGlobals {
     private TestEnvironment     testEnvironment;
     private List<By>            loaderIndicators   = new ArrayList<By>();
     private WebDriver           driver             = SenBotContext.getSeleniumDriver();
+    private String 				namespace		   = null;
 
     /**
      * Constructor
@@ -111,5 +113,15 @@ public class ScenarioGlobals {
     public void setTestEnvironment(TestEnvironment testEnvironment) {
         this.testEnvironment = testEnvironment;
     }
+
+    /**
+     * @return a unique to this Scenario namespace string 
+     */
+	public String getNameSpace() {
+		if(namespace == null) {
+			namespace = "SNS" + new Integer(UUID.randomUUID().hashCode()).toString() + "-";
+		}
+		return namespace;
+	}
 
 }

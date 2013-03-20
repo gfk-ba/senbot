@@ -40,6 +40,7 @@
 
     <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">
     	<constructor-arg value="${senBotContext.referenceManager.dataPopulationClass}" index="0"/>
+    	<constructor-arg ref="com.gfk.senbot.framework.context.CucumberManager" index="1"/>
     </bean>
 
     <bean id="com.gfk.senbot.framework.context.SeleniumManager" class="com.gfk.senbot.framework.context.SeleniumManager">

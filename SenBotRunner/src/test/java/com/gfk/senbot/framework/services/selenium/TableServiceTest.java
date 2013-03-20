@@ -262,7 +262,7 @@ public class TableServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.TABLE_NAMESPACE_TEST_PAGE_URL);
 
         String unNamespacenizedString = SenBotReferenceService.NAME_SPACE_PREFIX + "Table cell 3";
-        String namespacenizedString = SenBotContext.getSenBotContext().getReferenceService().namespacenizeString(unNamespacenizedString);
+        String namespacenizedString = SenBotContext.getSenBotContext().getReferenceService().namespaceString(unNamespacenizedString);
 
         List<List<String>> expectedRows = new ArrayList<List<String>>();
         final List<String> header = Arrays.asList(new String[]{"Table header 1", "Table header 2"});

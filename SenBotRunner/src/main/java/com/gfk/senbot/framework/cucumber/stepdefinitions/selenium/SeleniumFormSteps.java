@@ -1,9 +1,7 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
 
-import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
-import com.gfk.senbot.framework.services.selenium.ElementService;
 
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;

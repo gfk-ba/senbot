@@ -247,7 +247,7 @@ public class APIAccessService extends BaseServiceHub{
 			setRequestHeaders(ucon, authenticationUser, requestHedaers);
 				
 			for(int i = 0 ; i < requestParameters.length; i = i + 2) {
-				ucon.setRequestProperty(getReferenceService().namespacenizeString(requestParameters[i]), getReferenceService().namespacenizeString(requestParameters[i+1]));
+				ucon.setRequestProperty(getReferenceService().namespaceString(requestParameters[i]), getReferenceService().namespaceString(requestParameters[i+1]));
 			}
 			
 			ucon.setUseCaches (false);
@@ -269,7 +269,7 @@ public class APIAccessService extends BaseServiceHub{
 			StringBuilder builder = new StringBuilder();
 			builder.append(urlString + "?json=" + URLEncoder.encode(request.toString(), "UTF-8").replaceAll("\"", "%22"));
 			for(int i = 0 ; i < requestParameters.length; i = i + 2) {
-				builder.append("&" + getReferenceService().namespacenizeString(requestParameters[i]) + "=" + getReferenceService().namespacenizeString(requestParameters[i+1]));
+				builder.append("&" + getReferenceService().namespaceString(requestParameters[i]) + "=" + getReferenceService().namespaceString(requestParameters[i+1]));
 			}
 			
 			URL url = new URL(builder.toString());		
@@ -331,7 +331,7 @@ public class APIAccessService extends BaseServiceHub{
 		}
 		
 		for(int i = 0;i<requestHedaers.length;i = i+2) {
-			ucon.setRequestProperty(getReferenceService().namespacenizeString(requestHedaers[i]), getReferenceService().namespacenizeString(requestHedaers[i+1]));
+			ucon.setRequestProperty(getReferenceService().namespaceString(requestHedaers[i]), getReferenceService().namespaceString(requestHedaers[i+1]));
 		}
 	}
 

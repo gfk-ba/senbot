@@ -30,7 +30,7 @@ public class FormService extends BaseServiceHub {
 	public WebElement fillFormField_locator(String locator, String value) {
 		WebElement fieldEl = seleniumElementService.translateLocatorToWebElement(locator);
         fieldEl.clear();
-		fieldEl.sendKeys(getReferenceService().namespacenizeString(value));
+		fieldEl.sendKeys(getReferenceService().namespaceString(value));
 		return fieldEl;
 	}
 

@@ -107,7 +107,7 @@ public class TableService extends BaseServiceHub {
                 int expectedSpanCells = 0;
                 for (String columnHeaderKey : columnHeaders.keySet()) {
 
-                    String expectedValue = getReferenceService().namespacenizeString(expectedRow.get(cellCount).trim());
+                    String expectedValue = getReferenceService().namespaceString(expectedRow.get(cellCount).trim());
                     if ("<rowspan>".equals(expectedValue) || "<colspan>".equals(expectedValue)) {
                         //a missing cell is expected here that exists due to a rowspan or colspan in an earlier row/column. ignore the cell
                         expectedSpanCells++;
