@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
@@ -114,7 +115,7 @@ public class TestEnvironment {
     public Platform getOS() {
         return os;
     }
-
+    
     /**
      * TestFramework: getVersion
      * 
@@ -372,7 +373,9 @@ public class TestEnvironment {
             log.debug("Local WebDriver should be created to run on this local machine for environment: " + this.toPrettyString());
 
             if (TestEnvironment.FF.equals(browser)) {
-                driver = new FirefoxDriver();
+            	FirefoxProfile p = new FirefoxProfile();
+//            	p.setPreference("webdriver.log.file", SenBotContext.getSenBotContext().getTestResultsFolder() + "/firefox_console.log");
+            	driver = new FirefoxDriver(p);
             } else if (TestEnvironment.CH.equals(browser)) {
                 ChromeOptions chromeOptions = new ChromeOptions();
                 // chromeOptions.setCapability("chrome.verbose", false);
