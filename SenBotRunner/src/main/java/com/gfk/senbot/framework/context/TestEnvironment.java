@@ -1,5 +1,6 @@
 package com.gfk.senbot.framework.context;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -352,8 +353,8 @@ public class TestEnvironment {
                 capability = DesiredCapabilities.firefox();
             } else if (TestEnvironment.CH.equals(browser)) {
                 capability = DesiredCapabilities.chrome();
-                capability.setCapability("chrome.verbose", false);
-                capability.setCapability("chrome.switches", Lists.newArrayList("disable-logging=true"));
+                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("chrome.switches", Arrays.asList("--disable-logging"));
             } else if (TestEnvironment.OP.equals(browser)) {
                 capability = DesiredCapabilities.opera();
             } else if (TestEnvironment.IE.equals(browser)) {
@@ -377,10 +378,9 @@ public class TestEnvironment {
 //            	p.setPreference("webdriver.log.file", SenBotContext.getSenBotContext().getTestResultsFolder() + "/firefox_console.log");
             	driver = new FirefoxDriver(p);
             } else if (TestEnvironment.CH.equals(browser)) {
-                ChromeOptions chromeOptions = new ChromeOptions();
-                // chromeOptions.setCapability("chrome.verbose", false);
-                // chromeOptions.addArguments("--disable-logging=true");
-                driver = new ChromeDriver(chromeOptions);
+                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                capabilities.setCapability("chrome.switches", Arrays.asList("--disable-logging --log-level=3"));
+                driver = new ChromeDriver(capabilities);
             } else if (TestEnvironment.OP.equals(browser)) {
                 driver = new OperaDriver();
             } else if (TestEnvironment.IE.equals(browser)) {

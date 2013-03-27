@@ -23,6 +23,7 @@ import com.gfk.senbot.framework.context.SenBotContext;
  *
  */
 public class SynchronisationService extends BaseServiceHub {
+	
     private ThreadLocal<String> mainWindowHandle  = new ThreadLocal<String>();
     private ThreadLocal<String> popupWindowHandle = new ThreadLocal<String>();
     SeleniumManager             seleniumManager   = getSeleniumManager();

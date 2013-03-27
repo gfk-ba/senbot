@@ -1,4 +1,3 @@
-@focus 
 Feature: Name spacing test runs to prevent interference with other tests
 	In order to run the same tests multiple times against a single environment
 	As a Test Runner

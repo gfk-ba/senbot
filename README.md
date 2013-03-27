@@ -33,3 +33,10 @@ mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=S
 ```
 
 This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
+
+Some usefull runtime tips
+=======
+When running your SenBot though maven you can provide custom cucumber runtime options to append to the variables defined in your JUnit tests like so
+```
+mvn test -Dcucumber.options="--tags @myOtherTag"
+```

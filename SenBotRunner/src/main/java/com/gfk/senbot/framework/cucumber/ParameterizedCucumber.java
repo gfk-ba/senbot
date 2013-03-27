@@ -68,7 +68,6 @@ public class ParameterizedCucumber extends Parameterized {
 
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.strict);
         
-        
         List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
         List<Runner> parameterizedChildren = super.getChildren();
         final SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
