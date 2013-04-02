@@ -16,27 +16,31 @@ features
 
 prerequisites
 ======
-* Maven (http://maven.apache.org/)
-* Java JDK (http://www.java.com)
-* Google Chrome (www.google.com/chrome , Just to run the default configured example tests)
-* Chromedriver (http://code.google.com/p/chromedriver/downloads/list , put the executable somewhere in your path)
+To run the framework tests you minimal need:
+* Java JDK v1.6+ (http://www.java.com)
+* Maven (http://maven.apache.org/, install latest version in your local path)
+* Google Chrome (www.google.com/chrome, for the default configured example tests)
+* Chrome WebDriver (http://code.google.com/p/chromedriver/downloads/list, put the executable in your local path)
+* Firefox (www.firefox.com, for the default configured example tests)
 
-senbot build test run
+initial test run
 =======
-Clone the repository somewhere and do a ```mvn clean install```, this will build the senbot and fire the example tests
+After the prerequisites are installed clone the repository<br>
+Run a ```mvn clean install``` in the cloned directory<br>
+This will build the senbot and fire the example tests
 
 new project
 =======
 After a succesfull senbot build and test run you can use the Maven archetype to generate a new project based on the senbot framework.
 ```
-mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DgroupId=com.gfk.demo -DartifactId=YourProjectName
+mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DgroupId=your.package.namespace -DartifactId=YourProjectName
 ```
 
 This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
 
 Some usefull runtime tips
 =======
-When running your SenBot though maven you can provide custom cucumber runtime options to append to the variables defined in your JUnit tests like so
+When running your SenBot through maven you can provide custom cucumber runtime options to append to the variables defined in your JUnit tests like so
 ```
 mvn test -Dcucumber.options="--tags @myOtherTag"
 ```
