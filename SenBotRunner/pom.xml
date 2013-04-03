@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
-		<version>0.0.7-SNAPSHOT</version>
+		<version>0.0.8-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>SenBotRunner</artifactId>
@@ -50,6 +50,12 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
@@ -114,6 +120,8 @@
 
 	</dependencies>
 
+	<!-- another maven test excecution option can be found at: https://groups.google.com/d/msg/cukes/1DSrCLkhXZo/h_NQazBhcfcJ -->
+
 	<build>
 		<plugins>
 			<plugin>
@@ -130,61 +138,28 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-                                    <includes>
-                                            <include>**/*Test.java</include>
-                                    </includes>
-                                    <excludes>
-                                        <!-- Don't run the focus runner during the build -->
-                                        <exclude>**/CucumberFocusTest.java</exclude>
-                                    </excludes>
-				</configuration>
-			</plugin>
-			<!-- Disabled parrallel execution due to not reporting of errors.
-                            <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-                                        <excludes>
-                                            --><!-- Don't run the focus runner during the build -->
-                                            <!--<exclude>**/CucumberFocusTest.java</exclude>
-                                        </excludes>
-					<parallel>classes</parallel>
-					<forkMode>perthread</forkMode>
-					<threadCount>10</threadCount>
-					--><!-- <debugForkedProcess>true</debugForkedProcess> -->
-				<!--</configuration>
-			 </plugin>-->
+					<excludes>
+						<!-- Don't run the focus runner during the build -->
+						<exclude>**/CucumberFocusTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
+				<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
+				<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
+				</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
+				</includes> <excludes> --><!-- Don't run the focus runner during the build -->
+			<!--<exclude>**/CucumberFocusTest.java</exclude> </excludes> <parallel>classes</parallel> 
+				<forkMode>perthread</forkMode> <threadCount>10</threadCount> --><!-- <debugForkedProcess>true</debugForkedProcess> -->
+			<!--</configuration> </plugin> -->
 		</plugins>
 	</build>
 
-<!-- Disabled parrallel execution due to not reporting of errors.
-        <reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<reportSets>
-					<reportSet>
-						<id>integration-tests</id>
-						<reports>
-							<report>failsafe-report-only</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-		</plugins>
-	</reporting>
- -->
+	<!-- Disabled parrallel execution due to not reporting of errors. <reporting> 
+		<plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-report-plugin</artifactId> 
+		<reportSets> <reportSet> <id>integration-tests</id> <reports> <report>failsafe-report-only</report> 
+		</reports> </reportSet> </reportSets> </plugin> </plugins> </reporting> -->
 </project>
