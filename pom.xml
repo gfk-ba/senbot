@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.gfk.senbot</groupId>
@@ -13,7 +13,8 @@
 	<modules>
 		<module>SenBotRunner</module>
 		<module>SenBotArchetype</module>
-	</modules>
+    	<module>senbot-maven-plugin</module>
+  </modules>
 
 	<properties>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
@@ -79,8 +80,6 @@
 				<version>2.31.0</version>
 				<scope>compile</scope>
 			</dependency>
-
-			<!-- since we have patched the cucumber-jvm we include our own patched version for now untill our patch is included by the cucumber team -->
 
 			<dependency>
 				<groupId>info.cukes</groupId>
@@ -210,13 +209,19 @@
 				<version>2.4</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+			    <artifactId>maven-plugin-api</artifactId>
+			    <version>2.0</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<plugins>
 			
-			<!-- install the patched cucumber-jvm version on the local machine -->
+			<!-- install the patched cucumber-jvm version on the local machine untill our patch is included in the cucumber-jvm repo -->
 		
 		 <plugin>
                 <groupId>org.codehaus.mojo</groupId>
