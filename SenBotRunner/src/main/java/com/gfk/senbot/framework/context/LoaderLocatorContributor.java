@@ -3,18 +3,18 @@ package com.gfk.senbot.framework.context;
 import org.openqa.selenium.By;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
-import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationHook;
+import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationShutdownHook;
 
 import cucumber.api.Scenario;
 
 /**
- * The {@link ScenarionCreationHook} specific to the drive framework registering {@link Scenario} scoped
+ * The {@link ScenarionCreationShutdownHook} specific to the drive framework registering {@link Scenario} scoped
  * variables.
  * 
  * @author joostschouten
  *
  */
-public class LoaderLocatorContributor implements ScenarionCreationHook {
+public class LoaderLocatorContributor implements ScenarionCreationShutdownHook {
 
     public static final By DRIVE_LOADER_INDICATOR      = By.id("gfkLogo");
     public static final By DRIVE_UI_DISABLER_INDICATOR = By.id("apacheLogo");
@@ -27,5 +27,9 @@ public class LoaderLocatorContributor implements ScenarionCreationHook {
     public void scenarionStarted(ScenarioGlobals scenarioGlobals) {
         scenarioGlobals.registerLoaderIndicators(DRIVE_LOADER_INDICATOR, DRIVE_UI_DISABLER_INDICATOR, DRIVE_UI_FETCHING_DATA);
     }
+
+	@Override
+	public void scenarionShutdown(ScenarioGlobals scenarioGlobals) {		
+	}
 
 }

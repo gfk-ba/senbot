@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gfk.senbot.framework.cucumber.CucumberTestBase;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
-import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationHook;
+import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationShutdownHook;
 import com.gfk.senbot.framework.data.ReferenceServicePopulator;
 
 import cucumber.api.Scenario;
@@ -26,12 +26,12 @@ public class CucumberManager {
 	 * has touched in its lifetime. This for example helps us check if a scenario uses Selenium or not
 	 */
 	private static Map<Thread, ScenarioGlobals> scenarioGlobalsMap = new HashMap<Thread, ScenarioGlobals>();
-	private ScenarionCreationHook scenarioCreationHook;
+	private ScenarionCreationShutdownHook scenarioCreationHook;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param scenarioGlobalsCreationHookClass the name (or null) in {@link String} format of the implementing {@link ScenarionCreationHook}
+	 * @param scenarioGlobalsCreationHookClass the name (or null) in {@link String} format of the implementing {@link ScenarionCreationShutdownHook}
 	 * class used to setup the {@link ScenarioGlobals} on each {@link Scenario} creation
 	 * 
 	 * @throws ClassNotFoundException 
@@ -45,7 +45,7 @@ public class CucumberManager {
 	public CucumberManager(String scenarioGlobalsCreationHookClass) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		if(!StringUtils.isBlank(scenarioGlobalsCreationHookClass)) {
 			Constructor<?> constructor = Class.forName(scenarioGlobalsCreationHookClass).getConstructor();
-			scenarioCreationHook = (ScenarionCreationHook) constructor.newInstance();
+			scenarioCreationHook = (ScenarionCreationShutdownHook) constructor.newInstance();
 		}
 	}
 
@@ -78,6 +78,9 @@ public class CucumberManager {
 	 * @return
 	 */
 	public ScenarioGlobals stopNewScenario() {
+		if(scenarioCreationHook != null) {
+			scenarioCreationHook.scenarionShutdown(getCurrentScenarioGlobals());
+		}
 		return scenarioGlobalsMap.remove(Thread.currentThread());
 	}
 

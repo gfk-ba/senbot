@@ -6,8 +6,10 @@ package com.gfk.senbot.framework.cucumber.stepdefinitions;
  * @author joostschouten
  *
  */
-public interface ScenarionCreationHook {
+public interface ScenarionCreationShutdownHook {
 	
 	void scenarionStarted(ScenarioGlobals scenarioGlobals);
+
+	void scenarionShutdown(ScenarioGlobals scenarioGlobals);
 	
 }
