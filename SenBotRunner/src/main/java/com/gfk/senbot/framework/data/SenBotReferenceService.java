@@ -213,21 +213,21 @@ public class SenBotReferenceService {
     	}
     }
 
-    public void addReference(Class<?> referenceClass, String name, Object referenceObject) {
-        Map<String, Object> refMap = getObjectReferenceMap(referenceClass);
-        refMap.put(name, referenceObject);
+    public <T> void addReference(Class<T> referenceClass, String name, Object referenceObject) {
+        Map<String, T> refMap = getObjectReferenceMap(referenceClass);
+        refMap.put(name, (T)referenceObject);
     }
 
-    public Map<String, Object> getObjectReferenceMap(Class<?> referenceClass) {
-        Map<String, Object> refMap = referenceMaps.get(referenceClass);
+    public <T> Map<String, T> getObjectReferenceMap(Class<T> referenceClass) {
+        Map<String, T> refMap = (Map<String, T>) referenceMaps.get(referenceClass);
         if (refMap == null) {
-            refMap = new HashMap<String, Object>();
-            referenceMaps.put(referenceClass, refMap);
+            refMap = new HashMap<String, T>();
+            referenceMaps.put(referenceClass, (Map<String, Object>) refMap);
         }
         return refMap;
     }
 
-    public Object getReference(Class<?> referenceClass, String referenceName) {
+    public <T> T getReference(Class<T> referenceClass, String referenceName) {
         return getObjectReferenceMap(referenceClass).get(referenceName);
     }
 
