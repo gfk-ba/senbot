@@ -84,4 +84,8 @@ public class CucumberManager {
 		return scenarioGlobalsMap.remove(Thread.currentThread());
 	}
 
+	public void cleanUp() {
+		scenarioGlobalsMap.clear();
+	}
+
 }
