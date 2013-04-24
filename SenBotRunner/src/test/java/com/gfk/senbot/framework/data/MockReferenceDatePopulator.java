@@ -2,6 +2,7 @@ package com.gfk.senbot.framework.data;
 
 import org.openqa.selenium.By;
 
+import com.gfk.senbot.framework.context.MockExampleTablePage;
 import com.gfk.senbot.framework.context.SenBotContext;
 
 public class MockReferenceDatePopulator implements ReferenceServicePopulator {
@@ -21,6 +22,8 @@ public class MockReferenceDatePopulator implements ReferenceServicePopulator {
         referenceService.addLocatorReference("Ref by XPath", By.xpath("//*XPathRef"));
         referenceService.addLocatorReference("Form by XPath", By.xpath("//form"));
         referenceService.addLocatorReference("Form by ID", By.id("form"));
+        
+        referenceService.addPageRepresentationReference("table page", MockExampleTablePage.class);
     }
 
 }

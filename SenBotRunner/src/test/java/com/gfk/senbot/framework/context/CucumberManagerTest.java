@@ -7,12 +7,18 @@ import static org.junit.Assert.assertNull;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
 
 
 public class CucumberManagerTest {
+	
+	@Before
+	public void setup() {
+		SenBotContext.cleanupSenBot();
+	}
 
 	@Test
 	public void testStartNewScenario() throws SecurityException, IllegalArgumentException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
