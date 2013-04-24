@@ -5,15 +5,19 @@ import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationShutdo
 
 public class MockScenarioCreationHook implements ScenarionCreationShutdownHook {
 
-	public static final String ATTRIBUTE_KEY = "ATTRIBUTE_KEY";
-	public static final String ATTRIBUTE_VALUE = "ATTRIBUTE_VALUE";
+	public static final String STARTED_ATTRIBUTE_KEY = "STARTED_ATTRIBUTE_KEY";
+	public static final String STARTED_ATTRIBUTE_VALUE = "STARTED_ATTRIBUTE_VALUE";
+
+	public static final String STOPPED_ATTRIBUTE_KEY = "STOPPED_ATTRIBUTE_KEY";
+	public static final String STOPPED_ATTRIBUTE_VALUE = "STOPPED_ATTRIBUTE_VALUE";
 	
 	public void scenarionStarted(ScenarioGlobals scenarioGlobals) {
-		scenarioGlobals.setAttribute(ATTRIBUTE_KEY, ATTRIBUTE_VALUE);
+		scenarioGlobals.setAttribute(STARTED_ATTRIBUTE_KEY, STARTED_ATTRIBUTE_VALUE);
 	}
 
 	@Override
-	public void scenarionShutdown(ScenarioGlobals scenarioGlobals) {		
+	public void scenarionShutdown(ScenarioGlobals scenarioGlobals) {
+		scenarioGlobals.setAttribute(STOPPED_ATTRIBUTE_KEY, STOPPED_ATTRIBUTE_VALUE);
 	}
 
 }

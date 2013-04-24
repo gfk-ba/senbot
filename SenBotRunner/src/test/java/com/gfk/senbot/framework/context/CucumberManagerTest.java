@@ -21,14 +21,25 @@ public class CucumberManagerTest {
 		
 		ScenarioGlobals instantiatedScenario = manager.startNewScenario();
 		assertNotNull(instantiatedScenario);
-		assertNotNull(instantiatedScenario.getAttribute(MockScenarioCreationHook.ATTRIBUTE_KEY));
-		assertEquals(MockScenarioCreationHook.ATTRIBUTE_VALUE, instantiatedScenario.getAttribute(MockScenarioCreationHook.ATTRIBUTE_KEY));
+		assertNotNull(instantiatedScenario.getAttribute(MockScenarioCreationHook.STARTED_ATTRIBUTE_KEY));
+		assertEquals(MockScenarioCreationHook.STARTED_ATTRIBUTE_VALUE, instantiatedScenario.getAttribute(MockScenarioCreationHook.STARTED_ATTRIBUTE_KEY));
 		assertEquals(instantiatedScenario, manager.getCurrentScenarioGlobals());
 		
 		manager.startNewScenario();
 		assertNotSame(instantiatedScenario, manager.getCurrentScenarioGlobals());
 
 		manager.stopNewScenario();
+	}
+
+	@Test
+	public void testStopNewScenario() throws SecurityException, IllegalArgumentException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		CucumberManager manager = new CucumberManager("com.gfk.senbot.framework.context.MockScenarioCreationHook");
+		manager.startNewScenario();
+		
+		ScenarioGlobals stopNewScenario = manager.stopNewScenario();
+		assertNotNull(stopNewScenario.getAttribute(MockScenarioCreationHook.STOPPED_ATTRIBUTE_KEY));
+		assertEquals(stopNewScenario.getAttribute(MockScenarioCreationHook.STOPPED_ATTRIBUTE_KEY), MockScenarioCreationHook.STOPPED_ATTRIBUTE_VALUE);
+		
 		assertNull(manager.getCurrentScenarioGlobals());
 	}
 
