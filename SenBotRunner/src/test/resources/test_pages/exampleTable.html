@@ -1,6 +1,13 @@
 <html>
 	<head>
 		<title>Table test page</title>
+		
+		<script>
+        function buttonClick(text) {
+			var tableCell = document.getElementById('cell_1_1');
+			tableCell.innerHTML = text;
+        }
+    </script>
 	</head>
 	<body>
 		<table id="exampleTable" border="1" style="background-color:yellow;border:1px dotted black;width:80%;border-collapse:collapse;">
@@ -11,8 +18,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr id="row1" class="odd">
-				<td style="padding:3px;">Table cell 1</td>
+			<tr id="row1" class="odd" onclick="buttonClick('new value');">
+				<td style="padding:3px;" id="cell_1_1">Table cell 1</td>
 				<td style="padding:3px;">Table cell 2</td>
 			</tr>
 			<tr id="row2" class="even">

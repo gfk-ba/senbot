@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ById;
 import org.openqa.selenium.By.ByXPath;
+import org.openqa.selenium.support.PageFactory;
 
 import com.gfk.senbot.framework.context.CucumberManager;
 
@@ -54,6 +55,10 @@ public class SenBotReferenceService {
     private Map<Class, Map<String, Object>> referenceMaps                       = new HashMap<Class, Map<String, Object>>();
     private Map<String, GenericUser>        userReferenceToUsersMap             = new CaseinsensitiveMap<GenericUser>();
     private Map<String, String>             pageReferenceToPageUrlMap           = new CaseinsensitiveMap<String>();
+    /**
+     * Allows for referencing a page or view instantatable by the {@link PageFactory}
+     */
+    private Map<String, Class>              pageRepresentationMap               = new CaseinsensitiveMap<Class>();
     private Map<String, By>                 elementReferenceToElementLocatorMap = new CaseinsensitiveMap<By>();
     private ThreadLocal<String>             nameSpaceThreadLocale               = new ThreadLocal<String>() {
                                                                                     @Override
@@ -118,6 +123,10 @@ public class SenBotReferenceService {
     public void addLocatorReference(String locatorReference, By locator) {
         elementReferenceToElementLocatorMap.put(locatorReference, locator);
     }
+    
+    public void addPageRepresentationReference(String name, Class clazz) {
+    	pageRepresentationMap.put(name, clazz);
+    }
 
     /**
      * Find a {@link GenericUser} by its reference name
@@ -144,6 +153,14 @@ public class SenBotReferenceService {
             fail("No url is found for page name: '" + pageReference + "'. Available page references are: " + pageReferenceToPageUrlMap.keySet().toString());
         }
         return url;
+    }
+
+    public Class getPageRepresentationReference(String pageRepresentationReference) {
+    	Class ret = pageRepresentationMap.get(pageRepresentationReference);
+    	if (ret == null) {
+    		fail("No Class is found for page/view name: '" + pageRepresentationReference + "'. Available page references are: " + pageRepresentationMap.keySet().toString());
+    	}
+    	return ret;
     }
 
     /**

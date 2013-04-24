@@ -2,6 +2,8 @@ package com.gfk.senbot.framework.services.selenium;
 
 import static org.junit.Assert.fail;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -15,6 +17,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
@@ -289,4 +292,23 @@ public class ElementService extends BaseServiceHub {
             button.click();
         }
     }
+    
+    public WebElement getElementFromReferencedView(String viewName, String elementName) throws IllegalArgumentException, IllegalAccessException {
+		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);
+	    
+	    Field[] declaredFields = pageRepresentationReference.getDeclaredFields();
+	    
+	    PropertyDescriptor[] propertyDescriptors = BeanUtils.getPropertyDescriptors(pageRepresentationReference);
+	    
+	    Object instance = getSeleniumManager().getViewRepresentation(pageRepresentationReference);
+	    String lowerCaseName = elementName.replaceAll(" ", "_").toLowerCase();
+	    
+	    for(Field field : declaredFields) {
+	    	if(field.getName().toLowerCase().equals(lowerCaseName)) {
+	    		return (WebElement) field.get(instance);
+	    	}
+	    }
+	    fail("The element \"" + elementName + "\" has not been defined in view \"" + viewName + "\"  (object ref: " + pageRepresentationReference.getName() + "." + lowerCaseName + ")");
+	    return null;
+	}
 }

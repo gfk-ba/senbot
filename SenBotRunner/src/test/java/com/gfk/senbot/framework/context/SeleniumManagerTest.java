@@ -116,7 +116,7 @@ public class SeleniumManagerTest {
 		
 		MockExampleTablePage examplePage = seleniumManager.getViewRepresentation(MockExampleTablePage.class);
 		
-		assertNotNull("ensure that the table row has indeed been matched up with the associated web element", examplePage.tableRow1);
+		assertNotNull("ensure that the table row has indeed been matched up with the associated web element", examplePage.table_Row_1);
 		
 		MockExampleTablePage secondCall = seleniumManager.getViewRepresentation(MockExampleTablePage.class);
 		assertEquals(examplePage, secondCall);
