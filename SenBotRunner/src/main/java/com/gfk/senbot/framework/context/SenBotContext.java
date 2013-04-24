@@ -132,6 +132,9 @@ public class SenBotContext {
         if (getSeleniumManager() != null) {
             getSeleniumManager().cleanUp();
         }
+        if (getCucumberManager() != null) {
+        	getCucumberManager().cleanUp();
+        }
     }
 
     /**
