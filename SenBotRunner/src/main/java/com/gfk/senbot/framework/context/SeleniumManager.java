@@ -10,8 +10,16 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.internal.seleniumemulation.GetText;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
+
+import cucumber.deps.com.thoughtworks.xstream.converters.extended.CurrencyConverter;
 
 /**
  * Manager of all selenium related configuration and runtime variables.
@@ -82,6 +90,36 @@ public class SeleniumManager {
                 seleniumTestEnvironments.add(testEnvironment);
             }
         }
+    }
+    
+    
+    /**
+     * Check {@link PageFactory} for how these Objects are instantiated using the {@link FindBy} and {@link FindBys} annotations.
+     * Senbot will cache your objects in the Scenario globals so that they only get initialized once
+     * 
+     * @param T
+     * @return instanciated T
+     */
+    public <T> T getViewRepresentation(Class<T> T) {
+    	return getViewRepresentation(T, false);
+    }
+
+    /**
+     * Check {@link PageFactory} for how these Objects are instantiated using the {@link FindBy} and {@link FindBys} annotations.
+     * Senbot will cache your objects in the Scenario globals so that they only get initialized once
+     * 
+     * @param T
+     * @param forceRefresh if true we will always reinstantiate
+     * @return instanciated T
+     */
+    public <T> T getViewRepresentation(Class<T> T, boolean forceRefresh) {
+    	ScenarioGlobals currentScenarioGlobals = SenBotContext.getSenBotContext().getCucumberManager().getCurrentScenarioGlobals();
+    	T foundView = (T) currentScenarioGlobals.getAttribute(T.getName());
+    	if(foundView == null || forceRefresh) {
+    		foundView = PageFactory.initElements(getAssociatedTestEnvironment().getWebDriver(), T);
+    		currentScenarioGlobals.setAttribute(T.getName(), foundView);
+    	}
+    	return foundView;
     }
 
     /**

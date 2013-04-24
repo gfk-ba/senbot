@@ -40,18 +40,19 @@ public class CucumberReportingExtension extends BaseServiceHub {
     @After
     public void afterScenario(Scenario scenario) throws InterruptedException {
         log.debug("Scenarion finished");
-        ScenarioGlobals scenarioGlobals = getCucumberManager().stopNewScenario();
-        TestEnvironment testNev = getSeleniumManager().getAssociatedTestEnvironment();
-        if (testNev != null) {
-            boolean scenarioUsedSelenium = testNev.isWebDriverAccessedSince(scenarioGlobals.getScenarioStart());
-            if (scenarioUsedSelenium) {
-                if (scenario.isFailed()) {
-
-                    log.debug("Scenarion failed while using selenium, so capture screenshot");
-                    scenario.embed((((TakesScreenshot) SenBotContext.getSeleniumDriver()).getScreenshotAs(OutputType.BYTES)), "image/png");
-                }
-            }
-        }
+        ScenarioGlobals scenarioGlobals = getCucumberManager().getCurrentScenarioGlobals();
+    	TestEnvironment testNev = getSeleniumManager().getAssociatedTestEnvironment();
+    	if (testNev != null) {
+    		boolean scenarioUsedSelenium = testNev.isWebDriverAccessedSince(scenarioGlobals.getScenarioStart());
+    		if (scenarioUsedSelenium) {
+    			if (scenario.isFailed()) {
+    				
+    				log.debug("Scenarion failed while using selenium, so capture screenshot");
+    				scenario.embed((((TakesScreenshot) SenBotContext.getSeleniumDriver()).getScreenshotAs(OutputType.BYTES)), "image/png");
+    			}
+    		}
+    	}
+        getCucumberManager().stopNewScenario();
     }
 
 }

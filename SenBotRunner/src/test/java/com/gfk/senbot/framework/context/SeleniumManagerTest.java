@@ -3,6 +3,7 @@ package com.gfk.senbot.framework.context;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -11,7 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
+
+import com.gfk.senbot.framework.services.selenium.ElementService;
+import com.gfk.senbot.framework.services.selenium.NavigationService;
 
 public class SeleniumManagerTest {
 
@@ -99,5 +102,29 @@ public class SeleniumManagerTest {
     public void testGetWebDriver_firstCall() {
         assertNull(SenBotContext.getSeleniumDriver());
     }
+
+	@Test
+	public void testGetViewRepresentation() throws Exception {
+		SenBotContext senBotContext = SenBotContext.getSenBotContext();
+		SeleniumManager seleniumManager = senBotContext.getSeleniumManager();
+		seleniumManager.associateTestEnvironment(seleniumManager.getSeleniumTestEnvironments().get(0));
+		senBotContext.getCucumberManager().startNewScenario();
+		
+		
+		NavigationService service = new NavigationService(new ElementService());
+		service.navigate_to_url("resource_location:/test_pages/exampleTable.html");
+		
+		MockExampleTablePage examplePage = seleniumManager.getViewRepresentation(MockExampleTablePage.class);
+		
+		assertNotNull("ensure that the table row has indeed been matched up with the associated web element", examplePage.tableRow1);
+		
+		MockExampleTablePage secondCall = seleniumManager.getViewRepresentation(MockExampleTablePage.class);
+		assertEquals(examplePage, secondCall);
+
+		MockExampleTablePage forcedUpdate = seleniumManager.getViewRepresentation(MockExampleTablePage.class, true);
+		assertNotSame(examplePage, forcedUpdate);
+		
+		senBotContext.cleanupSenBot();
+	}
     
 }
