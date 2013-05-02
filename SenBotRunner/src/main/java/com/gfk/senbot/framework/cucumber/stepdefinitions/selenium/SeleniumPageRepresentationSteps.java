@@ -6,7 +6,10 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.BeanUtils;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
@@ -34,16 +37,22 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	@Then("^the \"([^\"]*)\" view should contain the element \"([^\"]*)\"$")
 	public void the_view_should_contain(String viewName, String elementName) throws Throwable {
 		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
-		boolean fail = true;
+		boolean notFound = true;
+		boolean notDisplayed = true;
 		
 		try{
-			fail = found == null || !found.isDisplayed();			
+			notFound = found == null;
+			new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
+			notDisplayed = false;
 		}
 		catch (NoSuchElementException e) {
 			//leave fail = true
 		}
-		if(fail) {			
+		if(notFound) {			
 			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is not found.");
+		}
+		else if(notDisplayed)  {
+			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found but not displayed.");			
 		}
 		
 	}

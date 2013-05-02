@@ -37,13 +37,13 @@ public class SynchronisationService extends BaseServiceHub {
      */
     public boolean waitForExpectedCondition(ExpectedCondition<?> condition, int timeout) {
         WebDriver driver = getWebDriver();
-        boolean elementFound = true;
+        boolean conditionMet = true;
         try {
             new WebDriverWait(driver, timeout).until(condition);
         } catch (TimeoutException e) {
-            elementFound = false;
+            conditionMet = false;
         }
-        return elementFound;
+        return conditionMet;
     }
 
     /**
