@@ -1,11 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 	<groupId>com.gfk.senbot</groupId>
 	<artifactId>SenBotParent</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:git:git@github.com/gfk-ba/senbot.git</connection>
+		<developerConnection>scm:git:git@github.com/gfk-ba/senbot.git</developerConnection>
+		<url>git@github.com/gfk-ba/senbot.git</url>
+	</scm>
 
 	<name>SenBot Parent</name>
 	<description>Parent pom for the SenBot modules</description>
@@ -20,7 +31,7 @@
 		<!-- <info.cukes.version>1.1.4-SNAPSHOT</info.cukes.version> -->
 		<info.cukes.version>1.1.2-SenBotPatch</info.cukes.version>
 	</properties>
-	
+
 	<contributors>
 		<contributor>
 			<name>Gerhard Schuster</name>
@@ -80,7 +91,8 @@
 				<scope>compile</scope>
 			</dependency>
 
-			<!-- since we have patched the cucumber-jvm we include our own patched version for now untill our patch is included by the cucumber team -->
+			<!-- since we have patched the cucumber-jvm we include our own patched 
+				version for now untill our patch is included by the cucumber team -->
 
 			<dependency>
 				<groupId>info.cukes</groupId>
@@ -215,74 +227,74 @@
 
 	<build>
 		<plugins>
-			
+
 			<!-- install the patched cucumber-jvm version on the local machine -->
-		
-		 <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <id>install-cucumber-core</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-		                <configuration>
-		                    <executable>mvn</executable>
-		                    <arguments>
-		                        <argument>install:install-file</argument>
-		                        <argument>-Dfile=lib/cucumber-core-1.1.2.jar</argument>
-		                        <argument>-DgroupId=info.cukes</argument>
-		                        <argument>-DartifactId=cucumber-core</argument>
-		                        <argument>-Dversion=${info.cukes.version}</argument>
-		                        <argument>-Dpackaging=jar</argument>
-		                    </arguments>
-		                </configuration>
-                    </execution>
 
-                    <execution>
-                        <id>install-cucumber-java</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-		                <configuration>
-		                    <executable>mvn</executable>
-		                    <arguments>
-		                        <argument>install:install-file</argument>
-		                        <argument>-Dfile=lib/cucumber-java-1.1.2.jar</argument>
-		                        <argument>-DgroupId=info.cukes</argument>
-		                        <argument>-DartifactId=cucumber-java</argument>
-		                        <argument>-Dversion=${info.cukes.version}</argument>
-		                        <argument>-Dpackaging=jar</argument>
-		                    </arguments>
-		                </configuration>
-                    </execution>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<id>install-cucumber-core</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>install:install-file</argument>
+								<argument>-Dfile=lib/cucumber-core-1.1.2.jar</argument>
+								<argument>-DgroupId=info.cukes</argument>
+								<argument>-DartifactId=cucumber-core</argument>
+								<argument>-Dversion=${info.cukes.version}</argument>
+								<argument>-Dpackaging=jar</argument>
+							</arguments>
+						</configuration>
+					</execution>
 
-                    <execution>
-                        <id>install-cucumber-junit</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-		                <configuration>
-		                    <executable>mvn</executable>
-		                    <arguments>
-		                        <argument>install:install-file</argument>
-		                        <argument>-Dfile=lib/cucumber-junit-1.1.2.jar</argument>
-		                        <argument>-DgroupId=info.cukes</argument>
-		                        <argument>-DartifactId=cucumber-junit</argument>
-		                        <argument>-Dversion=${info.cukes.version}</argument>
-		                        <argument>-Dpackaging=jar</argument>
-		                    </arguments>
-		                </configuration>
-                    </execution>
-                </executions>
-            </plugin> 
-            
+					<execution>
+						<id>install-cucumber-java</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>install:install-file</argument>
+								<argument>-Dfile=lib/cucumber-java-1.1.2.jar</argument>
+								<argument>-DgroupId=info.cukes</argument>
+								<argument>-DartifactId=cucumber-java</argument>
+								<argument>-Dversion=${info.cukes.version}</argument>
+								<argument>-Dpackaging=jar</argument>
+							</arguments>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>install-cucumber-junit</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>install:install-file</argument>
+								<argument>-Dfile=lib/cucumber-junit-1.1.2.jar</argument>
+								<argument>-DgroupId=info.cukes</argument>
+								<argument>-DartifactId=cucumber-junit</argument>
+								<argument>-Dversion=${info.cukes.version}</argument>
+								<argument>-Dpackaging=jar</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

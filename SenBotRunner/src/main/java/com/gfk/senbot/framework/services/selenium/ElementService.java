@@ -300,7 +300,7 @@ public class ElementService extends BaseServiceHub {
 	    
 	    PropertyDescriptor[] propertyDescriptors = BeanUtils.getPropertyDescriptors(pageRepresentationReference);
 	    
-	    Object instance = getSeleniumManager().getViewRepresentation(pageRepresentationReference);
+	    Object instance = getSeleniumManager().getViewRepresentation(pageRepresentationReference, false);
 	    String lowerCaseName = elementName.replaceAll(" ", "_").toLowerCase();
 	    
 	    for(Field field : declaredFields) {

@@ -23,7 +23,8 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	
 	@When("^I click \"([^\"]*)\" on the \"([^\"]*)\" view$")
 	public void I_click_on_the(String elementName, String viewName) throws Throwable {
-		seleniumElementService.getElementFromReferencedView(viewName, elementName).click();
+		WebElement found = the_view_should_contain(viewName, elementName);
+		found.click();
 	}
 	
 	/**
@@ -35,14 +36,15 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	 * @throws Throwable
 	 */
 	@Then("^the \"([^\"]*)\" view should contain the element \"([^\"]*)\"$")
-	public void the_view_should_contain(String viewName, String elementName) throws Throwable {
+	public WebElement the_view_should_contain(String viewName, String elementName) throws Throwable {
 		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
 		boolean notFound = true;
 		boolean notDisplayed = true;
 		
 		try{
 			notFound = found == null;
-			new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
+			seleniumElementService.waitForLoaders();
+			found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
 			notDisplayed = false;
 		}
 		catch (NoSuchElementException e) {
@@ -54,6 +56,7 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 		else if(notDisplayed)  {
 			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found but not displayed.");			
 		}
+		return found;
 		
 	}
 	
