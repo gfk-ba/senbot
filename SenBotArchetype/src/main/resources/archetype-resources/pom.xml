@@ -91,13 +91,20 @@
         </profile>
     </profiles>
 
+	<repositories>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>Apache-plugin-snapshots</id>
-			<snapshots>
-			</snapshots>
+			<snapshots/>
 			<url>http://repository.apache.org/snapshots/</url>
 		</pluginRepository>
+		
 	</pluginRepositories>
 
 </project>

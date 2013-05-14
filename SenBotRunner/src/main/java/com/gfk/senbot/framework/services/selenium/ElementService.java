@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -198,19 +200,9 @@ public class ElementService extends BaseServiceHub {
      */
     public void waitForLoaders() {
         if (getScenarioGlobals() != null && !getScenarioGlobals().getLoaderIndicators().isEmpty()) {
-            SynchronisationService synchronisationService = new SynchronisationService();
-            int continueWaiting = 0;
-
-            // We don't know how many loader indicators we might get and we don't know in what order.
-            while (continueWaiting <= 0) {
-                continueWaiting = getScenarioGlobals().getLoaderIndicators().size();
-                for (By loaderIndicator : getScenarioGlobals().getLoaderIndicators()) {
-                    if (synchronisationService.waitForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(loaderIndicator))) {
-                        continueWaiting++;
-                    } else {
-                        continueWaiting--;
-                    }
-                }
+        	SynchronisationService synchronisationService = new SynchronisationService();
+            for (By loaderIndicator : getScenarioGlobals().getLoaderIndicators()) {
+                synchronisationService.waitForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(loaderIndicator));
             }
         }
     }
@@ -282,16 +274,32 @@ public class ElementService extends BaseServiceHub {
      * In IE9 element.click() does not in a reliable way on buttons.
      *  
      * @param button The element to click at
+     * @deprecated I'm sure there are better ways to click a button. Legacy code we need to remove at some stage.
      */
     public void ieSaveButtonClick(WebElement button) {
         WebDriver driver = getWebDriver();
         // This shall solve the clicking problems IE9 has
         if (driver instanceof InternetExplorerDriver) {
-            ((JavascriptExecutor) driver).executeScript("var tmp = arguments[0]; tmp.click()", button);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click()", button);
         } else {
             button.click();
         }
     }
+    
+    public void waitForInvisibilityOfElement(WebElement element) throws InterruptedException {
+		long start = System.currentTimeMillis();
+		try{			
+			while(element.isDisplayed()) {
+				if(System.currentTimeMillis() - start > getSeleniumManager().getTimeout() * 1000) {
+					throw new TimeoutException("The element " + element + " was visible for longer than the timout period of " + getSeleniumManager().getTimeout() + " seconds");
+				}
+				Thread.sleep(100);
+			}
+		}
+		catch (StaleElementReferenceException sere) {
+			//the element is not attached to the document which means it is invisible
+		}
+	}
     
     public WebElement getElementFromReferencedView(String viewName, String elementName) throws IllegalArgumentException, IllegalAccessException {
 		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);

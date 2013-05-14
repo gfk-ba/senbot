@@ -108,12 +108,18 @@ public class NavigationService extends BaseServiceHub {
     }
 
     /**
-     * ??
+     * Has a page been requested for this selenium session. This method is avaible to prevent scripts for waiting for a cetrain condition
+     * if no url has been requested yet. If true you know you can just proceed and not check for any state as none exists
      * @return
      */
     public boolean isInitialPageRequested() {
         String currentUrl = getWebDriver().getCurrentUrl();
-        if (StringUtils.isBlank(currentUrl) || (!currentUrl.toLowerCase().startsWith("http") && !currentUrl.toLowerCase().startsWith("file"))) {
+        if (StringUtils.isBlank(currentUrl) || 
+        		(
+        			!currentUrl.toLowerCase().startsWith("http") && 
+        			!currentUrl.toLowerCase().startsWith("file")
+        		)
+        	) {
             return false;
         } else {
             return true;
