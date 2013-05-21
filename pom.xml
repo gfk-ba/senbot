@@ -28,8 +28,7 @@
 
 	<properties>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
-		<!-- <info.cukes.version>1.1.4-SNAPSHOT</info.cukes.version> -->
-		<info.cukes.version>1.1.2-SenBotPatch</info.cukes.version>
+		<info.cukes.version>1.1.2</info.cukes.version>
 	</properties>
 
 	<contributors>
@@ -98,21 +97,18 @@
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-core</artifactId>
 				<version>${info.cukes.version}</version>
-				<scope>compile</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-java</artifactId>
 				<version>${info.cukes.version}</version>
-				<scope>compile</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-junit</artifactId>
 				<version>${info.cukes.version}</version>
-				<scope>compile</scope>
 			</dependency>
 
 
@@ -227,73 +223,6 @@
 
 	<build>
 		<plugins>
-
-			<!-- install the patched cucumber-jvm version on the local machine -->
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<inherited>false</inherited>
-				<executions>
-					<execution>
-						<id>install-cucumber-core</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>mvn</executable>
-							<arguments>
-								<argument>install:install-file</argument>
-								<argument>-Dfile=lib/cucumber-core-1.1.2.jar</argument>
-								<argument>-DgroupId=info.cukes</argument>
-								<argument>-DartifactId=cucumber-core</argument>
-								<argument>-Dversion=${info.cukes.version}</argument>
-								<argument>-Dpackaging=jar</argument>
-							</arguments>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>install-cucumber-java</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>mvn</executable>
-							<arguments>
-								<argument>install:install-file</argument>
-								<argument>-Dfile=lib/cucumber-java-1.1.2.jar</argument>
-								<argument>-DgroupId=info.cukes</argument>
-								<argument>-DartifactId=cucumber-java</argument>
-								<argument>-Dversion=${info.cukes.version}</argument>
-								<argument>-Dpackaging=jar</argument>
-							</arguments>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>install-cucumber-junit</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>mvn</executable>
-							<arguments>
-								<argument>install:install-file</argument>
-								<argument>-Dfile=lib/cucumber-junit-1.1.2.jar</argument>
-								<argument>-DgroupId=info.cukes</argument>
-								<argument>-DartifactId=cucumber-junit</argument>
-								<argument>-Dversion=${info.cukes.version}</argument>
-								<argument>-Dpackaging=jar</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
