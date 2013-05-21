@@ -1,10 +1,8 @@
 package com.gfk.senbot.framework.services.selenium;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.gfk.senbot.framework.BaseServiceHub;
-import com.gfk.senbot.framework.context.SenBotContext;
 
 /**
  * A util class for all form related selenium actions
@@ -30,6 +28,13 @@ public class FormService extends BaseServiceHub {
 	public WebElement fillFormField_locator(String locator, String value) {
 		WebElement fieldEl = seleniumElementService.translateLocatorToWebElement(locator);
         fieldEl.clear();
+		fieldEl.sendKeys(getReferenceService().namespaceString(value));
+		return fieldEl;
+	}
+
+	public WebElement fillFormField_fromView(String viewName, String fieldName, String value) throws IllegalArgumentException, IllegalAccessException {
+		WebElement fieldEl = seleniumElementService.getElementFromReferencedView(viewName, fieldName);
+		fieldEl.clear();
 		fieldEl.sendKeys(getReferenceService().namespaceString(value));
 		return fieldEl;
 	}
