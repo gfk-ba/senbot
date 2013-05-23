@@ -10,8 +10,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.junit.Test;
+import org.openqa.selenium.Platform;
 
 import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.NavigationService;
@@ -45,6 +47,13 @@ public class SeleniumManagerTest {
     }
 
     @Test
+    public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException {
+    	SeleniumManager seleniumManager = new SeleniumManager("www.gfk.com", "", false, "FF,LATEST,WINDOWS", 1000, 800, 5);
+    	
+    	assertEquals("http://www.gfk.com", seleniumManager.getDefaultDomain());
+    }
+
+    @Test
     public void testSenBotContext_hubProperlySet() throws IOException {
         String expectedHub = "http://some_hub";
         SeleniumManager manager = new SeleniumManager("http://www.gfk.com", expectedHub, false, "FF,LATEST,WINDOWS", 1000, 800, 5);
@@ -56,9 +65,19 @@ public class SeleniumManagerTest {
         new SeleniumManager("http://www.gfk.com", "http://someHub", false, "", 1000, 800, 5);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSenBotContext_misconfiguredSeleniumTarget() throws IOException {
-        new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST,WINDOWS;CH,LATEST", 1000, 800, 5);
+    @Test
+    public void testSenBotContext_shortenedTargetEnvironment() throws IOException {
+        SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST;CH", 1000, 800, 5);
+        
+        List<TestEnvironment> seleniumTestEnvironments = seleniumManager.getSeleniumTestEnvironments();
+        assertEquals(2, seleniumTestEnvironments.size());
+        assertEquals("FF", seleniumTestEnvironments.get(0).getBrowser());
+        assertEquals("LATEST", seleniumTestEnvironments.get(0).getBrowserVersion());
+        assertEquals(Platform.ANY, seleniumTestEnvironments.get(0).getOS());
+
+        assertEquals("CH", seleniumTestEnvironments.get(1).getBrowser());
+        assertEquals("ANY", seleniumTestEnvironments.get(1).getBrowserVersion());
+        assertEquals(Platform.ANY, seleniumTestEnvironments.get(1).getOS());
     }
 
     @Test(expected = MalformedURLException.class)

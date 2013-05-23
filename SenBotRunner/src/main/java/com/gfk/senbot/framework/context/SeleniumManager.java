@@ -64,7 +64,16 @@ public class SeleniumManager {
     public SeleniumManager(String defaultDomain, String seleniumHubIP, boolean runOnGrid, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout, String implicitTimeout)
             throws IOException {
 
-        this.defaultDomain = defaultDomain;
+        
+        if(defaultDomain != null) {
+        	if(defaultDomain.toLowerCase().startsWith("http")) {
+        		this.defaultDomain = defaultDomain;        		
+        	}
+        	else {        		
+        		this.defaultDomain = "http://" + defaultDomain;
+        	}
+        }
+        
         this.defaultWindowWidth = defaultWindowWidth;
         this.defaultWindowHeight = defaultWindowHeight;
         this.timeout = aTimeout;
@@ -82,11 +91,10 @@ public class SeleniumManager {
             throw new IllegalArgumentException("The selenium target environment property cannot be blank. Refer to senbot-runner.properties");
         } else {
             for (String ii : target.split(";")) {
-                if (ii.split(",").length != 3) {
-                    throw new IllegalArgumentException("Each selenium target environment defenition should contain three parts (browser, version, OS). Refer to senbot-runner.properties");
-                }
-                String[] targetEnv = ii.split(",");
-                TestEnvironment testEnvironment = new TestEnvironment(targetEnv[0].trim(), targetEnv[1].trim(), Platform.valueOf(targetEnv[2].trim()));
+                String[] parts = ii.split(",");
+                TestEnvironment testEnvironment = new TestEnvironment(parts[0].trim(), 
+                		parts.length > 1 ? parts[1].trim() : "ANY", 
+                		Platform.valueOf(parts.length > 2 ? parts[2].trim() : "ANY"));
                 seleniumTestEnvironments.add(testEnvironment);
             }
         }

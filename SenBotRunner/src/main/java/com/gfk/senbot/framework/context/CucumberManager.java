@@ -43,6 +43,15 @@ public class CucumberManager {
 	 * @throws IllegalArgumentException 
 	 */
 	public CucumberManager(String scenarioGlobalsCreationHookClass) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		
+		if(System.getProperty("cucumber.options") == null) {			
+			if(System.getProperty("features") != null) {
+				//allow for a shorthand for the cucumber.options
+				System.setProperty("cucumber.options", System.getProperty("features"));
+			}
+		}
+		
+		
 		if(!StringUtils.isBlank(scenarioGlobalsCreationHookClass)) {
 			Constructor<?> constructor = Class.forName(scenarioGlobalsCreationHookClass).getConstructor();
 			scenarioCreationHook = (ScenarionCreationShutdownHook) constructor.newInstance();

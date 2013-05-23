@@ -48,3 +48,7 @@ or run a single feature file on a single runner like so
 ```
 mvn test -Dtest=com.domain.NameOfYourJUnitTest -Dcucumber.options="path/to/your/file.feature"
 ```
+Changing the default domain or test environment can be done with
+```
+mvn test -Domain=mydomain.com -DtestEnv=IE8
+```

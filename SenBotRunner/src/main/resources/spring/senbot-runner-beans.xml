@@ -47,7 +47,7 @@
     	<constructor-arg value="#{defaultDomainPropertyEvaluator.property}" index="0"/>
     	<constructor-arg value="${senBotContext.selenium.hubIP}" index="1"/>
     	<constructor-arg value="${senBotContext.selenium.runOnGrid}" index="2"/>
-    	<constructor-arg value="${senBotContext.selenium.targetEnvironment}" index="3"/>
+    	<constructor-arg value="#{defaultTestEnvironmentPropertyEvaluator.property}" index="3"/>
     	<constructor-arg value="${senBotContext.selenium.defaultWindowWidth}" index="4"/>
     	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="5"/>
         <constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="6"/>
@@ -57,6 +57,11 @@
     <bean id="defaultDomainPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
     	<constructor-arg value="${senBotContext.selenium.defaultDomain}" index="0"/>
     	<constructor-arg value="omain" index="1"/>
+    </bean>
+
+    <bean id="defaultTestEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.selenium.targetEnvironment}" index="0"/>
+    	<constructor-arg value="env" index="1"/>
     </bean>
 
     
