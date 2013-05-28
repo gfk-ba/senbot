@@ -28,27 +28,13 @@ public class SeleniumManagerTest {
      */
     @Test
     public void testSeleniumManager_timeoutSetting() throws IOException {
-        SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST,WINDOWS", 1000, 800, 5);
+        SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(5, localSeleniumManager.getTimeout());
-    }
-
-    /**
-     * 
-     * @throws IOException
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public void testSenBotContext_missingHubWhileOnGrid() throws IOException {
-        new SeleniumManager("http://www.gfk.com", "", true, "FF,LATEST,WINDOWS", 1000, 800, 5);
-    }
-
-    @Test
-    public void testSenBotContext_missingHubWhileGridDisabled() throws IOException {
-        new SeleniumManager("http://www.gfk.com", "", false, "FF,LATEST,WINDOWS", 1000, 800, 5);
     }
 
     @Test
     public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException {
-    	SeleniumManager seleniumManager = new SeleniumManager("www.gfk.com", "", false, "FF,LATEST,WINDOWS", 1000, 800, 5);
+    	SeleniumManager seleniumManager = new SeleniumManager("www.gfk.com", "", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	
     	assertEquals("http://www.gfk.com", seleniumManager.getDefaultDomain());
     }
@@ -56,18 +42,18 @@ public class SeleniumManagerTest {
     @Test
     public void testSenBotContext_hubProperlySet() throws IOException {
         String expectedHub = "http://some_hub";
-        SeleniumManager manager = new SeleniumManager("http://www.gfk.com", expectedHub, false, "FF,LATEST,WINDOWS", 1000, 800, 5);
+        SeleniumManager manager = new SeleniumManager("http://www.gfk.com", expectedHub, "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(new URL(expectedHub), manager.getSeleniumHub());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSenBotContext_missingSeleniumTestTarget() throws IOException {
-        new SeleniumManager("http://www.gfk.com", "http://someHub", false, "", 1000, 800, 5);
+        new SeleniumManager("http://www.gfk.com", "http://someHub", "", 1000, 800, 5);
     }
 
     @Test
     public void testSenBotContext_shortenedTargetEnvironment() throws IOException {
-        SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST;CH", 1000, 800, 5);
+        SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST;CH", 1000, 800, 5);
         
         List<TestEnvironment> seleniumTestEnvironments = seleniumManager.getSeleniumTestEnvironments();
         assertEquals(2, seleniumTestEnvironments.size());
@@ -82,24 +68,24 @@ public class SeleniumManagerTest {
 
     @Test(expected = MalformedURLException.class)
     public void testSenBotContext_mallformattedHubUrl() throws IOException {
-        new SeleniumManager("http://www.gfk.com", "I'm an invalid URL", false, "FF,LATEST,WINDOWS", 1000, 800, 5);
+        new SeleniumManager("http://www.gfk.com", "I'm an invalid URL", "FF,LATEST,WINDOWS", 1000, 800, 5);
     }
 
     @Test
     public void testSenBotContext_blankImplicitWait() throws IOException {
-    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST,WINDOWS", 1000, 800, 5, "");
+    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "");
     	assertNull(seleniumManager.getImplicitTimeout());
     }
 
     @Test
     public void testSenBotContext_implicitWait() throws IOException {
-    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST,WINDOWS", 1000, 800, 5, "4");
+    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "4");
     	assertEquals(new Integer(4), seleniumManager.getImplicitTimeout());
     }
 
     @Test
     public void testSenBotContext_seleniumTestEnvironmentTargetCreation() throws IOException {
-        SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", false, "FF,LATEST,ANY;CH,LATEST,ANY", 1000, 800, 5);
+        SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,ANY;CH,LATEST,ANY", 1000, 800, 5);
 
         assertFalse(seleniumManager.getSeleniumTestEnvironments().isEmpty());
         assertEquals("FF", seleniumManager.getSeleniumTestEnvironments().get(0).getBrowser());

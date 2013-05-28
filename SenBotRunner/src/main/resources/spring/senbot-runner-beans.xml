@@ -45,15 +45,19 @@
 
     <bean id="com.gfk.senbot.framework.context.SeleniumManager" class="com.gfk.senbot.framework.context.SeleniumManager">
     	<constructor-arg value="#{defaultDomainPropertyEvaluator.property}" index="0"/>
-    	<constructor-arg value="${senBotContext.selenium.hubIP}" index="1"/>
-    	<constructor-arg value="${senBotContext.selenium.runOnGrid}" index="2"/>
-    	<constructor-arg value="#{defaultTestEnvironmentPropertyEvaluator.property}" index="3"/>
-    	<constructor-arg value="${senBotContext.selenium.defaultWindowWidth}" index="4"/>
-    	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="5"/>
-        <constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="6"/>
-        <constructor-arg value="${senBotContext.selenium.implicitTimeout}" index="7"/>
+    	<constructor-arg value="#{hubIpEnvironmentPropertyEvaluator.property}" index="1"/>
+    	<constructor-arg value="#{defaultTestEnvironmentPropertyEvaluator.property}" index="2"/>
+    	<constructor-arg value="${senBotContext.selenium.defaultWindowWidth}" index="3"/>
+    	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="4"/>
+        <constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="5"/>
+        <constructor-arg value="${senBotContext.selenium.implicitTimeout}" index="6"/>
     </bean>
     
+    <bean id="hubIpEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.selenium.hubIP}" index="0"/>
+    	<constructor-arg value="hubIp" index="1"/>
+    </bean>
+
     <bean id="defaultDomainPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
     	<constructor-arg value="${senBotContext.selenium.defaultDomain}" index="0"/>
     	<constructor-arg value="omain" index="1"/>

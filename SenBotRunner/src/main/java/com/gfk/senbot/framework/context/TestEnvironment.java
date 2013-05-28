@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -344,7 +345,7 @@ public class TestEnvironment {
         SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
 
         WebDriver driver = null;
-        if (seleniumManager.isRunOnGrid()) {
+        if (seleniumManager.getSeleniumHub() != null) {
 
             log.debug("Remote WebDriver should be created to run on a selenium grid for environment: " + this.toPrettyString());
 

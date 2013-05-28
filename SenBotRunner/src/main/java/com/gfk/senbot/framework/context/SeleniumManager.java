@@ -35,7 +35,7 @@ public class SeleniumManager {
 
     private String                       defaultDomain            = null;
     private URL                          seleniumHub              = null;
-    private boolean                      runOnGrid                = false;
+//    private boolean                      runOnGrid                = false;
     private ArrayList<TestEnvironment>   seleniumTestEnvironments = new ArrayList<TestEnvironment>();
 
     private final Integer                defaultWindowWidth;
@@ -45,8 +45,8 @@ public class SeleniumManager {
 
     private Map<Thread, TestEnvironment> associatedEnvironment    = new HashMap<Thread, TestEnvironment>();
 
-    public SeleniumManager(String defaultDomain, String seleniumHubIP, boolean runOnGrid, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout) throws IOException {
-        this(defaultDomain, seleniumHubIP, runOnGrid, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
+    public SeleniumManager(String defaultDomain, String seleniumHubIP, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout) throws IOException {
+        this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
     }
 
     /**
@@ -61,7 +61,7 @@ public class SeleniumManager {
      * @param aTimeout implicit timeout to be used by selenium when performing a dom lookup or page refresh
      * @throws IOException
      */
-    public SeleniumManager(String defaultDomain, String seleniumHubIP, boolean runOnGrid, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout, String implicitTimeout)
+    public SeleniumManager(String defaultDomain, String seleniumHubIP, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout, String implicitTimeout)
             throws IOException {
 
         
@@ -77,15 +77,15 @@ public class SeleniumManager {
         this.defaultWindowWidth = defaultWindowWidth;
         this.defaultWindowHeight = defaultWindowHeight;
         this.timeout = aTimeout;
-        this.runOnGrid = runOnGrid;
+//        this.runOnGrid = runOnGrid;
         if (!StringUtils.isBlank(implicitTimeout)) {
             this.implicitTimeout = Integer.parseInt(implicitTimeout);
         }
         this.seleniumHub = (StringUtils.isBlank(seleniumHubIP)) ? null : new URL(seleniumHubIP);
 
-        if (runOnGrid && StringUtils.isBlank(seleniumHubIP)) {
-            throw new IllegalArgumentException("The selenium hub IP property cannot be blank when senbot is running in grid mode. Refer to senbot-runner.properties");
-        }
+//        if (StringUtils.isBlank(seleniumHubIP)) {
+//            throw new IllegalArgumentException("The selenium hub IP property cannot be blank when senbot is running in grid mode. Refer to senbot-runner.properties");
+//        }
 
         if (StringUtils.isBlank(target)) {
             throw new IllegalArgumentException("The selenium target environment property cannot be blank. Refer to senbot-runner.properties");
@@ -154,12 +154,12 @@ public class SeleniumManager {
         return seleniumHub;
     }
 
-    /**
-     * @return True if test runs on Selenium Grid
-     */
-    public boolean isRunOnGrid() {
-        return runOnGrid;
-    }
+//    /**
+//     * @return True if test runs on Selenium Grid
+//     */
+//    public boolean isRunOnGrid() {
+//        return runOnGrid;
+//    }
 
     /**
      * @return List of all test environments managed by the SeleniumManager 
