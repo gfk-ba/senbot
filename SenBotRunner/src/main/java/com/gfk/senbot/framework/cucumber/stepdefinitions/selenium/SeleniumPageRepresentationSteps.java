@@ -35,8 +35,8 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	 * @param elementName
 	 * @throws Throwable
 	 */
-	@Then("^the \"([^\"]*)\" view should contain the element \"([^\"]*)\"$")
-	public WebElement the_view_should_contain(String viewName, String elementName) throws Throwable {
+	@Then("^the \"([^\"]*)\" view should show the element \"([^\"]*)\"$")
+	public WebElement the_view_should_show(String viewName, String elementName) throws Throwable {
 		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
 		boolean notFound = true;
 		boolean notDisplayed = true;
@@ -55,6 +55,34 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 		}
 		else if(notDisplayed)  {
 			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found but not displayed.");			
+		}
+		return found;
+		
+	}
+
+	/**
+	 * A generic way to assert of a view/page contains a certain element. The element lookup is done though a naming convention. 
+	 * variable_Name is matched up on argument "Variable name". So case insensitive and spaces are replaced by underscores
+	 * 
+	 * @param viewName
+	 * @param elementName
+	 * @throws Throwable
+	 */
+	@Then("^the \"([^\"]*)\" view should contain the element \"([^\"]*)\"$")
+	public WebElement the_view_should_contain(String viewName, String elementName) throws Throwable {
+		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
+		boolean notFound = true;
+		
+		try{
+			notFound = found == null;
+			seleniumElementService.waitForLoaders();
+			found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
+		}
+		catch (NoSuchElementException e) {
+			//leave fail = true
+		}
+		if(notFound) {			
+			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is not found.");
 		}
 		return found;
 		
