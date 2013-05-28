@@ -49,18 +49,18 @@
     	<constructor-arg value="#{defaultTestEnvironmentPropertyEvaluator.property}" index="2"/>
     	<constructor-arg value="${senBotContext.selenium.defaultWindowWidth}" index="3"/>
     	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="4"/>
-        <constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="5"/>
-        <constructor-arg value="${senBotContext.selenium.implicitTimeout}" index="6"/>
+        <constructor-arg value="#{defaultTimeoutEnvironmentPropertyEvaluator.property}" index="5"/>
+        <constructor-arg value="#{implicitTimeoutEnvironmentPropertyEvaluator.property}" index="6"/>
     </bean>
     
-    <bean id="hubIpEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
-    	<constructor-arg value="${senBotContext.selenium.hubIP}" index="0"/>
-    	<constructor-arg value="hubIp" index="1"/>
-    </bean>
-
     <bean id="defaultDomainPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
     	<constructor-arg value="${senBotContext.selenium.defaultDomain}" index="0"/>
     	<constructor-arg value="omain" index="1"/>
+    </bean>
+
+    <bean id="hubIpEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.selenium.hubIP}" index="0"/>
+    	<constructor-arg value="hubIp" index="1"/>
     </bean>
 
     <bean id="defaultTestEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
@@ -68,6 +68,15 @@
     	<constructor-arg value="env" index="1"/>
     </bean>
 
+    <bean id="defaultTimeoutEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.selenium.defaultTimeout}" index="0"/>
+    	<constructor-arg value="timeout" index="1"/>
+    </bean>
+
+    <bean id="implicitTimeoutEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.selenium.implicitTimeout}" index="0"/>
+    	<constructor-arg value="implicitTimeout" index="1"/>
+    </bean>
     
     <!-- All util classes -->
     
