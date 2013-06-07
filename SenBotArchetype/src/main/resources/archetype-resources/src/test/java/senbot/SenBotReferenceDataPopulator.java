@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import com.gfk.senbot.framework.data.GenericUser;
 import com.gfk.senbot.framework.data.ReferenceServicePopulator;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
+import ${package}.senbot.cucumber.views.TestPage1;
 
 public class SenBotReferenceDataPopulator implements ReferenceServicePopulator {
 
@@ -18,6 +19,11 @@ public class SenBotReferenceDataPopulator implements ReferenceServicePopulator {
          */
         referenceService.addUser("admin", new GenericUser("1", "admin", "12345_password"));
         referenceService.addUser("regular user", new GenericUser(null, "regular", "6789_password"));
+        
+        /**
+         * Define the views
+         */
+        referenceService.addPageRepresentationReference("Test page1", TestPage1.class);
         
         /**
          * setup all page references

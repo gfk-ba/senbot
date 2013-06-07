@@ -1,6 +1,6 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.BeanUtils;
 
+import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
 
 import cucumber.api.java.en.Then;
@@ -38,24 +39,9 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	@Then("^the \"([^\"]*)\" view should show the element \"([^\"]*)\"$")
 	public WebElement the_view_should_show(String viewName, String elementName) throws Throwable {
 		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
-		boolean notFound = true;
-		boolean notDisplayed = true;
+		seleniumElementService.waitForLoaders();
+		found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
 		
-		try{
-			notFound = found == null;
-			seleniumElementService.waitForLoaders();
-			found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
-			notDisplayed = false;
-		}
-		catch (NoSuchElementException e) {
-			//leave fail = true
-		}
-		if(notFound) {			
-			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is not found.");
-		}
-		else if(notDisplayed)  {
-			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found but not displayed.");			
-		}
 		return found;
 		
 	}
@@ -103,5 +89,17 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found where it is not expected.");
 		}
 	}	
+	
+	@Then("^the \"([^\"]*)\" view should not show the element \"([^\"]*)\"$")
+	public void the_view_should_not_show_the_element(String viewName, String elementName) throws Throwable {
+		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
+		try{
+			Boolean isHidden = new WebDriverWait(SenBotContext.getSeleniumDriver(), 4).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(found)));
+			assertFalse("The element should not be displayed", isHidden);
+		}
+		catch (NoSuchElementException nsee){
+			//not found is also hidden
+		}
+	}
 
 }
