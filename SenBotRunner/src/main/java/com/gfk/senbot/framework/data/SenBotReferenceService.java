@@ -15,6 +15,8 @@ import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.support.PageFactory;
 
 import com.gfk.senbot.framework.context.CucumberManager;
+import com.gfk.senbot.framework.context.SeleniumManager;
+import com.gfk.senbot.framework.context.SenBotContext;
 
 /**
  * A class to define global variables and reference them by a logical human readable way. 
@@ -161,6 +163,10 @@ public class SenBotReferenceService {
     		fail("No Class is found for page/view name: '" + pageRepresentationReference + "'. Available page references are: " + pageRepresentationMap.keySet().toString());
     	}
     	return ret;
+    }
+
+    public <T> T getPageRepresentationInstance(Class<T> referenceClassType) {
+    	return SenBotContext.getSenBotContext().getSeleniumManager().getViewRepresentation(referenceClassType);
     }
 
     /**

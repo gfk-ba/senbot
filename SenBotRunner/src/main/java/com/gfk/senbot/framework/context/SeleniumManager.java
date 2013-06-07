@@ -187,11 +187,13 @@ public class SeleniumManager {
      * 
      * @throws InterruptedException
      */
-    public void deAssociateTestEnvironment() throws InterruptedException {
+    public TestEnvironment deAssociateTestEnvironment() throws InterruptedException {
         Thread currentThread = Thread.currentThread();
         TestEnvironment removed = associatedEnvironment.remove(currentThread);
 
         log.debug("Deassociated TestEnvironment: " + removed.toPrettyString() + " from thread: " + currentThread.toString());
+        
+        return removed;
 
     }
 

@@ -52,8 +52,7 @@ public abstract class AbstractSenbotServiceTest {
 
     @After
     public void breakDownBase() throws InterruptedException {
-        senBotContext.getSeleniumManager().deAssociateTestEnvironment();
-
+        TestEnvironment deAssociatedTestEnvironment = senBotContext.getSeleniumManager().deAssociateTestEnvironment();
     }
 
 }
