@@ -7,11 +7,11 @@ Feature: Page reference instantiation tests
    Given I am on webpage "resource_location:/test_pages/exampleTable.html"
     Then the "table page" view should show the element "table Row 1"
     Then the "Table Page" view should show the element "Table Row 1"	
-    Then the "Table Page" view should not contain the element "Non existing"	
+    Then the "Table Page" view should not show the element "Non existing"	
 
   Scenario: Click steps
    Given I am on webpage "resource_location:/test_pages/exampleTable.html"
-    Then the "Table Page" view should not contain the element "New value cell"	
+    Then the "Table Page" view should not show the element "New value cell"	
     When I click "table row 1" on the "Table Page" view
     Then the "table page" view should show the element "New value cell"
 	

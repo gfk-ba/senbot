@@ -74,32 +74,33 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 		
 	}
 	
-	@Then("^the \"([^\"]*)\" view should not contain the element \"([^\"]*)\"$")
+	@Then("^the \"([^\"]*)\" view should not show the element \"([^\"]*)\"$")
 	public void the_view_should_not_contain_element(String viewName, String elementName) throws Throwable {
-		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
-		boolean fail = true;
 		
-		try{
-			fail = found != null && found.isDisplayed();			
-		}
-		catch (NoSuchElementException e) {
-			fail = false;
-		}
-		if(fail) {
-			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found where it is not expected.");
+		boolean pass = false;
+		
+		long startOfLookup = System.currentTimeMillis();
+		
+		int timeoutInMillies = getSeleniumManager().getTimeout() * 1000;
+		
+		while(!pass) {		
+			
+			WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
+			try{
+				pass = !found.isDisplayed();
+			}
+			catch (NoSuchElementException e) {
+				pass = true;
+			}
+
+			if(!pass) {				
+				Thread.sleep(100);
+			}
+			if(System.currentTimeMillis() - startOfLookup > timeoutInMillies) {
+				fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is found where it is not expected.");
+				break;
+			}
 		}
 	}	
 	
-	@Then("^the \"([^\"]*)\" view should not show the element \"([^\"]*)\"$")
-	public void the_view_should_not_show_the_element(String viewName, String elementName) throws Throwable {
-		WebElement found = seleniumElementService.getElementFromReferencedView(viewName, elementName);
-		try{
-			Boolean isHidden = new WebDriverWait(SenBotContext.getSeleniumDriver(), 4).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(found)));
-			assertFalse("The element should not be displayed", isHidden);
-		}
-		catch (NoSuchElementException nsee){
-			//not found is also hidden
-		}
-	}
-
 }

@@ -8,7 +8,7 @@ Feature: Test the referenced view capabilities
     Then the "Test page1" view should contain the element "link2"
      And the "Test page1" view should show the element "navigation"
     When I click "hide navigation link" on the "Test page1" view
-    Then the "Test page1" view should not contain the element "link2"
+    Then the "Test page1" view should not show the element "link2"
      And the "Test page1" view should not show the element "link2"
    
   Scenario: Test referenced view logic though custom stepdefintions
