@@ -42,13 +42,13 @@ Some usefull runtime tips
 =======
 When running your SenBot through maven you can provide custom cucumber runtime options to append to the variables defined in your JUnit tests like so
 ```
-mvn test -Dcucumber.options="--tags @myOtherTag"
+mvn test -Dfeatures="--tags @myOtherTag"
 ```
 or run a single feature file on a single runner like so
 ```
-mvn test -Dtest=com.domain.NameOfYourJUnitTest -Dcucumber="path/to/your/file.feature"
+mvn test -Dtest=com.domain.NameOfYourJUnitTest -Dfeatures="path/to/your/file.feature"
 ```
 Changing the default domain or test environment can be done with
 ```
-mvn test -Domain=mydomain.com -Denv=IE8
+mvn test -Domain=mydomain.com -Denv=FF
 ```
