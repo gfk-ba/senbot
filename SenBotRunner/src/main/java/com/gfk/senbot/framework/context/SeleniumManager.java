@@ -45,7 +45,13 @@ public class SeleniumManager {
 
     private Map<Thread, TestEnvironment> associatedEnvironment    = new HashMap<Thread, TestEnvironment>();
 
-    public SeleniumManager(String defaultDomain, String seleniumHubIP, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout) throws IOException {
+    public SeleniumManager(
+    		String defaultDomain, 
+    		String seleniumHubIP, 
+    		String target, 
+    		int defaultWindowWidth, 
+    		int defaultWindowHeight, 
+    		int aTimeout) throws IOException {
         this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
     }
 
@@ -61,7 +67,14 @@ public class SeleniumManager {
      * @param aTimeout implicit timeout to be used by selenium when performing a dom lookup or page refresh
      * @throws IOException
      */
-    public SeleniumManager(String defaultDomain, String seleniumHubIP, String target, int defaultWindowWidth, int defaultWindowHeight, int aTimeout, String implicitTimeout)
+    public SeleniumManager(
+    		String defaultDomain, 
+    		String seleniumHubIP, 
+    		String target, 
+    		int defaultWindowWidth, 
+    		int defaultWindowHeight, 
+    		int aTimeout, 
+    		String implicitTimeout)
             throws IOException {
 
         
@@ -77,24 +90,23 @@ public class SeleniumManager {
         this.defaultWindowWidth = defaultWindowWidth;
         this.defaultWindowHeight = defaultWindowHeight;
         this.timeout = aTimeout;
-//        this.runOnGrid = runOnGrid;
         if (!StringUtils.isBlank(implicitTimeout)) {
             this.implicitTimeout = Integer.parseInt(implicitTimeout);
         }
         this.seleniumHub = (StringUtils.isBlank(seleniumHubIP)) ? null : new URL(seleniumHubIP);
-
-//        if (StringUtils.isBlank(seleniumHubIP)) {
-//            throw new IllegalArgumentException("The selenium hub IP property cannot be blank when senbot is running in grid mode. Refer to senbot-runner.properties");
-//        }
 
         if (StringUtils.isBlank(target)) {
             throw new IllegalArgumentException("The selenium target environment property cannot be blank. Refer to senbot-runner.properties");
         } else {
             for (String ii : target.split(";")) {
                 String[] parts = ii.split(",");
-                TestEnvironment testEnvironment = new TestEnvironment(parts[0].trim(), 
-                		parts.length > 1 ? parts[1].trim() : "ANY", 
-                		Platform.valueOf(parts.length > 2 ? parts[2].trim() : "ANY"));
+				String browserVersion = parts.length > 1 ? parts[1].trim() : "ANY";
+				Platform platform = Platform.valueOf(parts.length > 2 ? parts[2].trim() : "ANY");
+				String locale = parts.length > 3 ? parts[3].trim() : null;
+				TestEnvironment testEnvironment = new TestEnvironment(parts[0].trim(), 
+                		browserVersion, 
+                		platform,
+                		locale);
                 seleniumTestEnvironments.add(testEnvironment);
             }
         }

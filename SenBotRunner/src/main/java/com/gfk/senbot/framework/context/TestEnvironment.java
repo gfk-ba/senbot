@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
@@ -65,9 +67,16 @@ public class TestEnvironment {
      */
     public static final String    SF  = "SF";
 
-    private String                browser;
-    private String                browserVersion;
-    private Platform              os;
+    private final String                browser;
+    private final String                browserVersion;
+    private final Platform              os;
+
+	private final Locale locale;
+
+    public TestEnvironment(String aBrowser, String aBrowserVersion, Platform aOS) {
+
+        this(aBrowser, aBrowserVersion, aOS, null);
+    }
 
     /**
      * Constructor
@@ -79,16 +88,19 @@ public class TestEnvironment {
      *            Selenium Node
      * @param aOS
      *            The operating system
+     * @param locale
+     *            Optionally the locale the browser should be using
      */
-    public TestEnvironment(String aBrowser, String aBrowserVersion, Platform aOS) {
-
-        log.debug("TestEnvironment initiated with: browser: " + aBrowser + ", browserVersion: " + aBrowserVersion + ", OS: " + aOS);
-
-        browser = aBrowser;
-        browserVersion = aBrowserVersion;
-        os = aOS;
-
-        threadedWebDriver = new WebDriverThreadLocale(this);
+    public TestEnvironment(String aBrowser, String aBrowserVersion, Platform aOS, String locale) {
+    	
+    	log.debug("TestEnvironment initiated with: browser: " + aBrowser + ", browserVersion: " + aBrowserVersion + ", OS: " + aOS + ", locale: " + locale);
+    	
+    	browser = aBrowser;
+    	browserVersion = aBrowserVersion;
+    	os = aOS;
+    	this.locale = StringUtils.isBlank(locale) ? null : LocaleUtils.toLocale(locale) ;
+    	
+    	threadedWebDriver = new WebDriverThreadLocale(this);
     }
 
     /**
@@ -126,6 +138,10 @@ public class TestEnvironment {
     public String getBrowserVersion() {
         return browserVersion;
     }
+    
+    public Locale getLocale() {
+		return locale;
+	}
 
     /**
      * 
@@ -223,6 +239,12 @@ public class TestEnvironment {
                 return false;
         } else if (!browserVersion.equals(other.browserVersion))
             return false;
+
+        if (locale == null) {
+        	if (other.locale != null)
+        		return false;
+        } else if (!locale.equals(other.locale))
+        	return false;
 
         if (os == null) {
             if (other.os != null) {
@@ -348,6 +370,10 @@ public class TestEnvironment {
         if (seleniumManager.getSeleniumHub() != null) {
 
             log.debug("Remote WebDriver should be created to run on a selenium grid for environment: " + this.toPrettyString());
+            
+            if(getLocale() != null) {
+        		throw new IllegalArgumentException("The remote driver does not support the setting of a locale");
+        	}
 
             DesiredCapabilities capability = DesiredCapabilities.firefox();
             if (TestEnvironment.FF.equals(browser)) {
@@ -373,24 +399,39 @@ public class TestEnvironment {
         } else {
 
             log.debug("Local WebDriver should be created to run on this local machine for environment: " + this.toPrettyString());
-
+            
             if (TestEnvironment.FF.equals(browser)) {
             	FirefoxProfile p = new FirefoxProfile();
-//            	p.setPreference("webdriver.log.file", SenBotContext.getSenBotContext().getTestResultsFolder() + "/firefox_console.log");
+            	if(getLocale() != null) {
+            		p.setPreference("intl.accept_languages", getLocale().toString());
+            	}
             	driver = new FirefoxDriver(p);
             } else if (TestEnvironment.CH.equals(browser)) {
-                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability("chrome.switches", Arrays.asList("--disable-logging --log-level=3"));
-                driver = new ChromeDriver(capabilities);
+                ChromeOptions options = new ChromeOptions();
+                if(getLocale() != null) {  
+                	options.addArguments("--lang=" + getLocale().getLanguage());
+                }
+                driver = new ChromeDriver(options);
             } else if (TestEnvironment.OP.equals(browser)) {
+            	if(getLocale() != null) {
+            		throw new IllegalArgumentException("Opera does not support the setting of a locale at this stage");
+            	}
                 driver = new OperaDriver();
             } else if (TestEnvironment.IE.equals(browser)) {
+            	if(getLocale() != null) {
+            		throw new IllegalArgumentException("IE does not support the setting of a locale at this stage");
+            	}
                 driver = new InternetExplorerDriver();
             } else if (TestEnvironment.SF.equals(browser)) {
+            	if(getLocale() != null) {
+            		throw new IllegalArgumentException("Safari does not support the setting of a locale at this stage");
+            	}
                 driver = new SafariDriver();
             } else {
                 throw new IllegalArgumentException("Browser value is not correct: " + browser);
             }
+            
+            
         }
 
         if (seleniumManager.getImplicitTimeout() != null) {
@@ -407,5 +448,6 @@ public class TestEnvironment {
 
         return driver;
     }
+    
 
 }

@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,6 +25,31 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	
 	@When("^I click \"([^\"]*)\" on the \"([^\"]*)\" view$")
 	public void I_click_on_the(String elementName, String viewName) throws Throwable {
+		
+		long startOfLookup = System.currentTimeMillis();
+		int timeoutInMillies = getSeleniumManager().getTimeout() * 1000;
+		boolean pass = false;
+		
+		while(!pass) {
+			try{
+				clickViewElement(elementName, viewName);
+				pass = true;
+			}
+			catch (WebDriverException ex) {
+				//catch an exception as it might indicate the click is caught by another element which has yet to fade away. Swallow untill timeout is exceeded
+				if(System.currentTimeMillis() - startOfLookup > timeoutInMillies) {
+					throw ex;
+				}
+			}
+
+			if(!pass) {				
+				Thread.sleep(200);
+			}
+		}
+		
+	}
+	
+	private void clickViewElement(String elementName, String viewName) throws Throwable {
 		WebElement found = the_view_should_contain(viewName, elementName);
 		found.click();
 	}
