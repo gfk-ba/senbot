@@ -14,8 +14,8 @@
 
 	<scm>
 		<connection>scm:git:git@github.com/gfk-ba/senbot.git</connection>
+		<url>scm:git:git@github.com/gfk-ba/senbot.git</url>
 		<developerConnection>scm:git:git@github.com/gfk-ba/senbot.git</developerConnection>
-		<url>git@github.com/gfk-ba/senbot.git</url>
 	</scm>
 
 	<name>SenBot Parent</name>
