@@ -9,7 +9,7 @@
 
 	<groupId>com.gfk.senbot</groupId>
 	<artifactId>SenBotParent</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<packaging>pom</packaging>
 
 	<scm>
@@ -20,6 +20,7 @@
 
 	<name>SenBot Parent</name>
 	<description>Parent pom for the SenBot modules</description>
+	<url>https://github.com/gfk-ba/senbot</url>
 
 	<modules>
 		<module>SenBotRunner</module>
@@ -31,23 +32,16 @@
 		<info.cukes.version>1.1.2</info.cukes.version>
 	</properties>
 
-	<contributors>
-		<contributor>
-			<name>Gerhard Schuster</name>
+	<developers>
+		<developer>
+			<name>Joost Schouten</name>
+			<url>http://joostschouten.com</url>
 			<roles>
 				<role>Developer</role>
 			</roles>
 			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Andrew Powell</name>
-			<organization>GfK</organization>
-			<roles>
-				<role>Developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
+		</developer>
+		<developer>
 			<name>Niels van Reijmersdal</name>
 			<url>http://vanreijmersdal.nl</url>
 			<organization>GfK</organization>
@@ -55,16 +49,23 @@
 				<role>Product Owner</role>
 			</roles>
 			<timezone>+1</timezone>
-		</contributor>
-		<contributor>
-			<name>Joost Schouten</name>
-			<url>http://joostschouten.com</url>
+		</developer>
+		<developer>
+			<name>Gerhard Schuster</name>
 			<roles>
 				<role>Developer</role>
 			</roles>
 			<timezone>+1</timezone>
-		</contributor>
-	</contributors>
+		</developer>
+		<developer>
+			<name>Andrew Powell</name>
+			<organization>GfK</organization>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
 
 	<licenses>
 		<license>
@@ -120,18 +121,6 @@
 					<exclusion>
 						<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-remote-driver</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>ant-contrib</groupId>
-				<artifactId>ant-contrib</artifactId>
-				<version>1.0b3</version>
-				<exclusions>
-					<exclusion>
-						<groupId>ant</groupId>
-						<artifactId>ant</artifactId>
 					</exclusion>
 				</exclusions>
 			</dependency>
@@ -237,7 +226,7 @@
 		</plugins>
 	</build>
 
-	<pluginRepositories>
+	<!-- <pluginRepositories>
 		<pluginRepository>
 			<id>Apache-plugin-snapshots</id>
 			<snapshots>
@@ -245,7 +234,7 @@
 			</snapshots>
 			<url>http://repository.apache.org/snapshots/</url>
 		</pluginRepository>
-	</pluginRepositories>
+	</pluginRepositories> -->
 
 	<distributionManagement>
 		<repository>
