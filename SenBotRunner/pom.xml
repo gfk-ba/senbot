@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
-		<version>0.2</version>
+		<version>0.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>SenBotRunner</artifactId>
