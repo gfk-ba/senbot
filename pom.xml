@@ -13,11 +13,11 @@
 	<packaging>pom</packaging>
 
 	<scm>
-		<connection>scm:git:git@github.com/gfk-ba/senbot.git</connection>
-		<url>scm:git:git@github.com/gfk-ba/senbot.git</url>
-		<developerConnection>scm:git:git@github.com/gfk-ba/senbot.git</developerConnection>
+		<connection>scm:git:git@github.com:gfk-ba/senbot.git</connection>
+		<url>scm:git:git@github.com:gfk-ba/senbot.git</url>
+		<developerConnection>scm:git:git@github.com:gfk-ba/senbot.git</developerConnection>
 	</scm>
-
+	
 	<name>SenBot Parent</name>
 	<description>Parent pom for the SenBot modules</description>
 	<url>https://github.com/gfk-ba/senbot</url>
