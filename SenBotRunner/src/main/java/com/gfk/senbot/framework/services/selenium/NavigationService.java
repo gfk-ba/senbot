@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -139,5 +140,15 @@ public class NavigationService extends BaseServiceHub {
         Actions builder = new Actions(getWebDriver());
         Actions hoverOverRegistrar = builder.moveToElement(element);
         hoverOverRegistrar.perform();
+    }
+    
+    public void windowScrollBottom() {
+    	JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
+    
+    public void windowScrollTop() {
+    	JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+        js.executeScript("window.scrollTo(0, 0)");
     }
 }
