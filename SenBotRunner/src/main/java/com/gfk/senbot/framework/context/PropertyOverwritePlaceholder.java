@@ -5,9 +5,14 @@ public class PropertyOverwritePlaceholder {
 	private String overwriteProp;
 	private final String defaultValue;
 
-	public PropertyOverwritePlaceholder(String property, String overwriteShortHand) {
+	public PropertyOverwritePlaceholder(String property, String... overwriteShortHand) {
 		this.defaultValue = property;
-		overwriteProp = System.getProperty(overwriteShortHand);
+		for(String overwrite : overwriteShortHand) {			
+			overwriteProp = System.getProperty(overwrite);
+			if(overwriteProp != null) {
+				break;
+			}
+		}
 	}
 	
 	public String getProperty() {
