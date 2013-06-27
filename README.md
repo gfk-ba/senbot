@@ -33,7 +33,7 @@ new project
 =======
 After a succesfull senbot build and test run you can use the Maven archetype to generate a new project based on the senbot framework.
 ```
-mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DgroupId=com.yourdomain.namespace -DartifactId=YourProjectName
+mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DarchetypeVersion=0.2 -DgroupId=com.yourdomain.namespace -DartifactId=YourProjectName
 ```
 
 This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
@@ -50,5 +50,5 @@ mvn test -Dtest=com.domain.NameOfYourJUnitTest -Dfeatures="path/to/your/file.fea
 ```
 Changing the default domain or test environment can be done with
 ```
-mvn test -Domain=mydomain.com -Denv=FF
+mvn test -Durl=mydomain.com -Denv=FF
 ```
