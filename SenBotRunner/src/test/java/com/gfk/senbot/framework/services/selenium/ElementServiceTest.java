@@ -82,7 +82,7 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
     @Test(expected = AssertionError.class)
     public void testInterpitLocator_nonExistingXpath() throws IOException {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.TABLE_TEST_PAGE_URL);
-        seleniumElementService.translateLocatorToWebElement(ElementService.XPATH_LOCATOR_PREFIX + "//table//table");
+        seleniumElementService.translateLocatorToWebElement(ElementService.XPATH_LOCATOR_PREFIX + "//table//marquee");
     }
 
     @Test
@@ -107,7 +107,7 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
     @Test(expected = AssertionError.class)
     public void testIsElementVisible_visibleAndNotFound() throws IOException {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.TABLE_TEST_PAGE_URL);
-        seleniumElementService.isElementVisible(By.xpath("//table//table"), true);
+        seleniumElementService.isElementVisible(By.xpath("//table//marquee"), true);
     }
 
     @Test(expected = AssertionError.class)
@@ -119,7 +119,7 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
     @Test
     public void testIsElementVisible_invisibleAndNotFound() throws IOException {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.TABLE_TEST_PAGE_URL);
-        seleniumElementService.isElementVisible(By.xpath("//table//table"), false);
+        seleniumElementService.isElementVisible(By.xpath("//table//marquee"), false);
     }
 
     @Test

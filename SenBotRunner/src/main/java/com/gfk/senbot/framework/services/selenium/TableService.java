@@ -52,7 +52,9 @@ public class TableService extends BaseServiceHub {
             SenBotContext.getSeleniumDriver().manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
             List<List<String>> expectedRows = expectedContent.getExpected().raw();
 
-            List<WebElement> foundRows = table.findElements(By.tagName("tr"));
+            //only get the tr's directly under the table or with one parent between the table and the tr (eg. THEAD, TBODY)
+            List<WebElement> foundRows = table.findElements(By.xpath("tr | */tr"));
+            
             List<WebElement> filteredRows = new ArrayList<WebElement>();
 
             expectedContent.cacheIncludeAndIgnore(table);
@@ -69,8 +71,8 @@ public class TableService extends BaseServiceHub {
 
             for (int rowCount = 0; rowCount < expectedRows.size(); rowCount++) {
                 WebElement foundRow = filteredRows.get(rowCount);
-                List<WebElement> foundCells = foundRow.findElements(By.tagName("td"));
-                foundCells.addAll(foundRow.findElements(By.tagName("th")));
+                List<WebElement> foundCells = foundRow.findElements(By.xpath("td"));
+                foundCells.addAll(foundRow.findElements(By.xpath("th")));
                 List<String> expectedRow = expectedRows.get(rowCount);
 
                 if (rowCount == 0) {

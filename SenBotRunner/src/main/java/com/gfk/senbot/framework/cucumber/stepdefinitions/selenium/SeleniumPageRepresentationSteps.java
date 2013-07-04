@@ -51,7 +51,12 @@ public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
 	
 	private void clickViewElement(String elementName, String viewName) throws Throwable {
 		WebElement found = the_view_should_contain(viewName, elementName);
-		found.click();
+		try{			
+			found.click();
+		}
+		catch (NoSuchElementException nsee) {
+			fail("The element \"" + elementName + "\" on view \"" + viewName + "\" is not found");
+		}
 	}
 	
 	/**

@@ -1,3 +1,4 @@
+@focus
 Feature: Table asserts
   In order compare an test the content of HTML tables
   as a SenBot user
