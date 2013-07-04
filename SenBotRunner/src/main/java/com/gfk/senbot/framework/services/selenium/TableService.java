@@ -56,11 +56,18 @@ public class TableService extends BaseServiceHub {
             List<WebElement> foundRows = table.findElements(By.xpath("tr | */tr"));
             
             List<WebElement> filteredRows = new ArrayList<WebElement>();
-
+            
             expectedContent.cacheIncludeAndIgnore(table);
 
             for (WebElement row : foundRows) {
-                if ((expectedContent.getIncludeByMatches().isEmpty() || expectedContent.getIncludeByMatches().contains(row)) && !expectedContent.getIgnoreByMatches().contains(row)) {
+            	if(!row.isDisplayed()) {
+            		//always ignore hidden rows
+            		continue;
+            	}
+            	
+                if ((expectedContent.getIncludeByMatches().isEmpty() || 
+                		expectedContent.getIncludeByMatches().contains(row)) && 
+                		!expectedContent.getIgnoreByMatches().contains(row)) {
                     filteredRows.add(row);
                 }
             }
