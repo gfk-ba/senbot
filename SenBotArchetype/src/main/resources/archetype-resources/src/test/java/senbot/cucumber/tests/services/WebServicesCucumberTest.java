@@ -20,6 +20,6 @@ import cucumber.api.junit.Cucumber;
         strict = true)
 public class WebServicesCucumberTest extends CucumberTestBase {
 	
-	public static final String PATH = "/services";
+	public static final String PATH = "/Services";
 
 }

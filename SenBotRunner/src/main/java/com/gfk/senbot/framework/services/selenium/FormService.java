@@ -1,6 +1,9 @@
 package com.gfk.senbot.framework.services.selenium;
 
+import static org.junit.Assert.*;
+
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 
@@ -37,6 +40,23 @@ public class FormService extends BaseServiceHub {
 		fieldEl.clear();
 		fieldEl.sendKeys(getReferenceService().namespaceString(value));
 		return fieldEl;
+	}
+
+	public void isFormFieldOnViewSetTo(String viewName, String fieldName, String value) throws IllegalArgumentException, IllegalAccessException {
+		WebElement fieldEl = seleniumElementService.getElementFromReferencedView(viewName, fieldName);
+		assertEquals(value, fieldEl.getAttribute("value"));
+	}
+	
+	public void setSelectOptionOnView(String viewName, String elementName, String optionText) throws IllegalArgumentException, IllegalAccessException {
+		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(viewName, elementName);
+		Select select = new Select(elementFromReferencedView);
+		select.selectByVisibleText(optionText);
+	}
+
+	public void isOptionOfSelectForViewSelected(String viewName, String selectElementName, String optionText) throws IllegalArgumentException, IllegalAccessException {
+		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(viewName, selectElementName);
+		Select select = new Select(elementFromReferencedView);
+		assertEquals("Select " + selectElementName + " should have the correct option selected", optionText, select.getFirstSelectedOption().getText());
 	}
 
 }

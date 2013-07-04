@@ -3,6 +3,7 @@ package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
 
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;
 
@@ -24,6 +25,21 @@ public class SeleniumFormSteps extends BaseStepDefinition{
 	@When("^I fill the field \"(.*)\" on view \"(.*)\" with \"(.*)\"$")
 	public void fill_the_field_with(String field, String view, String value) throws IllegalArgumentException, IllegalAccessException {
 		seleniumFormService.fillFormField_fromView(view, field, value);
+	}
+
+	@Then("^the field \"(.*)\" on view \"(.*)\" is set to \"(.*)\"$")
+	public void the_field_x_on_view_y_is_set_to_z(String field, String view, String value) throws IllegalArgumentException, IllegalAccessException {
+		seleniumFormService.isFormFieldOnViewSetTo(view, field, value);
+	}
+	
+	@When("^I set the \"([^\"]*)\" select on the \"([^\"]*)\" view to option \"([^\"]*)\"$")
+	public void I_set_the_select_on_the_view_to_option(String selectElementName, String viewName, String optionText) throws Throwable {
+		seleniumFormService.setSelectOptionOnView(viewName, selectElementName, optionText);
+	}
+
+	@Then("^option \"([^\"]*)\" of \"([^\"]*)\" select on the \"([^\"]*)\" should be selected$")
+	public void option_x_of_y_select_on_the_view_z_should_be_selected(String optionText, String selectElementName, String viewName) throws Throwable {
+		seleniumFormService.isOptionOfSelectForViewSelected(viewName, selectElementName, optionText);
 	}
 	
 	
