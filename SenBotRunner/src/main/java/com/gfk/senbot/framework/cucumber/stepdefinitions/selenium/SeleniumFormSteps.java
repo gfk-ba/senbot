@@ -22,7 +22,7 @@ public class SeleniumFormSteps extends BaseStepDefinition{
 		seleniumFormService.fillFormField_locator(field, value);
 	}
 
-	@When("^I fill the field \"(.*)\" on view \"(.*)\" with \"(.*)\"$")
+	@When("^I fill the \"(.*)\" field on view \"(.*)\" with \"(.*)\"$")
 	public void fill_the_field_with(String field, String view, String value) throws IllegalArgumentException, IllegalAccessException {
 		seleniumFormService.fillFormField_fromView(view, field, value);
 	}
