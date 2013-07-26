@@ -391,6 +391,8 @@ public class TestEnvironment {
             } else {
                 throw new IllegalArgumentException("Browser value is not correct: " + browser);
             }
+            
+            capability.setCapability("selenium-version", "2.33.0");
             capability.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
             capability.setVersion(browserVersion);
             capability.setPlatform(os);

@@ -29,6 +29,7 @@
 	<properties>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
 		<info.cukes.version>1.1.2</info.cukes.version>
+		<selenium.version>2.31.0</selenium.version>
 	</properties>
 
 	<developers>
@@ -86,7 +87,7 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-java</artifactId>
-				<version>2.32.0</version>
+				<version>${selenium.version}</version>
 				<scope>compile</scope>
 			</dependency>
 
