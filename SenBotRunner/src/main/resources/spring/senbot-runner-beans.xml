@@ -36,6 +36,7 @@
 
     <bean id="com.gfk.senbot.framework.context.CucumberManager" class="com.gfk.senbot.framework.context.CucumberManager">
     	<constructor-arg value="${senBotContext.cucumberManager.scenarioCreationHook}" index="0"/>
+    	<constructor-arg value="${senBotContext.cucumberManager.defaultCucumberOptions}" index="1"/>
     </bean>
 
     <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">

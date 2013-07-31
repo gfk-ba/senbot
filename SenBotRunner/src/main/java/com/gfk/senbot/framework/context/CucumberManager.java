@@ -20,7 +20,6 @@ public class CucumberManager {
 	
 	private static Logger log = LoggerFactory.getLogger(CucumberManager.class);
 	
-	
 	/**
 	 * map the last when a scenario started so that the after scenario can do some checks on what the scenario
 	 * has touched in its lifetime. This for example helps us check if a scenario uses Selenium or not
@@ -42,12 +41,19 @@ public class CucumberManager {
 	 * @throws InstantiationException 
 	 * @throws IllegalArgumentException 
 	 */
-	public CucumberManager(String scenarioGlobalsCreationHookClass) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+	public CucumberManager(String scenarioGlobalsCreationHookClass, String defaultCucumberOptionsString) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		
-		if(System.getProperty("cucumber.options") == null) {			
+		if(System.getProperty("cucumber.options") == null) {		
+			String overwrite = null;
 			if(System.getProperty("features") != null) {
 				//allow for a shorthand for the cucumber.options
-				System.setProperty("cucumber.options", System.getProperty("features"));
+				overwrite = System.getProperty("features");
+			}
+			else if(!StringUtils.isBlank(defaultCucumberOptionsString)) {
+				overwrite = defaultCucumberOptionsString;
+			}
+			if(overwrite != null) {
+				System.setProperty("cucumber.options", overwrite);				
 			}
 		}
 		
