@@ -27,7 +27,7 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
     @Test
     public void testFindExpectedElement_delayedDisplay() throws IOException {
         seleniumNavigationService.navigate_to_url(MockReferenceDatePopulator.DELAYED_DISPLAY_TEST_PAGE_URL);
-        seleniumElementService.ieSaveButtonClick(seleniumElementService.translateLocatorToWebElement(ElementService.ID_LOCATOR_PREFIX + "delayedDisplayButton"));
+        seleniumElementService.translateLocatorToWebElement(ElementService.ID_LOCATOR_PREFIX + "delayedDisplayButton").click();
 
         WebElement foundText = seleniumElementService.translateLocatorToWebElement(ElementService.ID_LOCATOR_PREFIX + "text");
         assertNotNull(foundText);

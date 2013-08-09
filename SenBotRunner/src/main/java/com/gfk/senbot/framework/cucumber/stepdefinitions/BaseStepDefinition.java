@@ -1,6 +1,9 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.context.SenBotContext;
@@ -15,6 +18,8 @@ import com.gfk.senbot.framework.services.selenium.TableService;
  * as the generic services provided here
  * 
  * @author joostschouten
+ * 
+ * @deprecated extend the {@link BaseServiceHub} directly or none at all. Either way, obtain any needed services by using the {@link Resource} annotation on the required service
  *
  */
 public abstract class BaseStepDefinition extends BaseServiceHub {
@@ -22,36 +27,41 @@ public abstract class BaseStepDefinition extends BaseServiceHub {
 	/**
 	 * A service to help target element on a page managed by seleniums {@link WebDriver}
 	 * 
-	 * TODO: Spring autowire this
+	 * @deprecated add the service directly in your step definition using the {@link Resource} annotation
 	 */
-	protected ElementService seleniumElementService = SenBotContext.getBean(ElementService.class);
+	@Resource
+	protected ElementService seleniumElementService;
 	
 	/**
-	 * A service to help with HTML form handling on a selenium {@link WebDriver} managed page 
+	 * A service to help with HTML form handling on a selenium {@link WebDriver} managed page
 	 * 
-	 * TODO: Spring autowire this
+	 * @deprecated add the service directly in your step definition using the {@link Resource} annotation
 	 */
-	protected FormService seleniumFormService = SenBotContext.getBean(FormService.class);
+	@Resource
+	protected FormService seleniumFormService;
 
 	/**
-	 * A service to help with page navigation on a selenium {@link WebDriver} managed browser 
+	 * A service to help with page navigation on a selenium {@link WebDriver} managed browser
 	 * 
-	 * TODO: Spring autowire this
+	 * @deprecated add the service directly in your step definition using the {@link Resource} annotation
 	 */
-	protected NavigationService seleniumNavigationService = SenBotContext.getBean(NavigationService.class);
+	@Resource
+	protected NavigationService seleniumNavigationService;
 
 	/**
 	 * A service to help with management of the borwser viewport on a selenium {@link WebDriver} managed page
 	 * 
-	 * TODO:Spring autowire this
+	 * @deprecated add the service directly in your step definition using the {@link Resource} annotation
 	 */
-	protected TableService seleniumTableService = SenBotContext.getBean(TableService.class);
+	@Resource
+	protected TableService seleniumTableService;
 
 	/**
 	 * A service to help with connecting to a remote API
 	 * 
-	 * TODO:Spring autowire this
+	 * @deprecated add the service directly in your step definition using the {@link Resource} annotation
 	 */
-	protected APIAccessService apiAccessService = SenBotContext.getBean(APIAccessService.class);
+	@Resource
+	protected APIAccessService apiAccessService;
 
 }

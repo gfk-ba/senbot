@@ -1,21 +1,28 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
+import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.SynchronisationService;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class WaitForLoadersStepsTest extends BaseStepDefinition {
+public class WaitForLoadersStepsTest extends BaseServiceHub {
+	
     public static final By GFK_LOADER       = By.id("gfkLogo");
     public static final By APACHE_LOADER    = By.id("apacheLogo");
     public static final By WIKIPEDIA_LOADER = By.id("wikipediaLogo");
     public static final By BUTTON           = By.id("button");
+    
+    @Resource
+    private ElementService seleniumElementService;
 
     @Given("^in the source code the loader icons are assigned in the correct order$")
     public void in_the_source_code_the_loader_icons_are_assigned_in_the_correct_order() throws Throwable {

@@ -37,7 +37,6 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-
 		</dependency>
 
 		<dependency>
@@ -61,6 +60,12 @@
 		<dependency>
 			<groupId>info.cukes</groupId>
 			<artifactId>cucumber-java</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-spring</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
@@ -134,10 +139,6 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-					<excludes>
-						<!-- Don't run the focus runner during the build -->
-						<exclude>**/CucumberFocusTest.java</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 

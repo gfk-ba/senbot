@@ -1,27 +1,25 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
+import javax.annotation.Resource;
 
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.BeanUtils;
 
-import com.gfk.senbot.framework.context.SenBotContext;
-import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.BaseServiceHub;
+import com.gfk.senbot.framework.services.selenium.ElementService;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;
 
 @StepDefAnnotation
-public class SeleniumPageRepresentationSteps extends BaseStepDefinition{
+public class SeleniumPageRepresentationSteps extends BaseServiceHub {
+	
+	@Resource
+	protected ElementService seleniumElementService;
 	
 	@When("^I click \"([^\"]*)\" on the \"([^\"]*)\" view$")
 	public void I_click_on_the(String elementName, String viewName) throws Throwable {

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -16,7 +17,7 @@
 		<url>scm:git:git@github.com:gfk-ba/senbot.git</url>
 		<developerConnection>scm:git:git@github.com:gfk-ba/senbot.git</developerConnection>
 	</scm>
-	
+
 	<name>SenBot Parent</name>
 	<description>Parent pom for the SenBot modules</description>
 	<url>https://github.com/gfk-ba/senbot</url>
@@ -109,6 +110,12 @@
 			<dependency>
 				<groupId>info.cukes</groupId>
 				<artifactId>cucumber-junit</artifactId>
+				<version>${info.cukes.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>info.cukes</groupId>
+				<artifactId>cucumber-spring</artifactId>
 				<version>${info.cukes.version}</version>
 			</dependency>
 
@@ -226,15 +233,9 @@
 		</plugins>
 	</build>
 
-	<!-- <pluginRepositories>
-		<pluginRepository>
-			<id>Apache-plugin-snapshots</id>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<url>http://repository.apache.org/snapshots/</url>
-		</pluginRepository>
-	</pluginRepositories> -->
+	<!-- <pluginRepositories> <pluginRepository> <id>Apache-plugin-snapshots</id> 
+		<snapshots> <enabled>true</enabled> </snapshots> <url>http://repository.apache.org/snapshots/</url> 
+		</pluginRepository> </pluginRepositories> -->
 
 	<distributionManagement>
 		<repository>

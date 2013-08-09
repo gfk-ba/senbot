@@ -4,14 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.WebElement;
 
+import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
+import com.gfk.senbot.framework.services.selenium.ElementService;
 
 import cucumber.api.java.en.Then;
 
-public class SeleniumNamespaceStepsTest extends BaseStepDefinition {
+public class SeleniumNamespaceStepsTest extends BaseServiceHub {
+	
+	@Resource
+    private ElementService seleniumElementService;
 
     @Then("^table cell \"([^\"]*)\" should have a namespaced value \"([^\"]*)\"$")
     public void table_cell_should_have_a_namespaced_value(String cellLocator, String expectedValue) throws Throwable {

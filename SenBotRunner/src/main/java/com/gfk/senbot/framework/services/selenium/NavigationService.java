@@ -105,7 +105,7 @@ public class NavigationService extends BaseServiceHub {
         if (foundButton == null) {
             foundButton = seleniumElementService.findExpectedFirstMatchedElement(2, buttonPpath, submitPath, inputButtonPath, inputResetPath);
         }
-        seleniumElementService.ieSaveButtonClick(foundButton);
+        foundButton.click();
     }
 
     /**

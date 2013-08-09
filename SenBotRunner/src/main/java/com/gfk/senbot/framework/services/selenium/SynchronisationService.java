@@ -26,7 +26,6 @@ public class SynchronisationService extends BaseServiceHub {
 	
     private ThreadLocal<String> mainWindowHandle  = new ThreadLocal<String>();
     private ThreadLocal<String> popupWindowHandle = new ThreadLocal<String>();
-    SeleniumManager             seleniumManager   = getSeleniumManager();
 
     /**
      * Waits until the expectations are full filled or timeout runs out 
@@ -53,7 +52,7 @@ public class SynchronisationService extends BaseServiceHub {
      * @return True if element meets the condition
      */
     public boolean waitForExpectedCondition(ExpectedCondition<?> condition) {
-        return waitForExpectedCondition(condition, seleniumManager.getTimeout());
+        return waitForExpectedCondition(condition, getSeleniumManager().getTimeout());
     }
 
     /**
@@ -61,7 +60,6 @@ public class SynchronisationService extends BaseServiceHub {
      * 
      * @param condition The conditions the element should meet
      * @param timeout The timeout to wait 
-     * @return True if element meets the condition
      */
     public void waitAndAssertForExpectedCondition(ExpectedCondition<?> condition, int timeout) {
         if (!waitForExpectedCondition(condition, timeout)) {
@@ -73,10 +71,9 @@ public class SynchronisationService extends BaseServiceHub {
      * Waits until the expectations are met and throws an assert if not with standard timeout
      * 
      * @param condition The conditions the element should meet
-     * @return True if element meets the condition
      */
     public void waitAndAssertForExpectedCondition(ExpectedCondition<?> condition) {
-        waitAndAssertForExpectedCondition(condition, seleniumManager.getTimeout());
+        waitAndAssertForExpectedCondition(condition, getSeleniumManager().getTimeout());
     }
 
     /**
@@ -93,7 +90,6 @@ public class SynchronisationService extends BaseServiceHub {
      * Checks if the expectations are met and throws an assert if not
      * 
      * @param condition The conditions the element should meet
-     * @return True if element meets the condition
      */
     public void checkAndAssertForExpectedCondition(ExpectedCondition<?> condition) {
         if (!waitForExpectedCondition(condition, 0)) {
@@ -142,7 +138,7 @@ public class SynchronisationService extends BaseServiceHub {
      * 
      */
     public void waitAndSwitchToNewBrowserWindow() {
-        waitAndSwitchToNewBrowserWindow(seleniumManager.getTimeout());
+        waitAndSwitchToNewBrowserWindow(getSeleniumManager().getTimeout());
     }
 
     /**

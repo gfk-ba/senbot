@@ -19,7 +19,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         assertTrue(seleniumSynchronisationService.waitForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id='text']")), seleniumManager.getTimeout()));
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='delayedDisplayButton']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='delayedDisplayButton']")).click();
         assertTrue(seleniumSynchronisationService.waitForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='text']")), seleniumManager.getTimeout()));
     }
 
@@ -28,7 +28,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         seleniumSynchronisationService.waitAndAssertForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id='text']")), seleniumManager.getTimeout());
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='delayedDisplayButton']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='delayedDisplayButton']")).click();
         seleniumSynchronisationService.waitAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='text']")), seleniumManager.getTimeout());
     }
 
@@ -37,7 +37,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         assertTrue(seleniumSynchronisationService.checkForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id='text']"))));
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='delayedDisplayButton']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='delayedDisplayButton']")).click();
         assertTrue(seleniumSynchronisationService.checkForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='text']"))));
     }
 
@@ -46,7 +46,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("div[id='text']")));
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='delayedDisplayButton']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='delayedDisplayButton']")).click();
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[id='text']")));
     }
 
@@ -57,7 +57,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id='textField']")));
         driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + senBotContext.getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
 
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='openBrowserWindow']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='openBrowserWindow']")).click();
         seleniumSynchronisationService.waitAndSwitchToNewBrowserWindow(seleniumManager.getTimeout());
         assertEquals(1, driver.findElements(By.xpath("//*[contains(text(),'Namespace test page')]")).size());
 
@@ -72,7 +72,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id='textField']")));
         driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + senBotContext.getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
 
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.cssSelector("button[id='openBrowserWindow']")));
+        seleniumElementService.findExpectedElement(By.cssSelector("button[id='openBrowserWindow']")).click();
         seleniumSynchronisationService.waitAndSwitchToNewBrowserWindow(seleniumManager.getTimeout());
         assertEquals(1, driver.findElements(By.xpath("//*[contains(text(),'Namespace test page')]")).size());
 

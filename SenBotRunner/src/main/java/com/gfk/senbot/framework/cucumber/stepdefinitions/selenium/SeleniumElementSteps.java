@@ -1,8 +1,12 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.By;
 
+import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.services.selenium.ElementService;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,9 +19,11 @@ import cucumber.runtime.java.StepDefAnnotation;
  *
  */
 @StepDefAnnotation
-public class SeleniumElementSteps extends BaseStepDefinition{
-
+public class SeleniumElementSteps extends BaseServiceHub {
 	
+	@Resource
+	protected ElementService seleniumElementService;
+
 	/*
 	 * Given 
 	 */

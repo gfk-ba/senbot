@@ -1,5 +1,7 @@
 package com.gfk.senbot.framework.context;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,7 +37,6 @@ public class SeleniumManager {
 
     private String                       defaultDomain            = null;
     private URL                          seleniumHub              = null;
-//    private boolean                      runOnGrid                = false;
     private ArrayList<TestEnvironment>   seleniumTestEnvironments = new ArrayList<TestEnvironment>();
 
     private final Integer                defaultWindowWidth;
@@ -51,8 +52,12 @@ public class SeleniumManager {
     		String target, 
     		int defaultWindowWidth, 
     		int defaultWindowHeight, 
-    		int aTimeout) throws IOException {
+    		int aTimeout) throws IOException, AWTException {
         this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
+        
+        //move the mouse to 0,50 so that it won't interfere with IE native events. 50 to avoid trigger of hotcorners
+        Robot robot = new Robot();
+        robot.mouseMove(0, 50);
     }
 
     /**

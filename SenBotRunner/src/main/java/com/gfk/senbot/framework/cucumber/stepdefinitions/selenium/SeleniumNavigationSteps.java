@@ -4,10 +4,16 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.By;
 
+import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.services.selenium.ElementService;
+import com.gfk.senbot.framework.services.selenium.FormService;
+import com.gfk.senbot.framework.services.selenium.NavigationService;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -20,8 +26,15 @@ import cucumber.runtime.java.StepDefAnnotation;
  * @author joostschouten
  */
 @StepDefAnnotation
-public class SeleniumNavigationSteps extends BaseStepDefinition {
+public class SeleniumNavigationSteps extends BaseServiceHub {
+	
+	@Resource
+	protected ElementService seleniumElementService;
 
+	@Resource
+	protected NavigationService seleniumNavigationService;
+
+	
     /****************************************************************
      * Given
      ****************************************************************/

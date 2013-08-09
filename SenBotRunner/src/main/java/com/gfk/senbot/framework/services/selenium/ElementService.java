@@ -60,7 +60,7 @@ public class ElementService extends BaseServiceHub {
 	 * @return The found web element
 	 */
 	public WebElement translateLocatorToWebElement(String locatorString) {
-		return this.findExpectedElement(translateLocator(locatorString));
+		return findExpectedElement(translateLocator(locatorString));
 	}
 
 	public By translateLocator(String locatorString) {
@@ -125,7 +125,7 @@ public class ElementService extends BaseServiceHub {
 			}
 		} catch (WebDriverException wde) {
 			log.error("Expected element not found: ", wde);
-			fail("Element: " + by.toString() + " not found");
+			fail("Element: " + by.toString() + " not found. Webdriver though exception: " + wde.getClass().getCanonicalName() + " with error message: " + wde.getMessage());
 		}
 
 		return null;

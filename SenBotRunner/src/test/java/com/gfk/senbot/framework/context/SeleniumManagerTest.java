@@ -7,6 +7,10 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.AWTException;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Robot;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,34 +29,44 @@ public class SeleniumManagerTest {
      * has to be set in the object
      * 
      * @throws IOException
+     * @throws AWTException 
      */
     @Test
-    public void testSeleniumManager_timeoutSetting() throws IOException {
+    public void testSeleniumManager_timeoutSetting() throws IOException, AWTException {
         SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(5, localSeleniumManager.getTimeout());
     }
 
     @Test
-    public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException {
+    public void testSeleniumManager_mousePosition() throws IOException, AWTException {
+    	SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
+    	Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+    	
+    	assertEquals(0, mouseLocation.x);
+    	assertEquals(50, mouseLocation.y);
+    }
+
+    @Test
+    public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException, AWTException {
     	SeleniumManager seleniumManager = new SeleniumManager("www.gfk.com", "", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	
     	assertEquals("http://www.gfk.com", seleniumManager.getDefaultDomain());
     }
 
     @Test
-    public void testSenBotContext_hubProperlySet() throws IOException {
+    public void testSenBotContext_hubProperlySet() throws IOException, AWTException {
         String expectedHub = "http://some_hub";
         SeleniumManager manager = new SeleniumManager("http://www.gfk.com", expectedHub, "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(new URL(expectedHub), manager.getSeleniumHub());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testSenBotContext_missingSeleniumTestTarget() throws IOException {
+    public void testSenBotContext_missingSeleniumTestTarget() throws IOException, AWTException {
         new SeleniumManager("http://www.gfk.com", "http://someHub", "", 1000, 800, 5);
     }
 
     @Test
-    public void testSenBotContext_shortenedTargetEnvironment() throws IOException {
+    public void testSenBotContext_shortenedTargetEnvironment() throws IOException, AWTException {
         SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST;CH", 1000, 800, 5);
         
         List<TestEnvironment> seleniumTestEnvironments = seleniumManager.getSeleniumTestEnvironments();
@@ -67,7 +81,7 @@ public class SeleniumManagerTest {
     }
 
     @Test(expected = MalformedURLException.class)
-    public void testSenBotContext_mallformattedHubUrl() throws IOException {
+    public void testSenBotContext_mallformattedHubUrl() throws IOException, AWTException {
         new SeleniumManager("http://www.gfk.com", "I'm an invalid URL", "FF,LATEST,WINDOWS", 1000, 800, 5);
     }
 
@@ -84,7 +98,7 @@ public class SeleniumManagerTest {
     }
 
     @Test
-    public void testSenBotContext_seleniumTestEnvironmentTargetCreation() throws IOException {
+    public void testSenBotContext_seleniumTestEnvironmentTargetCreation() throws IOException, AWTException {
         SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,ANY;CH,LATEST,ANY", 1000, 800, 5);
 
         assertFalse(seleniumManager.getSeleniumTestEnvironments().isEmpty());

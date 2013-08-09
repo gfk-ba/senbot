@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +29,8 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
  */
 public class SenBotContext {
 	
+	public static final String SPRING_CONFIG_LOCATION = "springConfig";
+
 	private static Logger log = LoggerFactory.getLogger(SenBotContext.class);
 	
 	/**
@@ -95,7 +100,12 @@ public class SenBotContext {
                 //another null check as two threads might have passed the first null check, wait in line on the 
                 //synchronized block and both instantiate the singleton.
                 if (senBotContextSingleton == null) {
-                    context = new ClassPathXmlApplicationContext(new String[]{"spring/senbot-runner-beans.xml"});
+                	String springConfigLocation = System.getProperty(SPRING_CONFIG_LOCATION);
+                	if(springConfigLocation == null) {
+                		springConfigLocation = "cucumber.xml";
+                	}
+                	
+                    context = new ClassPathXmlApplicationContext(new String[]{springConfigLocation});
                     senBotContextSingleton = context.getBean(SenBotContext.class);
                 }
             }

@@ -1,9 +1,13 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.WebElement;
 
-import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.BaseServiceHub;
+import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.ExpectedTableDefinition;
+import com.gfk.senbot.framework.services.selenium.TableService;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
@@ -16,7 +20,13 @@ import cucumber.runtime.java.StepDefAnnotation;
  *
  */
 @StepDefAnnotation
-public class SeleniumTableSteps extends BaseStepDefinition {
+public class SeleniumTableSteps extends BaseServiceHub {
+	
+	@Resource
+	protected ElementService seleniumElementService;
+
+	@Resource
+	protected TableService seleniumTableService;
 	
 	/*
 	 * Then

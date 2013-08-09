@@ -289,7 +289,7 @@ public class TableServiceTest extends AbstractSenbotServiceTest {
 
         WebElement inputField = driver.findElement(By.id("textField"));
         inputField.sendKeys(namespacenizedString);
-        seleniumElementService.ieSaveButtonClick(driver.findElement(By.xpath(".//*[@id='button']")));
+        seleniumElementService.findExpectedElement(By.xpath(".//*[@id='button']")).click();
 
         WebElement table = driver.findElement(By.id("exampleTable"));
 

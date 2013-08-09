@@ -1,7 +1,12 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
 
+import javax.annotation.Resource;
+
+import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
+import com.gfk.senbot.framework.services.selenium.ElementService;
+import com.gfk.senbot.framework.services.selenium.FormService;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -14,7 +19,10 @@ import cucumber.runtime.java.StepDefAnnotation;
  *
  */
 @StepDefAnnotation
-public class SeleniumFormSteps extends BaseStepDefinition{
+public class SeleniumFormSteps extends BaseServiceHub {
+	
+	@Resource
+	protected FormService seleniumFormService;
 
 	
 	@When("^I fill the field \"(.*)\" with \"(.*)\"$")
@@ -35,6 +43,16 @@ public class SeleniumFormSteps extends BaseStepDefinition{
 	@When("^I set the \"([^\"]*)\" select on the \"([^\"]*)\" view to option \"([^\"]*)\"$")
 	public void I_set_the_select_on_the_view_to_option(String selectElementName, String viewName, String optionText) throws Throwable {
 		seleniumFormService.setSelectOptionOnView(viewName, selectElementName, optionText);
+	}
+
+	@When("^I check the \"([^\"]*)\" checkbox on the \"([^\"]*)\" view$")
+	public void I_check_the_x_checkbox_on_the_y_view(String checkboxRef, String view) throws Throwable {
+		seleniumFormService.checkCheckboxOnView(view, checkboxRef);
+	}
+
+	@When("^I uncheck the \"([^\"]*)\" checkbox on the \"([^\"]*)\" view$")
+	public void I_uncheck_the_x_checkbox_on_the_y_view(String checkboxRef, String view) throws Throwable {
+		seleniumFormService.uncheckCheckboxOnView(view, checkboxRef);
 	}
 
 	@Then("^option \"([^\"]*)\" of \"([^\"]*)\" select on the \"([^\"]*)\" should be selected$")

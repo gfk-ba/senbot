@@ -59,4 +59,19 @@ public class FormService extends BaseServiceHub {
 		assertEquals("Select " + selectElementName + " should have the correct option selected", optionText, select.getFirstSelectedOption().getText());
 	}
 
+	public void checkCheckboxOnView(String view, String checkboxRef) throws IllegalArgumentException, IllegalAccessException {
+		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(view, checkboxRef);
+		if(!elementFromReferencedView.isSelected()) {
+			elementFromReferencedView.click();
+		}
+	}
+
+	public void uncheckCheckboxOnView(String view, String checkboxRef) throws IllegalArgumentException, IllegalAccessException {
+		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(view, checkboxRef);
+		if(elementFromReferencedView.isSelected()) {
+			elementFromReferencedView.click();
+		}
+		
+	}
+
 }
