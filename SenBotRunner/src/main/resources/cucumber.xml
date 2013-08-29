@@ -10,6 +10,7 @@
   	<context:component-scan base-package="com.gfk"/>
 
     <import resource="classpath*:/applicationContext.xml"/>
-    <import resource="classpath*:/spring/senbot-runner-beans.xml"/>
+    <import resource="classpath*:/spring/base-senbot-runner-beans.xml"/>
+    <import resource="classpath*:/spring/senbot-*.xml"/>
     
 </beans>

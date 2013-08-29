@@ -8,9 +8,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -21,6 +23,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -29,7 +33,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.opera.core.systems.OperaDriver;
 
 /**
@@ -381,7 +384,7 @@ public class TestEnvironment {
             } else if (TestEnvironment.CH.equals(browser)) {
                 capability = DesiredCapabilities.chrome();
                 DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-                capabilities.setCapability("chrome.switches", Arrays.asList("--disable-logging"));
+                capabilities.setCapability("chrome.switches", Arrays.asList("--disable-logging", "--disable-extensions"));
             } else if (TestEnvironment.OP.equals(browser)) {
                 capability = DesiredCapabilities.opera();
             } else if (TestEnvironment.IE.equals(browser)) {
@@ -409,10 +412,22 @@ public class TestEnvironment {
             	}
             	driver = new FirefoxDriver(p);
             } else if (TestEnvironment.CH.equals(browser)) {
-                ChromeOptions options = new ChromeOptions();
+            	ChromeOptions options = new ChromeOptions();
+            	
+            	
+                StringBuilder switcheStringBuilder = new StringBuilder();
                 if(getLocale() != null) {  
                 	options.addArguments("--lang=" + getLocale().getLanguage());
                 }
+                options.addArguments("--silent");
+
+//                LoggingPreferences logs = new LoggingPreferences();
+//                logs.enable(LogType.DRIVER, Level.FINE);
+//                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                options.addArguments("--" + CapabilityType.LOGGING_PREFS + "={driver:'FINE'}");
+//                capabilities.setCapability(CapabilityType.LOGGING_PREFS, logs);
+//                capabilities.setCapability("chrome.switches", switcheStringBuilder.toString());
+                
                 driver = new ChromeDriver(options);
             } else if (TestEnvironment.OP.equals(browser)) {
             	if(getLocale() != null) {
