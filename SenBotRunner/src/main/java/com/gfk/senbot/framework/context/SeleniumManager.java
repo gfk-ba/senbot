@@ -55,9 +55,14 @@ public class SeleniumManager {
     		int aTimeout) throws IOException, AWTException {
         this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
         
-        //move the mouse to 0,50 so that it won't interfere with IE native events. 50 to avoid trigger of hotcorners
-        Robot robot = new Robot();
-        robot.mouseMove(0, 50);
+        try {
+        	//move the mouse to 0,50 so that it won't interfere with IE native events. 50 to avoid trigger of hotcorners
+        	Robot robot = new Robot();
+        	robot.mouseMove(0, 50);        	
+        }
+        catch (AWTException awte) {
+        	//thrown when the process is running headless, just continue without moving the cursor
+        }
     }
 
     /**
