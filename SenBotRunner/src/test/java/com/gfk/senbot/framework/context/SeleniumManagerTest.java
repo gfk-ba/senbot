@@ -42,8 +42,14 @@ public class SeleniumManagerTest {
     	SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
     	
-    	assertEquals(0, mouseLocation.x);
-    	assertEquals(50, mouseLocation.y);
+    	//only run the test if we are not in a headless process
+    	try {
+        	Robot robot = new Robot();
+        	assertEquals(0, mouseLocation.x);
+        	assertEquals(50, mouseLocation.y);
+        }
+        catch (AWTException awte) {
+        }
     }
 
     @Test
