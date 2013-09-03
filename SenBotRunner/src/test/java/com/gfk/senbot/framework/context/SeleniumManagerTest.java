@@ -8,9 +8,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.AWTException;
+import java.awt.HeadlessException;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Robot;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,15 +40,15 @@ public class SeleniumManagerTest {
     @Test
     public void testSeleniumManager_mousePosition() throws IOException, AWTException {
     	SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
-    	Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
     	
     	//only run the test if we are not in a headless process
     	try {
-        	Robot robot = new Robot();
+        	Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
         	assertEquals(0, mouseLocation.x);
         	assertEquals(50, mouseLocation.y);
         }
-        catch (AWTException awte) {
+        catch (HeadlessException he) {
+        	//ignore as in a headless env we can never control the mouse
         }
     }
 
