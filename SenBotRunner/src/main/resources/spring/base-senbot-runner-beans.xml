@@ -95,7 +95,7 @@
     	<constructor-arg ref="com.gfk.senbot.framework.services.selenium.ElementService" index="0"/>
     </bean>
 
-    <bean id="com.gfk.senbot.framework.selenium.TableService" class="com.gfk.senbot.framework.services.selenium.TableService" scope="cucumber-glue">
+    <bean id="com.gfk.senbot.framework.services.selenium.TableService" class="com.gfk.senbot.framework.services.selenium.TableService" scope="cucumber-glue">
     	<constructor-arg ref="com.gfk.senbot.framework.services.selenium.ElementService" index="0"/>
     </bean>
 
