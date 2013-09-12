@@ -102,7 +102,7 @@ public class SenBotContext {
                 if (senBotContextSingleton == null) {
                 	String springConfigLocation = System.getProperty(SPRING_CONFIG_LOCATION);
                 	if(springConfigLocation == null) {
-                		springConfigLocation = "classpath*:spring/base-senbot-runner-beans.xml";
+                		springConfigLocation = "classpath*:cucumber.xml";
                 	}
                 	
                     context = new ClassPathXmlApplicationContext(new String[]{springConfigLocation});
