@@ -144,10 +144,12 @@ public class SeleniumManager {
      */
     public <T> T getViewRepresentation(Class<T> T, boolean forceRefresh) {
     	ScenarioGlobals currentScenarioGlobals = SenBotContext.getSenBotContext().getCucumberManager().getCurrentScenarioGlobals();
-    	T foundView = (T) currentScenarioGlobals.getAttribute(T.getName());
+    	T foundView = currentScenarioGlobals == null ? null : (T) currentScenarioGlobals.getAttribute(T.getName());
     	if(foundView == null || forceRefresh) {
     		foundView = PageFactory.initElements(getAssociatedTestEnvironment().getWebDriver(), T);
-    		currentScenarioGlobals.setAttribute(T.getName(), foundView);
+    		if(currentScenarioGlobals != null) {    			
+    			currentScenarioGlobals.setAttribute(T.getName(), foundView);
+    		}
     	}
     	return foundView;
     }

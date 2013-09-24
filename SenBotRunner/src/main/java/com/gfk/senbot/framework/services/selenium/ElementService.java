@@ -16,6 +16,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -125,7 +126,7 @@ public class ElementService extends BaseServiceHub {
 			}
 		} catch (WebDriverException wde) {
 			log.error("Expected element not found: ", wde);
-			fail("Element: " + by.toString() + " not found. Webdriver though exception: " + wde.getClass().getCanonicalName() + " with error message: " + wde.getMessage());
+			fail("Element: " + by.toString() + " not found after waiting for " +  getSeleniumManager().getTimeout() + " seconds. Webdriver though exception: " + wde.getClass().getCanonicalName() + " with error message: " + wde.getMessage());
 		}
 
 		return null;
@@ -355,6 +356,18 @@ public class ElementService extends BaseServiceHub {
 	public WebElement getElementFromReferencedView(String viewName, String elementName)
 			throws IllegalArgumentException, IllegalAccessException {
 		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);
+		Object instance = getSeleniumManager().getViewRepresentation(pageRepresentationReference, false);
+		
+		Field field = getElementFieldFromReferencedView(pageRepresentationReference, viewName, elementName);
+		
+		if(field != null) {
+			return (WebElement) field.get(instance);
+		}
+		
+		return null;
+	}
+	
+	private Field getElementFieldFromReferencedView(Class pageRepresentationReference, String viewName, String elementName) {
 
 		Field[] declaredFields = pageRepresentationReference.getDeclaredFields();
 
@@ -365,12 +378,22 @@ public class ElementService extends BaseServiceHub {
 
 		for (Field field : declaredFields) {
 			if (field.getName().toLowerCase().equals(lowerCaseName)) {
-				return (WebElement) field.get(instance);
+				return field;
 			}
 		}
-		fail("The element \"" + elementName + "\" has not been defined in view \"" + viewName + "\"  (object ref: "
+		
+		fail("The element reference \"" + elementName + "\" has not been defined in view \"" + viewName + "\"  (object ref: "
 				+ pageRepresentationReference.getName() + "." + lowerCaseName + ")");
+		
 		return null;
+	}
+	
+	public String getElementLocatorFromReferencedView(String viewName, String elementName) {
+		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);
+		Field field = getElementFieldFromReferencedView(pageRepresentationReference, viewName, elementName);
+		
+		FindBy findByAnnotatio = field.getAnnotation(FindBy.class);
+		return findByAnnotatio.how() + ":" + findByAnnotatio.using();
 	}
 
 	/**

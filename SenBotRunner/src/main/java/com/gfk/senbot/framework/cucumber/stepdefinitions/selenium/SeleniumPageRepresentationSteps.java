@@ -53,7 +53,8 @@ public class SeleniumPageRepresentationSteps extends BaseServiceHub {
 			found.click();
 		}
 		catch (NoSuchElementException nsee) {
-			fail("The element \"" + elementName + "\" on view \"" + viewName + "\" is not found");
+			String notFoundLocator = seleniumElementService.getElementLocatorFromReferencedView(viewName, elementName);
+			fail("The element \"" + notFoundLocator + "\" referenced by element name \"" + elementName + "\" on view \"" + viewName + "\" is not found");
 		}
 	}
 	

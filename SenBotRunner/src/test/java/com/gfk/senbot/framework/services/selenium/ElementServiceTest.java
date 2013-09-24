@@ -1,5 +1,6 @@
 package com.gfk.senbot.framework.services.selenium;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -15,6 +16,7 @@ import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.data.MockReferenceDatePopulator;
 
 public class ElementServiceTest extends AbstractSenbotServiceTest {
+	
     public static final String BUTTON_TEST_PAGE_URL = SenBotContext.RESOURCE_LOCATION_PREFIX + "/test_pages/exampleButton.html";
 
     @Test(expected = AssertionError.class)
@@ -143,4 +145,13 @@ public class ElementServiceTest extends AbstractSenbotServiceTest {
         assertTrue(seleniumElementService.getElementExists(By.id("text")));
         assertFalse(seleniumElementService.getElementExists(By.id("NotÉxisting")));
     }
+
+	@Test
+	public void testGetElementLocatorFromReferencedView() throws Exception {
+		String elementDescriptor = seleniumElementService.getElementLocatorFromReferencedView("Test page1", "navigation");
+		
+		assertNotNull(elementDescriptor);
+		assertEquals("ID:navigation", elementDescriptor);
+	}
+
 }
