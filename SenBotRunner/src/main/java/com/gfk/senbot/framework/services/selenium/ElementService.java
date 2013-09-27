@@ -421,7 +421,8 @@ public class ElementService extends BaseServiceHub {
 			// leave fail = true
 		}
 		if (notFound) {
-			fail("The element \"" + elementName + "\" on view/page \"" + viewName + "\" is not found.");
+			String foundLocator = getElementLocatorFromReferencedView(viewName, elementName);
+			fail("The element \"" + foundLocator + "\" referenced by element name \"" + elementName + "\" on view/page \"" + viewName + "\" is not found after " + getSeleniumManager().getTimeout() + " seconds");
 		}
 		return found;
 	}
@@ -455,12 +456,13 @@ public class ElementService extends BaseServiceHub {
 				Thread.sleep(100);
 			}
 			if (System.currentTimeMillis() - startOfLookup > timeoutInMillies) {
-				fail("The element \"" + elementName + "\" on view/page \"" + viewName
-						+ "\" is found where it is not expected.");
+				String foundLocator = getElementLocatorFromReferencedView(viewName, elementName);
+				fail("The element \"" + foundLocator + "\" referenced by \"" + elementName + "\" on view/page \"" + viewName + "\" is still found where it is not expected after " + getSeleniumManager().getTimeout() + " seconds.");
 				break;
 			}
 		}
 	}
+	
 	
 	/**
 	 * 
@@ -472,7 +474,14 @@ public class ElementService extends BaseServiceHub {
 	public WebElement viewShouldShowElement(String viewName, String elementName) throws IllegalAccessException {
 		WebElement found = getElementFromReferencedView(viewName, elementName);
 		waitForLoaders();
-		found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
+		
+		try {			
+			found = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(ExpectedConditions.visibilityOf(found));
+		}
+		catch (Exception e) {
+			String notFoundLocator = getElementLocatorFromReferencedView(viewName, elementName);
+			fail("The element \"" + notFoundLocator + "\" referenced by element name \"" + elementName+ "\" on view/page \"" + viewName + "\" is not found after a wait of " + getSeleniumManager().getTimeout() + " seconds.");
+		}
 		
 		return found;
 	}

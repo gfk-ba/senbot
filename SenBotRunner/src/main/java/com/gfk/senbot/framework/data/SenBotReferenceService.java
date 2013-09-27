@@ -121,6 +121,9 @@ public class SenBotReferenceService {
      * 
      * @param locatorReference
      * @param locator
+     * 
+     * @deprecated use {@link SenBotReferenceService#addPageRepresentationReference(String, Class)} in stead to define views. Referencing elements at a global level
+     * is a bad idea as it becomes congested within no time and the element context is completely lost
      */
     public void addLocatorReference(String locatorReference, By locator) {
         elementReferenceToElementLocatorMap.put(locatorReference, locator);
