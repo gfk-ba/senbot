@@ -37,9 +37,9 @@ public class ScenarioGlobals {
     private Map<String, Object> scenarioAttributes = new HashMap<String, Object>();
     private final Long          scenarioStart;
     private TestEnvironment     testEnvironment;
-    private List<By>            loaderIndicators   = new ArrayList<By>();
     private WebDriver           driver             = SenBotContext.getSeleniumDriver();
     private String 				namespace		   = null;
+	private List<ExpectedGlobalCondition> expectedGlobalConditions = new ArrayList<ExpectedGlobalCondition>();
 
     /**
      * Constructor
@@ -76,28 +76,20 @@ public class ScenarioGlobals {
     }
 
     /**
-     * If provided, the SenBot selenium services will check if any of these elements are available and wait untill they are gone
-     * before proceeding to the next step
-     * 
-     * @return 
-     */
-    public List<By> getLoaderIndicators() {
-        return loaderIndicators;
-    }
-
-    /**
      * Register loader with the {@link ScenarioGlobals} so the different Selenium services can wait for them to be removed
      * @param loaderIndicators
      */
     public void registerLoaderIndicators(By... loaderIndicators) {
-        this.loaderIndicators.addAll(Arrays.asList(loaderIndicators));
+    	for(By locator : loaderIndicators) {
+    		this.expectedGlobalConditions.add(new ExpectedWebElementCondition(locator));
+    	}
     }
 
     /**
      * Clear loader with the {@link ScenarioGlobals} so the different Selenium services can wait for them to be removed
      */
-    public void clearLoaderIndicators() {
-        this.loaderIndicators.clear();
+    public void clearExpectedGlobalConditions() {
+        this.expectedGlobalConditions.clear();
     }
 
     /**
@@ -122,6 +114,16 @@ public class ScenarioGlobals {
 			namespace = "SNS" + new Integer(UUID.randomUUID().hashCode()).toString() + "-";
 		}
 		return namespace;
+	}
+
+	public List<ExpectedGlobalCondition> getExpectedGlobalConditions() {
+		return expectedGlobalConditions;
+	}
+
+	public void addExpectedGlobalConditions(
+			ExpectedGlobalCondition expectedGlobalCondition) {
+		expectedGlobalConditions.add(expectedGlobalCondition);
+		
 	}
 
 }

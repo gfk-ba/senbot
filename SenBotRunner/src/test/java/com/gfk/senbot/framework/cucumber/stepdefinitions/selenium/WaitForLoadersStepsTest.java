@@ -27,7 +27,7 @@ public class WaitForLoadersStepsTest extends BaseServiceHub {
     @Given("^in the source code the loader icons are assigned in the correct order$")
     public void in_the_source_code_the_loader_icons_are_assigned_in_the_correct_order() throws Throwable {
         ScenarioGlobals scenarioGlobals = getScenarioGlobals();
-        scenarioGlobals.clearLoaderIndicators();
+        scenarioGlobals.clearExpectedGlobalConditions();
         scenarioGlobals.registerLoaderIndicators(GFK_LOADER, APACHE_LOADER, WIKIPEDIA_LOADER);
     }
 
@@ -45,7 +45,7 @@ public class WaitForLoadersStepsTest extends BaseServiceHub {
     @Given("^in the source code the loader icons are assigned in the wrong order$")
     public void in_the_source_code_the_loader_icons_are_assigned_in_the_wrong_order() throws Throwable {
         ScenarioGlobals scenarioGlobals = getScenarioGlobals();
-        scenarioGlobals.clearLoaderIndicators();
+        scenarioGlobals.clearExpectedGlobalConditions();
         scenarioGlobals.registerLoaderIndicators(APACHE_LOADER, GFK_LOADER, WIKIPEDIA_LOADER);
     }
 
