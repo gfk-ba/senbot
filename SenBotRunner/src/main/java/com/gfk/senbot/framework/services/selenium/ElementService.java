@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.gfk.senbot.framework.BaseServiceHub;
+import com.gfk.senbot.framework.cucumber.stepdefinitions.ExpectedGlobalCondition;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
 
 /**
@@ -227,13 +228,17 @@ public class ElementService extends BaseServiceHub {
 	 * An application might show an icon while loading. Calling this method
 	 * waits for the loading icon to disappear. Use this method sparsely as it
 	 * consumes lots of waiting time
+	 * 
+	 * @deprecated use {@link ElementService#assertExpectedGlobalConditions} in stead
 	 */
 	public void waitForLoaders() {
-		if (getScenarioGlobals() != null && !getScenarioGlobals().getLoaderIndicators().isEmpty()) {
-			SynchronisationService synchronisationService = new SynchronisationService();
-			for (By loaderIndicator : getScenarioGlobals().getLoaderIndicators()) {
-				synchronisationService.waitForExpectedCondition(ExpectedConditions
-						.invisibilityOfElementLocated(loaderIndicator));
+		assertExpectedGlobalConditions();
+	}
+	
+	public void assertExpectedGlobalConditions() {
+		if (getScenarioGlobals() != null && !getScenarioGlobals().getExpectedGlobalConditions().isEmpty()) {
+			for (ExpectedGlobalCondition condition : getScenarioGlobals().getExpectedGlobalConditions()) {
+				condition.checkExpected(getWebDriver());
 			}
 		}
 	}
