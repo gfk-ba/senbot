@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
 
@@ -25,8 +24,6 @@ import com.gfk.senbot.framework.services.selenium.NavigationService;
 
 public class SeleniumManagerTest {
 
-	private static final Logger log = Logger.getLogger(SeleniumManagerTest.class);
-	
     /**
      * Is the timeout given to the constructor is test to a value, the vallue
      * has to be set in the object
@@ -53,9 +50,6 @@ public class SeleniumManagerTest {
         catch (HeadlessException he) {
         	//ignore as in a headless env we can never control the mouse
         }
-    	catch(Throwable ex) {
-    		log.warn("The mouse position test failed but this could very well be due to a multi-screen setup", ex);
-    	}
     }
 
     @Test
