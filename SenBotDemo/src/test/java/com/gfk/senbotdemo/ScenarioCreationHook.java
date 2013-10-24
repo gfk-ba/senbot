@@ -1,7 +1,4 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package}.senbot;
+package com.gfk.senbotdemo;
 
 import org.openqa.selenium.By;
 
@@ -11,7 +8,7 @@ import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarionCreationShutdo
 import cucumber.api.Scenario;
 
 /**
- * The {@link ScenarionCreationHook} specific to the drive framework registering {@link Scenario} scoped
+ * The {@link ScenarionCreationShutdownHook} specific to the drive framework registering {@link Scenario} scoped
  * variables.
  */
 public class ScenarioCreationHook implements ScenarionCreationShutdownHook {

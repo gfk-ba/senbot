@@ -1,29 +1,22 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package}.senbot.cucumber.stepdefinitions;
+package com.gfk.senbotdemo.cucumber.stepdefinitions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import com.gfk.senbot.framework.context.SeleniumManager;
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
 import com.gfk.senbot.framework.data.GenericUser;
-import ${package}.senbot.cucumber.views.TestPage1;
+import com.gfk.senbotdemo.cucumber.views.TestPage1;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import cucumber.runtime.PendingException;
 import cucumber.runtime.java.StepDefAnnotation;
 
 
@@ -34,7 +27,7 @@ public class MySeleniumStepDefinitions extends BaseStepDefinition {
 	 * Given
 	 */
 	
-	@Given("^I am logged in as a ${symbol_escape}"(.*)${symbol_escape}" user${symbol_dollar}")
+	@Given("^I am logged in as a \"(.*)\" user$")
 	public void I_am_logged_in_as_a_x_user(String userType) {
 		GenericUser genericUser = getReferenceService().getUserForUserReference(userType);
 		//TODO: login using the credentials of this referenced user
@@ -46,13 +39,6 @@ public class MySeleniumStepDefinitions extends BaseStepDefinition {
 	 * When
 	 */
 
-	@When("^I login as ${symbol_escape}"(.*)${symbol_escape}" with password ${symbol_escape}"(.*)${symbol_escape}"${symbol_dollar}")
-	public void link_with_xpath_is_clicked(String userName, String password) {
-		//TODO: login using these credentials
-
-		throw new PendingException("Implement this step definition");
-	}
-	
 	@When("^I visit the pages:$")
 	public void the_pages_have_been_visited(DataTable arguments) throws IOException {
 		List<List<String>> asList = arguments.raw();
@@ -77,13 +63,6 @@ public class MySeleniumStepDefinitions extends BaseStepDefinition {
 	/*
 	 * Then
 	 */
-	
-	@Then("^I am logged in${symbol_dollar}")
-	public void the_User_is_logged_in() {
-		//TODO: assert you are logged in
-		
-		throw new PendingException("Implement this step definition");
-	}
 	
 	@Then("^the System property \"([^\"]*)\" should be \"([^\"]*)\"$")
 	public void the_System_property_should_be(String prop, String value) throws Throwable {

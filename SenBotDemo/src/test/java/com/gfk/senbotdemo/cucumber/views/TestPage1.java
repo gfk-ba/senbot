@@ -1,7 +1,4 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package}.senbot.cucumber.views;
+package com.gfk.senbotdemo.cucumber.views;
 
 import static org.junit.Assert.assertTrue;
 

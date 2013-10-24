@@ -1,14 +1,11 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
-package ${package}.senbot;
+package com.gfk.senbotdemo;
 
 import org.openqa.selenium.By;
 
 import com.gfk.senbot.framework.data.GenericUser;
 import com.gfk.senbot.framework.data.ReferenceServicePopulator;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
-import ${package}.senbot.cucumber.views.TestPage1;
+import com.gfk.senbotdemo.cucumber.views.TestPage1;
 
 public class SenBotReferenceDataPopulator implements ReferenceServicePopulator {
 

@@ -24,7 +24,7 @@
 
 	<modules>
 		<module>SenBotRunner</module>
-		<module>SenBotArchetype</module>
+		<module>SenBotDemo</module>
 	</modules>
 
 	<properties>

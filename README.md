@@ -1,4 +1,4 @@
-senbot
+Senbot
 ======
 
 Java based Cucumber and Selenium framework.
@@ -31,12 +31,12 @@ This will build the senbot and fire the example tests
 
 new project
 =======
-After a succesfull senbot build and test run you can use the Maven archetype to generate a new project based on the senbot framework.
+If you want to get started with SenBot use our Demo Archetype to create a new SenBot project showcasing the SenBot possibilities. First create your project using:
 ```
-mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotArchetype -DarchetypeVersion=0.2 -DgroupId=com.yourdomain.namespace -DartifactId=YourProjectName
+mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=SenBotDemo-archetype -DgroupId=com.yourdomain.namespace -DartifactId=YourProjectName
 ```
 
-This should result in a new folder in your current directory called YourProjectName, start and test it with ```mvn clean install```
+This will result in a new folder in your current directory called 'YourProjectName', ```cd``` into it and call ```mvn clean install```. This will start the maven build cycle which will also run all included cucumber tests utilizing Selenium. 
 
 Some usefull runtime tips
 =======
