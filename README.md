@@ -52,3 +52,8 @@ Changing the default domain or test environment can be done with
 ```
 mvn test -Durl=mydomain.com -Denv=FF
 ```
+Changing target browser to run your tests against using the -Denv variable as shown below.
+```
+mvn test -Denv=FF
+```
+Available options: FF, CH, IE, SF and phantomjs (for a headless browser). It is also possible to run your tests to multiple environments by providing the a variable like -Denv=FF,CH,phantomjs

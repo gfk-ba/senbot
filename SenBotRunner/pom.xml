@@ -1,6 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
@@ -50,6 +51,16 @@
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.detro.ghostdriver</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-phantom-driver</artifactId>
 		</dependency>
 
 		<dependency>
@@ -180,14 +191,31 @@
 				</executions>
 			</plugin>
 
-			<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
-				<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
-				<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
-				</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
-				</includes> <excludes> --><!-- Don't run the focus runner during the build -->
-			<!--<exclude>**/CucumberFocusTest.java</exclude> </excludes> <parallel>classes</parallel> 
-				<forkMode>perthread</forkMode> <threadCount>10</threadCount> --><!-- <debugForkedProcess>true</debugForkedProcess> -->
-			<!--</configuration> </plugin> -->
+			<!-- Disabled parrallel execution due to not reporting of errors. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<excludes><!-- Don't run the focus runner during the build -->
+						<exclude>**/CucumberFocusTest.java</exclude>
+					</excludes>
+
+					<useFile>false</useFile>
+					<forkCount>10</forkCount>
+					<reuseForks>false</reuseForks>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

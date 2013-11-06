@@ -12,6 +12,7 @@ import java.util.logging.Level;
 
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.arquillian.phantom.resolver.ResolvingPhantomJSDriverService;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
@@ -25,7 +26,10 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -69,6 +73,10 @@ public class TestEnvironment {
      * Constant for Safari
      */
     public static final String    SF  = "SF";
+    /**
+     * Constant for PhantomJS
+     */
+    public static final String    PHANTOMJS  = BrowserType.PHANTOMJS;
 
     private final String                browser;
     private final String                browserVersion;
@@ -391,6 +399,8 @@ public class TestEnvironment {
                 capability = DesiredCapabilities.internetExplorer();
             } else if (TestEnvironment.SF.equals(browser)) {
                 capability = DesiredCapabilities.safari();
+            } else if (BrowserType.PHANTOMJS.equals(browser)) {
+            	capability = DesiredCapabilities.phantomjs();
             } else {
                 throw new IllegalArgumentException("Browser value is not correct: " + browser);
             }
@@ -444,6 +454,22 @@ public class TestEnvironment {
             		throw new IllegalArgumentException("Safari does not support the setting of a locale at this stage");
             	}
                 driver = new SafariDriver();
+            } else if (BrowserType.PHANTOMJS.equals(browser)) {
+            	if(getLocale() != null) {
+            		throw new IllegalArgumentException("PhantomJS does not support the setting of a locale at this stage");
+            	}
+            	try {       
+            		//service_log_path='/var/log/phantomjs/ghostdriver.log
+            		DesiredCapabilities phantomJsCapabilities = DesiredCapabilities.phantomjs();
+            		phantomJsCapabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "target/logs/phantomjs.log"); 
+            		driver = new PhantomJSDriver(
+            				ResolvingPhantomJSDriverService.createDefaultService(), // service resolving phantomjs binary automatically
+            				phantomJsCapabilities);
+            	}
+            	catch (Exception e){
+            		throw new RuntimeException(e);
+            	}
+            	
             } else {
                 throw new IllegalArgumentException("Browser value is not correct: " + browser);
             }

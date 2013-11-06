@@ -63,6 +63,13 @@ public class NavigationService extends BaseServiceHub {
             exectedPage = exectedPage.substring(0, exectedPage.length() - 1);
         }
 
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         String currentPage = getWebDriver().getCurrentUrl();
         if (currentPage.contains("?") && !exectedPage.contains("?")) {
             currentPage = currentPage.substring(0, currentPage.indexOf("?"));

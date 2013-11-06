@@ -8,3 +8,4 @@ chromedriver.log
 bin
 .metadata
 libpeerconnection.log
+phantomjsdriver.log

@@ -6,13 +6,19 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
+
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.BrowserType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 
 public class NavigationServiceTest extends AbstractSenbotServiceTest {
+	
+	private static final Logger log = LoggerFactory.getLogger(NavigationServiceTest.class);
 
     public static final String TABLE_TEST_PAGE_URL  = SenBotContext.RESOURCE_LOCATION_PREFIX + "/test_pages/exampleTable.html";
     public static final String BUTTON_TEST_PAGE_URL = SenBotContext.RESOURCE_LOCATION_PREFIX + "/test_pages/exampleButton.html";
@@ -40,22 +46,28 @@ public class NavigationServiceTest extends AbstractSenbotServiceTest {
      */
     @Test
     public void testIsCurrentlyOnPage_sameWithSlashDifference() throws IOException {
-        String testPagesFolder = "/test_pages";
-
-        String expected = SenBotContext.getSenBotContext().getRuntimeResources() + testPagesFolder;
-        if (expected.contains("\\")) {
-            expected = expected.replaceAll("\\\\", "/");
-        }
-        if (expected.startsWith("/")) {
-            expected = expected.replaceFirst("/", "");
-        }
-        expected = "file:///" + expected;
-
-        seleniumNavigationService.navigate_to_url(SenBotContext.RESOURCE_LOCATION_PREFIX + testPagesFolder + "/");
-        seleniumNavigationService.isCurrentlyOnPage(expected);
-
-        seleniumNavigationService.navigate_to_url(SenBotContext.RESOURCE_LOCATION_PREFIX + testPagesFolder);
-        seleniumNavigationService.isCurrentlyOnPage(expected + "/");
+    	String browser = SenBotContext.getSenBotContext().getSeleniumManager().getAssociatedTestEnvironment().getBrowser();
+    	if(BrowserType.PHANTOMJS.equals(browser)) {
+    		log.warn("PhantomJS webdrver GhostDriver does not seem to play well with fetching the current url");
+    	}
+    	else {    		
+    		String testPagesFolder = "/test_pages";
+    		
+    		String expected = SenBotContext.getSenBotContext().getRuntimeResources() + testPagesFolder;
+    		if (expected.contains("\\")) {
+    			expected = expected.replaceAll("\\\\", "/");
+    		}
+    		if (expected.startsWith("/")) {
+    			expected = expected.replaceFirst("/", "");
+    		}
+    		expected = "file:///" + expected;
+    		
+    		seleniumNavigationService.navigate_to_url(SenBotContext.RESOURCE_LOCATION_PREFIX + testPagesFolder + "/");
+    		seleniumNavigationService.isCurrentlyOnPage(expected);
+    		
+    		seleniumNavigationService.navigate_to_url(SenBotContext.RESOURCE_LOCATION_PREFIX + testPagesFolder);
+    		seleniumNavigationService.isCurrentlyOnPage(expected + "/");
+    	}
     }
 
     /**
