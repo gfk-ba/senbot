@@ -398,7 +398,7 @@ public class ElementService extends BaseServiceHub {
 		return findByAnnotatio.how() + ":" + findByAnnotatio.using();
 	}
 
-	private FindBy getFindByDescriptor(String viewName, String elementName) {
+	public FindBy getFindByDescriptor(String viewName, String elementName) {
 		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);
 		Field field = getElementFieldFromReferencedView(pageRepresentationReference, viewName, elementName);
 		
