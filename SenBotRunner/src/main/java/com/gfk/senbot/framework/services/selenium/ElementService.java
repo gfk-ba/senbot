@@ -394,11 +394,16 @@ public class ElementService extends BaseServiceHub {
 	}
 	
 	public String getElementLocatorFromReferencedView(String viewName, String elementName) {
+		FindBy findByAnnotatio = getFindByDescriptor(viewName, elementName);
+		return findByAnnotatio.how() + ":" + findByAnnotatio.using();
+	}
+
+	private FindBy getFindByDescriptor(String viewName, String elementName) {
 		Class pageRepresentationReference = getReferenceService().getPageRepresentationReference(viewName);
 		Field field = getElementFieldFromReferencedView(pageRepresentationReference, viewName, elementName);
 		
 		FindBy findByAnnotatio = field.getAnnotation(FindBy.class);
-		return findByAnnotatio.how() + ":" + findByAnnotatio.using();
+		return findByAnnotatio;
 	}
 
 	/**
