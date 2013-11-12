@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
 
@@ -37,7 +38,8 @@ public class SeleniumManagerTest {
         assertEquals(5, localSeleniumManager.getTimeout());
     }
 
-    @Test
+    @Test 
+    @Ignore
     public void testSeleniumManager_mousePosition() throws IOException, AWTException {
     	SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	
