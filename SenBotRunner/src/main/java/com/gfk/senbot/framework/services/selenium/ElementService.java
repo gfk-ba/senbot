@@ -132,6 +132,28 @@ public class ElementService extends BaseServiceHub {
 
 		return null;
 	}
+	
+	/**
+	 * Find all elements expected on the page
+	 * 
+	 * @param by
+	 *            - the {@link By} to find
+	 * @return A list of the matched elements {List<@link WebElement>}
+	 * @throws AssertionError
+	 *             if no {@link WebElement} is found or the search times out
+	 */
+	public List<WebElement> findExpectedElements(By by) {
+		waitForLoaders();
+		try {
+			return new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout())
+					.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+		} catch (WebDriverException wde) {
+			log.error("Expected elements not found: ", wde);
+			fail("Element: " + by.toString() + " not found after waiting for " +  getSeleniumManager().getTimeout() + " seconds. Webdriver though exception: " + wde.getClass().getCanonicalName() + " with error message: " + wde.getMessage());
+		}
+
+		return null;
+	}
 
 	public WebElement findExpectedFirstMatchedElement(By... bys) {
 		return findExpectedFirstMatchedElement(0, bys);
