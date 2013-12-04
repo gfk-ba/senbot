@@ -123,6 +123,15 @@ public class SenBotContext {
     }
 
     /**
+     * Gets the bean class
+     * @param clazz
+     * @return
+     */
+    public static <T> T getBean(String name, Class<T> requiredType) {
+    	return getSenBotContext().context.getBean(name, requiredType);
+    }
+
+    /**
      * Cleanup the singleton
      */
     public static void cleanupSenBot() {

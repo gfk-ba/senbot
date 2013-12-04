@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.context.TestEnvironment;
@@ -34,6 +36,7 @@ import cucumber.api.Scenario;
  */
 public class ScenarioGlobals {
 
+	private static final Logger log = LoggerFactory.getLogger(ScenarioGlobals.class);
     private Map<String, Object> scenarioAttributes = new HashMap<String, Object>();
     private final Long          scenarioStart;
     private TestEnvironment     testEnvironment;
@@ -81,6 +84,7 @@ public class ScenarioGlobals {
      */
     public void registerLoaderIndicators(By... loaderIndicators) {
     	for(By locator : loaderIndicators) {
+    		log.debug("Registered loader: " + locator);
     		this.expectedGlobalConditions.add(new ExpectedWebElementCondition(locator));
     	}
     }

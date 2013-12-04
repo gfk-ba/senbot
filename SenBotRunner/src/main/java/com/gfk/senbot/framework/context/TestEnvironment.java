@@ -417,6 +417,7 @@ public class TestEnvironment {
             
             if (TestEnvironment.FF.equals(browser)) {
             	FirefoxProfile p = new FirefoxProfile();
+            	p.setAssumeUntrustedCertificateIssuer(false); 
             	if(getLocale() != null) {
             		p.setPreference("intl.accept_languages", getLocale().toString());
             	}

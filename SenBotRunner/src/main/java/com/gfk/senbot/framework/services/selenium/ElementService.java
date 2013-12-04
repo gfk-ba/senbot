@@ -108,6 +108,8 @@ public class ElementService extends BaseServiceHub {
 	 *             if no {@link WebElement} is found or the search times out
 	 */
 	public WebElement findExpectedElement(By by, boolean includeHiddenElements) {
+		log.debug("findExpectedElement() called with: " + by);
+		
 		waitForLoaders();
 		try {
 			WebElement foundElement = new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout())
@@ -259,7 +261,9 @@ public class ElementService extends BaseServiceHub {
 	
 	public void assertExpectedGlobalConditions() {
 		if (getScenarioGlobals() != null && !getScenarioGlobals().getExpectedGlobalConditions().isEmpty()) {
+			log.debug("assertExpectedGlobalConditions() called, will check for " + getScenarioGlobals().getExpectedGlobalConditions().size() + " conditions"); 
 			for (ExpectedGlobalCondition condition : getScenarioGlobals().getExpectedGlobalConditions()) {
+				log.debug("Check condition: " + condition);
 				condition.checkExpected(getWebDriver());
 			}
 		}
