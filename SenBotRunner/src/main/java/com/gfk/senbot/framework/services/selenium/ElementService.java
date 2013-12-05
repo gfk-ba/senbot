@@ -1,6 +1,6 @@
 package com.gfk.senbot.framework.services.selenium;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -232,6 +232,22 @@ public class ElementService extends BaseServiceHub {
 						.until(ExpectedConditions.invisibilityOfElementLocated(locator));
 			} catch (WebDriverException e) {
 				fail("The element " + locator.toString() + " is visible where it is expected as invisible");
+			}
+		}
+	}
+
+	public void isElementVisible(WebElement element, boolean visible) throws InterruptedException {
+		assertExpectedGlobalConditions();
+		if (visible) {
+			new WebDriverWait(getWebDriver(), getSeleniumManager().getTimeout()).until(
+					ExpectedConditions.visibilityOf(element));
+		} else {
+			long currentTimeMillis = System.currentTimeMillis();
+			while(element.isDisplayed()) {
+				Thread.sleep(100);
+				if(System.currentTimeMillis() - currentTimeMillis > (getSeleniumManager().getTimeout() * 1000)) {
+					assertFalse("We expect the following element to be invisible: " + element.toString() , element.isDisplayed());
+				}
 			}
 		}
 	}
