@@ -158,4 +158,9 @@ public class NavigationService extends BaseServiceHub {
     	JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
         js.executeScript("window.scrollTo(0, 0)");
     }
+
+    public void scrollElementIntoView(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) getWebDriver();
+        js.executeScript("arguments[0].scrollIntoView();", element);
+    }
 }
