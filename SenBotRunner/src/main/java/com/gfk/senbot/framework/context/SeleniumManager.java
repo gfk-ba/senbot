@@ -70,7 +70,6 @@ public class SeleniumManager {
      * 
      * @param defaultDomain domain the whole selenium related SenBot will work from
      * @param seleniumHubIP if running on a grid this is the hub ip to be used
-     * @param runOnGrid run the tests on a grid if true and on a single box if false
      * @param target The target environements to run the selenium tests on
      * @param defaultWindowWidth browser window width to start the browser with
      * @param defaultWindowHeight browser window height to start the browser with
@@ -178,13 +177,6 @@ public class SeleniumManager {
         return seleniumHub;
     }
 
-//    /**
-//     * @return True if test runs on Selenium Grid
-//     */
-//    public boolean isRunOnGrid() {
-//        return runOnGrid;
-//    }
-
     /**
      * @return List of all test environments managed by the SeleniumManager 
      */
@@ -208,6 +200,8 @@ public class SeleniumManager {
 
     /**
      * Deletes association of Thread with TestEnvironment
+     * 
+     * @return {@link TestEnvironment}
      * 
      * @throws InterruptedException
      */

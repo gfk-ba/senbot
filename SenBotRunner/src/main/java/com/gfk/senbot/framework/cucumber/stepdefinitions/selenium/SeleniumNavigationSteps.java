@@ -93,7 +93,7 @@ public class SeleniumNavigationSteps extends BaseServiceHub {
 
     /**
      * Click a button with the passed text on it
-     * @param xpathLink
+     * @param textOnButton
      */
     @When("^I click the \"(.*)\" button")
     public void I_click_the_x_button(String textOnButton) {

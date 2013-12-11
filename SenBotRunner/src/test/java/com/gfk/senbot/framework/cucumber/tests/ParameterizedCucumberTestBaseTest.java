@@ -8,7 +8,7 @@ import com.gfk.senbot.framework.cucumber.ParameterizedCucumber;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(ParameterizedCucumber.class)
-@Cucumber.Options(format = {"pretty", "html:target/test-results"}, 
+@Cucumber.Options(format = {"json", "json:target/test-results/result.json"}, 
 		monochrome = true, 
 		glue = {"com.gfk"},
 		features = "src/test/resources/features",

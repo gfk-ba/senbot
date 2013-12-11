@@ -31,6 +31,7 @@
     <bean id="com.gfk.senbot.framework.context.CucumberManager" class="com.gfk.senbot.framework.context.CucumberManager">
     	<constructor-arg value="${senBotContext.cucumberManager.scenarioCreationHook}" index="0"/>
     	<constructor-arg value="${senBotContext.cucumberManager.defaultCucumberOptions}" index="1"/>
+    	<constructor-arg value="#{openCucumberReportPropertyEvaluator.booleanProperty}" index="2"/>
     </bean>
 
     <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">
@@ -56,6 +57,11 @@
 		        <value>omain</value>
 		    </array>
 		</constructor-arg>
+    </bean>
+
+    <bean id="openCucumberReportPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.cucumberManager.openResultingReportAfterCompletion}" index="0"/>
+    	<constructor-arg value="openReport" index="1"/>
     </bean>
 
     <bean id="hubIpEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">

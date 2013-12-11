@@ -202,7 +202,7 @@ public class ElementService extends BaseServiceHub {
 	 * As most browsers do not yet support XPath 2.0 which offers a matches
 	 * function, we'll use this hacky Case insensitive check
 	 * 
-	 * @return
+	 * @return XPath that wity match the passed value argument in a case insensitive manner
 	 */
 	public String constructCaseInsensitiveContains(String identifier, String value) {
 		return "contains(translate(" + identifier + ",'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '"
@@ -212,7 +212,7 @@ public class ElementService extends BaseServiceHub {
 	/**
 	 * Check if the passed element is visible/invisible
 	 * 
-	 * @param {@link By} to be matched
+	 * @param by {@link By} to be matched
 	 * @param visible
 	 *            should the element be visible (true) or invisible (false)
 	 */
@@ -255,7 +255,7 @@ public class ElementService extends BaseServiceHub {
 	/**
 	 * Tells whether the passed element exists
 	 * 
-	 * @param {@link By} to be matched
+	 * @param locator {@link By} to be matched
 	 * @return true if the element exists
 	 */
 	public boolean getElementExists(By locator) {
@@ -396,9 +396,11 @@ public class ElementService extends BaseServiceHub {
 	 * 
 	 * @param viewName
 	 * @param elementName
-	 * @return
+	 * @return {@link WebElement}
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
+	 * 
+	 * @return {@link WebElement} by the elementName parameter on the view defined by the parameter viewName
 	 */
 	public WebElement getElementFromReferencedView(String viewName, String elementName)
 			throws IllegalArgumentException, IllegalAccessException {
@@ -452,8 +454,9 @@ public class ElementService extends BaseServiceHub {
 	 * 
 	 * @param viewName
 	 * @param elementName
-	 * @return
+	 * @return {@link WebElement}
 	 * @throws IllegalAccessException
+	 * 
 	 */
 	public WebElement viewShouldContainElement(String viewName, String elementName) throws IllegalAccessException {
 		WebElement found = getElementFromReferencedView(viewName, elementName);
@@ -515,7 +518,7 @@ public class ElementService extends BaseServiceHub {
 	 * 
 	 * @param viewName
 	 * @param elementName
-	 * @return
+	 * @return {@link WebElement}
 	 * @throws IllegalAccessException
 	 */
 	public WebElement viewShouldShowElement(String viewName, String elementName) throws IllegalAccessException {

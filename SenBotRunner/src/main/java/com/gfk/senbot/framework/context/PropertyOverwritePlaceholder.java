@@ -19,4 +19,8 @@ public class PropertyOverwritePlaceholder {
 		return overwriteProp == null ? defaultValue : overwriteProp ;
 	}
 
+	public Boolean getBooleanProperty() {
+		return Boolean.valueOf(getProperty()) ;
+	}
+
 }

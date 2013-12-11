@@ -11,6 +11,7 @@ Feature: Table asserts
         | Table cell 3   | Table cell 4   |
         | Table cell 5   | Table cell 6   |
 
+  @broken
   Scenario: Assert selected columns
     Given I am on webpage "resource_location:/test_pages/complexExampleTable.html"
     Then the table "table locator" should contain the columns

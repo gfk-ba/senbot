@@ -137,7 +137,7 @@ public class SenBotReferenceService {
      * Find a {@link GenericUser} by its reference name
      * 
      * @param userType
-     * @return
+     * @return {@link GenericUser}
      */
     public GenericUser getUserForUserReference(String userType) {
         GenericUser driveUser = userReferenceToUsersMap.get(userType);
@@ -150,7 +150,7 @@ public class SenBotReferenceService {
     /**
      * Find a {@link String} url by its reference name
      * @param pageReference
-     * @return
+     * @return {@link String} representing the url to the page mapped to the passed in page name
      */
     public String getUrlForPageReference(String pageReference) {
         String url = pageReferenceToPageUrlMap.get(pageReference);
@@ -176,7 +176,7 @@ public class SenBotReferenceService {
      * Find a {@link By} locator by its reference name
      * 
      * @param elementReference
-     * @return
+     * @return {@link By}
      */
     public By getElementLocatorForElementReference(String elementReference) {
         By elementLocator = elementReferenceToElementLocatorMap.get(elementReference);
@@ -192,7 +192,7 @@ public class SenBotReferenceService {
      * 
      * @param elementReference The name under which the refference is found 
      * @param apendix The part of the xpath that shall be added
-     * @return
+     * @return {@link By}
      */
     public By getElementLocatorForElementReference(String elementReference, String apendix) {
         By elementLocator = elementReferenceToElementLocatorMap.get(elementReference);
@@ -221,7 +221,6 @@ public class SenBotReferenceService {
      * 
      * @param plainString The string that contains the name spacing string
      * @return The namespacenized string
-     * @throws  
      * @throws RuntimeExpression In case the name spacing string lives at the wrong location
      */
     public String namespaceString(String plainString) throws RuntimeException {

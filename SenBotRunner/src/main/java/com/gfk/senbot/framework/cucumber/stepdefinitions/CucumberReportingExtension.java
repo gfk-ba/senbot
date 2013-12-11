@@ -46,9 +46,10 @@ public class CucumberReportingExtension extends BaseServiceHub {
     		boolean scenarioUsedSelenium = testNev.isWebDriverAccessedSince(scenarioGlobals.getScenarioStart());
     		if (scenarioUsedSelenium) {
     			if (scenario.isFailed()) {
-    				
     				log.debug("Scenarion failed while using selenium, so capture screenshot");
-    				scenario.embed((((TakesScreenshot) SenBotContext.getSeleniumDriver()).getScreenshotAs(OutputType.BYTES)), "image/png");
+    				TakesScreenshot seleniumDriver = (TakesScreenshot) SenBotContext.getSeleniumDriver();
+					byte[] screenshotAs = seleniumDriver.getScreenshotAs(OutputType.BYTES);
+					scenario.embed(screenshotAs, "image/png");
     			}
     		}
     	}

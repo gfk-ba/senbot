@@ -104,7 +104,7 @@ public class ScenarioGlobals {
     }
 
     /**
-     * @param The {@link TestEnvironment} this {@link Scenario} is running in
+     * @param testEnvironment The {@link TestEnvironment} this {@link Scenario} is running in
      */
     public void setTestEnvironment(TestEnvironment testEnvironment) {
         this.testEnvironment = testEnvironment;

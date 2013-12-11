@@ -31,6 +31,7 @@
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
 		<info.cukes.version>1.1.2</info.cukes.version>
 		<selenium.version>2.33.0</selenium.version>
+		<surefire.version>2.16</surefire.version>
 	</properties>
 
 	<developers>
@@ -224,6 +225,12 @@
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.4</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>net.masterthought</groupId>
+				<artifactId>cucumber-reporting</artifactId>
+				<version>0.0.21</version>
 			</dependency>
 
 		</dependencies>
