@@ -2,21 +2,31 @@ package com.gfk.senbot.framework.data;
 
 import static org.junit.Assert.fail;
 
+import java.beans.PropertyDescriptor;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.By.ById;
 import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.gfk.senbot.framework.context.CucumberManager;
-import com.gfk.senbot.framework.context.SeleniumManager;
 import com.gfk.senbot.framework.context.SenBotContext;
+import com.gfk.senbot.framework.context.SpringPropertiesExposer;
 
 /**
  * A class to define global variables and reference them by a logical human readable way. 
@@ -50,18 +60,16 @@ public class SenBotReferenceService {
     public static final String              NAME_SPACE_PREFIX                   = "NS:";
 
     public static final String              SCENARIO_NAME_SPACE_PREFIX          = "SNS:";
-
+    
     /**
      * Map to store generic reference objects by their respective class and name
      */
     private Map<Class, Map<String, Object>> referenceMaps                       = new HashMap<Class, Map<String, Object>>();
-    private Map<String, GenericUser>        userReferenceToUsersMap             = new CaseinsensitiveMap<GenericUser>();
     private Map<String, String>             pageReferenceToPageUrlMap           = new CaseinsensitiveMap<String>();
     /**
      * Allows for referencing a page or view instantatable by the {@link PageFactory}
      */
     private Map<String, Class>              pageRepresentationMap               = new CaseinsensitiveMap<Class>();
-    private Map<String, By>                 elementReferenceToElementLocatorMap = new CaseinsensitiveMap<By>();
     private ThreadLocal<String>             nameSpaceThreadLocale               = new ThreadLocal<String>() {
                                                                                     @Override
                                                                                     protected String initialValue() {
@@ -83,16 +91,19 @@ public class SenBotReferenceService {
      * @throws InstantiationException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
+     * @throws IOException 
      */
     public SenBotReferenceService(String populatorClassName,
     		CucumberManager cucumberManager) throws ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException,
-            IllegalAccessException, InvocationTargetException {
+            IllegalAccessException, InvocationTargetException, IOException {
         this.cucumberManager = cucumberManager;
-		if (!StringUtils.isBlank(populatorClassName)) {
+        
+        if (!StringUtils.isBlank(populatorClassName)) {
             Constructor<?> constructor = Class.forName(populatorClassName).getConstructor();
             ReferenceServicePopulator populator = (ReferenceServicePopulator) constructor.newInstance();
             populator.populate(this);
         }
+		
 
     }
 
@@ -101,9 +112,15 @@ public class SenBotReferenceService {
      * 
      * @param refName
      * @param user
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
      */
     public void addUser(String refName, GenericUser user) {
-        userReferenceToUsersMap.put(refName, user);
+    	addReference(GenericUser.class, refName, user);
+    }
+    
+    <T> void addConfigurableReferenceObject(String refName, T object) {
+    	Map<String, T> objectReferenceMap = getObjectReferenceMap((Class<T>)object.getClass());
     }
 
     /**
@@ -126,7 +143,52 @@ public class SenBotReferenceService {
      * is a bad idea as it becomes congested within no time and the element context is completely lost
      */
     public void addLocatorReference(String locatorReference, By locator) {
-        elementReferenceToElementLocatorMap.put(locatorReference, locator);
+    	Map<String, By> objectReferenceMap = getObjectReferenceMap(By.class);
+    	objectReferenceMap.put(locatorReference, locator);
+    }
+    
+    /**
+     * Find a {@link By} locator by its reference name
+     * 
+     * @param elementReference
+     * @return {@link By}
+     */
+    public By getElementLocatorForElementReference(String elementReference) {
+    	Map<String, By> objectReferenceMap = getObjectReferenceMap(By.class);
+    	
+        By elementLocator = objectReferenceMap.get(elementReference);
+        if (elementLocator == null) {
+            fail("No elementLocator is found for element name: '" + elementReference + "'. Available element references are: " + objectReferenceMap.keySet().toString());
+        }
+        return elementLocator;
+    }
+
+    /**
+     * Find a {@link By} locator by its reference name and add something to the xpath before the element gets returned
+     * The drawback of using this method is, that all locators are converted into By.xpath
+     * 
+     * @param elementReference The name under which the refference is found 
+     * @param apendix The part of the xpath that shall be added
+     * @return {@link By}
+     */
+    public By getElementLocatorForElementReference(String elementReference, String apendix) {
+    	Map<String, By> objectReferenceMap = getObjectReferenceMap(By.class);
+    	
+        By elementLocator = objectReferenceMap.get(elementReference);
+        if (elementLocator instanceof ById) {
+            String xpathExpression = elementLocator.toString().replaceAll("By.id: ", "//*[@id='") + "']" + apendix;
+            elementLocator = By.xpath(xpathExpression);
+        } else if (elementLocator instanceof ByXPath) {
+            String xpathExpression = elementLocator.toString().replaceAll("By.xpath: ", "") + apendix;
+            elementLocator = By.xpath(xpathExpression);
+        } else {
+            fail("ElementLocator conversion error");
+        }
+
+        if (elementLocator == null) {
+            fail("No elementLocator is found for element name: '" + elementReference + "'. Available element references are: " + objectReferenceMap.keySet().toString());
+        }
+        return elementLocator;
     }
     
     public void addPageRepresentationReference(String name, Class clazz) {
@@ -139,12 +201,12 @@ public class SenBotReferenceService {
      * @param userType
      * @return {@link GenericUser}
      */
-    public GenericUser getUserForUserReference(String userType) {
-        GenericUser driveUser = userReferenceToUsersMap.get(userType);
-        if (driveUser == null) {
-            fail("No user of type '" + userType + "' is found. Available user references are: " + userReferenceToUsersMap.keySet().toString());
+    public GenericUser getUserForUserReference(String userReference) {
+    	GenericUser user = getReference(GenericUser.class, userReference);
+        if (user == null) {
+            fail("No user of type '" + userReference + "' is found. Available user references are: " + getObjectReferenceMap(GenericUser.class).keySet().toString());
         }
-        return driveUser;
+        return user;
     }
 
     /**
@@ -172,45 +234,7 @@ public class SenBotReferenceService {
     	return SenBotContext.getSenBotContext().getSeleniumManager().getViewRepresentation(referenceClassType);
     }
 
-    /**
-     * Find a {@link By} locator by its reference name
-     * 
-     * @param elementReference
-     * @return {@link By}
-     */
-    public By getElementLocatorForElementReference(String elementReference) {
-        By elementLocator = elementReferenceToElementLocatorMap.get(elementReference);
-        if (elementLocator == null) {
-            fail("No elementLocator is found for element name: '" + elementReference + "'. Available element references are: " + elementReferenceToElementLocatorMap.keySet().toString());
-        }
-        return elementLocator;
-    }
-
-    /**
-     * Find a {@link By} locator by its reference name and add something to the xpath before the element gets returned
-     * The drawback of using this method is, that all locators are converted into By.xpath
-     * 
-     * @param elementReference The name under which the refference is found 
-     * @param apendix The part of the xpath that shall be added
-     * @return {@link By}
-     */
-    public By getElementLocatorForElementReference(String elementReference, String apendix) {
-        By elementLocator = elementReferenceToElementLocatorMap.get(elementReference);
-        if (elementLocator instanceof ById) {
-            String xpathExpression = elementLocator.toString().replaceAll("By.id: ", "//*[@id='") + "']" + apendix;
-            elementLocator = By.xpath(xpathExpression);
-        } else if (elementLocator instanceof ByXPath) {
-            String xpathExpression = elementLocator.toString().replaceAll("By.xpath: ", "") + apendix;
-            elementLocator = By.xpath(xpathExpression);
-        } else {
-            fail("ElementLocator conversion error");
-        }
-
-        if (elementLocator == null) {
-            fail("No elementLocator is found for element name: '" + elementReference + "'. Available element references are: " + elementReferenceToElementLocatorMap.keySet().toString());
-        }
-        return elementLocator;
-    }
+    
 
     /**
      * Extends the name space prefix with the actual name space
@@ -238,15 +262,35 @@ public class SenBotReferenceService {
     	}
     }
 
-    public <T> void addReference(Class<T> referenceClass, String name, Object referenceObject) {
+    public <T> void addReference(Class<T> referenceClass, String referenceName, T referenceObject) {
         Map<String, T> refMap = getObjectReferenceMap(referenceClass);
-        refMap.put(name, (T)referenceObject);
+        
+        PropertyDescriptor[] propertyDescriptors = BeanUtils.getPropertyDescriptors(referenceObject.getClass());
+        for(PropertyDescriptor descriptor : propertyDescriptors) {
+        	//ignore all property types that are not strings for now
+        	if(String.class.equals(descriptor.getPropertyType())) {        		
+        		String findProp = referenceClass.getSimpleName() + "." + referenceName + "." + descriptor.getName();
+        		
+        		String foundValue = SpringPropertiesExposer.getProperty(findProp);
+        		
+    			if(foundValue != null) {
+    				try {
+						org.apache.commons.beanutils.BeanUtils.setProperty(referenceObject, descriptor.getName(), foundValue);
+					} catch (Exception e) {
+						throw new RuntimeException("Exception while setting " + descriptor.getName() + " on " + referenceObject, e);
+					}
+    			}
+        	}
+        	
+        }
+        
+        refMap.put(referenceName, referenceObject);
     }
 
     public <T> Map<String, T> getObjectReferenceMap(Class<T> referenceClass) {
         Map<String, T> refMap = (Map<String, T>) referenceMaps.get(referenceClass);
         if (refMap == null) {
-            refMap = new HashMap<String, T>();
+            refMap = new CaseinsensitiveMap<T>();
             referenceMaps.put(referenceClass, (Map<String, Object>) refMap);
         }
         return refMap;
@@ -255,5 +299,6 @@ public class SenBotReferenceService {
     public <T> T getReference(Class<T> referenceClass, String referenceName) {
         return getObjectReferenceMap(referenceClass).get(referenceName);
     }
+
 
 }

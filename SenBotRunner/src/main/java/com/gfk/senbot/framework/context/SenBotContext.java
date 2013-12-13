@@ -73,7 +73,7 @@ public class SenBotContext {
             throw new IllegalArgumentException("The target folder for the test results cannot be blank. Refer to senbot-runner.properties");
         } else {
             // make sure the output folder exists if it does not already
-            this.testResultsFolder = getOrCreateDir(testResultsFolder, true);
+            this.testResultsFolder = getOrCreateFile(testResultsFolder, true);
         }
         
         if (StringUtils.isBlank(alternateRuntimeResources)) {
@@ -194,8 +194,8 @@ public class SenBotContext {
      * Get a File on the class path or file system or create it if it does not
      * exist
      */
-    public static File getOrCreateDir(String url, boolean createIfNotFound) throws IOException {
-        File folder = null;
+    public static File getOrCreateFile(String url, boolean createIfNotFound) throws IOException {
+        File file = null;
         if (url.contains(ResourceUtils.CLASSPATH_URL_PREFIX)) {
             url = url.replaceAll(ResourceUtils.CLASSPATH_URL_PREFIX, "");
             if (url.startsWith("/")) {
@@ -205,15 +205,15 @@ public class SenBotContext {
             if (resource == null) {
                 throw new IOException("creating a new folder on the classpath is not allowed");
             } else {
-                folder = new File(resource.getFile() + "/" + url);
+                file = new File(resource.getFile() + "/" + url);
             }
         } else {
-            folder = new File(url);
+            file = new File(url);
         }
-        if (createIfNotFound && !folder.exists()) {
-            folder.mkdirs();
+        if (createIfNotFound && !file.exists()) {
+            file.mkdirs();
         }
-        return folder;
+        return file;
     }
 
     /**
