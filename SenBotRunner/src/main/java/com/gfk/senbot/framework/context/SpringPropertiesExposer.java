@@ -1,5 +1,7 @@
 package com.gfk.senbot.framework.context;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -16,20 +18,20 @@ public class SpringPropertiesExposer extends PropertySourcesPlaceholderConfigure
     	super();
     }
     
-    
     @Override
-    protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties props) throws BeansException {
-        super.processProperties(beanFactory, props);
-        
-        for (Object key : props.keySet()) {
-            String keyStr = key.toString();
-            String valueStr = props.getProperty(keyStr);
-            propertiesMap.put(keyStr, valueStr);
-        }
+    protected void loadProperties(Properties props) throws IOException {
+    	super.loadProperties(props);    	
+    	for (Object key : props.keySet()) {
+    		String keyStr = key.toString();
+    		String valueStr = props.getProperty(keyStr);
+    		propertiesMap.put(keyStr, valueStr);
+    	}
     }
+    
+    
 
     public static String getProperty(String name) {
-        return propertiesMap.get(name).toString();
+        return propertiesMap.get(name);
     }
 
 }

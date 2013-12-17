@@ -3,18 +3,12 @@ package com.gfk.senbot.framework.data;
 import static org.junit.Assert.fail;
 
 import java.beans.PropertyDescriptor;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
@@ -22,7 +16,6 @@ import org.openqa.selenium.By.ById;
 import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.gfk.senbot.framework.context.CucumberManager;
 import com.gfk.senbot.framework.context.SenBotContext;
