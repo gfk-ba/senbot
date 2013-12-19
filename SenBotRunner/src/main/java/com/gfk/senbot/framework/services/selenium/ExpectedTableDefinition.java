@@ -75,7 +75,7 @@ public class ExpectedTableDefinition {
     }
 
     /**
-     * @param Exclude all HTML rows that match this list of selenium {@link By}'s
+     * @param ignoreRowsMatching Exclude all HTML rows that match this list of selenium {@link By}'s
      */
     public void setIgnoreRowsMatching(List<By> ignoreRowsMatching) {
         this.ignoreRowsMatching = ignoreRowsMatching;

@@ -6,18 +6,24 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
   
-    
-    <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">  
+  
+    <bean id="propertyConfigurer" class="com.gfk.senbot.framework.context.SpringPropertiesExposer">  
     	<property name="ignoreResourceNotFound" value="true" />
-        <property name="locations">
-	    	<list>  
+        <property name="locations" ref="propertyLocations"/>
+    </bean> 
+    
+    <bean id="propertyLocations" class="java.util.ArrayList">
+	    <constructor-arg>
+	        <list>  
 	           	<!-- The default values for the SenBot properties can be found in the senbot-runner-default.properties file on the classpath -->
 	            <value>classpath:senbot-runner-default.properties</value>
 	           	<!-- They can be overwritten by senbot-runner.properties file on the classpath -->
 	            <value>classpath:senbot-runner.properties</value>
-	    	</list>
-        </property>  
-    </bean> 
+	            <value>file:///${user.home}/senbot.properties</value>
+	            <value>file://${senbot.properties}</value>
+    		</list>
+	    </constructor-arg>
+	</bean>
 
     
     <bean id="com.gfk.senbot.framework.context.SenBotContext" class="com.gfk.senbot.framework.context.SenBotContext" lazy-init="false">
@@ -31,6 +37,7 @@
     <bean id="com.gfk.senbot.framework.context.CucumberManager" class="com.gfk.senbot.framework.context.CucumberManager">
     	<constructor-arg value="${senBotContext.cucumberManager.scenarioCreationHook}" index="0"/>
     	<constructor-arg value="${senBotContext.cucumberManager.defaultCucumberOptions}" index="1"/>
+    	<constructor-arg value="#{openCucumberReportPropertyEvaluator.booleanProperty}" index="2"/>
     </bean>
 
     <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">
@@ -56,6 +63,11 @@
 		        <value>omain</value>
 		    </array>
 		</constructor-arg>
+    </bean>
+
+    <bean id="openCucumberReportPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.cucumberManager.openResultingReportAfterCompletion}" index="0"/>
+    	<constructor-arg value="openReport" index="1"/>
     </bean>
 
     <bean id="hubIpEnvironmentPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">

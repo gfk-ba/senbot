@@ -76,7 +76,7 @@ public class APIAccessService extends BaseServiceHub{
 	/**
 	 * When the api is accessed though the browser selenium is used, though straight HTTP calls we can choose to POST or GET the api
 	 * 
-	 * @return the api access mode being either {@link DriveCoreAPIUtil#HTTP_API_ACCESS_MODE} (default) or {@link DriveCoreAPIUtil#BROWSER_API_ACCESS_MODE}
+	 * @return the api access mode being either {@link APIAccessService#HTTP_API_ACCESS_MODE} (default) or {@link APIAccessService#BROWSER_API_ACCESS_MODE}
 	 */
 	public String getAPIAccessMode() {
 		String apiAccessMode = (String) getScenarioGlobals().getAttribute(API_ACCESS_MODE_KEY);
@@ -138,7 +138,7 @@ public class APIAccessService extends BaseServiceHub{
 	 * @param request
 	 * @param requestType
 	 * @param requestHedaers
-	 * @return
+	 * @return {@link JSONObject}
 	 * @throws CertificateException
 	 * @throws IOException
 	 * @throws JSONException
@@ -215,7 +215,6 @@ public class APIAccessService extends BaseServiceHub{
 	 * 
 	 * @param request
 	 * @param requestType POST or GET
-	 * @param requestHedaers2 
 	 * @return the {@link JSONObject} representation of the http response
 	 * @throws CertificateException
 	 * @throws IOException

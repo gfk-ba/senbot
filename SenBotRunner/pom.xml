@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>SenBotRunner</artifactId>
@@ -52,6 +51,19 @@
 			<artifactId>selenium-java</artifactId>
 			<scope>compile</scope>
 		</dependency>
+
+		
+		<!-- <dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<scope>compile</scope>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.github.detro.ghostdriver</groupId>
@@ -128,6 +140,18 @@
 			<artifactId>commons-lang</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<!-- another maven test excecution option can be found at: https://groups.google.com/d/msg/cukes/1DSrCLkhXZo/h_NQazBhcfcJ -->
@@ -167,6 +191,9 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<quiet>true</quiet>
+				</configuration>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -191,33 +218,26 @@
 				</executions>
 			</plugin>
 
-			<!-- Disabled parrallel execution due to not reporting of errors. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>integration-test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-					<excludes><!-- Don't run the focus runner during the build -->
-						<exclude>**/CucumberFocusTest.java</exclude>
-					</excludes>
-
-					<useFile>false</useFile>
-					<forkCount>10</forkCount>
-					<reuseForks>false</reuseForks>
-				</configuration>
-			</plugin>
+			<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
+				<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
+				<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
+				</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
+				</includes> <useFile>false</useFile> <forkCount>10</forkCount> <reuseForks>false</reuseForks> 
+				</configuration> </plugin> -->
 		</plugins>
 	</build>
+
+	<!-- <profiles> <profile> run the tests multithreaded by using the arallel 
+		profile like: mvn clean install -Parallel <id>arallel</id> <build> <plugins> 
+		<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
+		<version>${surefire.version}</version> skip the test phase as all tests will 
+		be run in the integration-test phase <configuration> <skipTests>true</skipTests> 
+		</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+		<artifactId>maven-failsafe-plugin</artifactId> <version>${surefire.version}</version> 
+		<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
+		</goals> </execution> </executions> <configuration> <includes> <include>com/gfk/senbot/framework/cucumber/tests/*Test.java</include> 
+		</includes> <parallel>classes</parallel> <forkMode>perthread</forkMode> <threadCount>1</threadCount> 
+		</configuration> </plugin> </plugins> </build> </profile> </profiles> -->
 
 	<!-- Disabled parrallel execution due to not reporting of errors. <reporting> 
 		<plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-report-plugin</artifactId> 

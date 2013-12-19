@@ -1,10 +1,13 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;

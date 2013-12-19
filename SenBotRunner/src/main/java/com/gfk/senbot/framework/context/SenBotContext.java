@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -48,6 +44,8 @@ public class SenBotContext {
 	public static final String SENBOT_CONTEXT_ALTERNATE_RUNTIME_RESOURCES_PROPERTY_NAME = "senbotContext.alternateRuntimeResources";
     public static final String RESOURCE_LOCATION_PREFIX = "resource_location:";
 
+	private static Thread reportingCreationHook;
+
     /**
      * Constructor
      * 
@@ -59,7 +57,11 @@ public class SenBotContext {
      * @throws IOException       
      * @throws URISyntaxException 
      */
-    public SenBotContext(String testResultsFolder, CucumberManager cucumberManager, SeleniumManager seleniumManager, SenBotReferenceService referenceService, String alternateRuntimeResources)
+    public SenBotContext(String testResultsFolder, 
+    		CucumberManager cucumberManager, 
+    		SeleniumManager seleniumManager, 
+    		SenBotReferenceService referenceService, 
+    		String alternateRuntimeResources)
             throws IOException, URISyntaxException {
         super();
         
@@ -71,7 +73,7 @@ public class SenBotContext {
             throw new IllegalArgumentException("The target folder for the test results cannot be blank. Refer to senbot-runner.properties");
         } else {
             // make sure the output folder exists if it does not already
-            this.testResultsFolder = getOrCreateDir(testResultsFolder, true);
+            this.testResultsFolder = getOrCreateFile(testResultsFolder, true);
         }
         
         if (StringUtils.isBlank(alternateRuntimeResources)) {
@@ -87,6 +89,14 @@ public class SenBotContext {
         		", seleniumManager: " + seleniumManager + 
         		", referenceService: " + referenceService+ 
         		", alternateRuntimeResources: " + alternateRuntimeResources);
+        
+        
+        if(reportingCreationHook == null) {        	
+        	//register a shutdownhook that generates the cucumber reports once all have finished
+        	final String testFolder = getTestResultsFolder().getAbsolutePath();
+        	reportingCreationHook = cucumberManager.getReportingShutdownHook(testFolder);
+        	Runtime.getRuntime().addShutdownHook(reportingCreationHook);
+        }
     }
 
     /**
@@ -116,7 +126,7 @@ public class SenBotContext {
     /**
      * Gets the bean class
      * @param clazz
-     * @return
+     * @return {@link Object} Spring service mapped to the passed in class 
      */
     public static <T> T getBean(Class<T> clazz) {
         return getSenBotContext().context.getBean(clazz);
@@ -124,8 +134,10 @@ public class SenBotContext {
 
     /**
      * Gets the bean class
-     * @param clazz
-     * @return
+     * @param name
+     * @param requiredType
+     * 
+     * @return {@link Object} Spring service mapped to the passed in Spring id
      */
     public static <T> T getBean(String name, Class<T> requiredType) {
     	return getSenBotContext().context.getBean(name, requiredType);
@@ -182,8 +194,8 @@ public class SenBotContext {
      * Get a File on the class path or file system or create it if it does not
      * exist
      */
-    public static File getOrCreateDir(String url, boolean createIfNotFound) throws IOException {
-        File folder = null;
+    public static File getOrCreateFile(String url, boolean createIfNotFound) throws IOException {
+        File file = null;
         if (url.contains(ResourceUtils.CLASSPATH_URL_PREFIX)) {
             url = url.replaceAll(ResourceUtils.CLASSPATH_URL_PREFIX, "");
             if (url.startsWith("/")) {
@@ -193,15 +205,15 @@ public class SenBotContext {
             if (resource == null) {
                 throw new IOException("creating a new folder on the classpath is not allowed");
             } else {
-                folder = new File(resource.getFile() + "/" + url);
+                file = new File(resource.getFile() + "/" + url);
             }
         } else {
-            folder = new File(url);
+            file = new File(url);
         }
-        if (createIfNotFound && !folder.exists()) {
-            folder.mkdirs();
+        if (createIfNotFound && !file.exists()) {
+            file.mkdirs();
         }
-        return folder;
+        return file;
     }
 
     /**

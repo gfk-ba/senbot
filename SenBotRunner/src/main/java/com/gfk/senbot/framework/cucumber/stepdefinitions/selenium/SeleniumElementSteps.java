@@ -46,7 +46,7 @@ public class SeleniumElementSteps extends BaseServiceHub {
 	
 
 	/**
-	 * @param element - the id of the element to check
+	 * @param elementLocator - the id of the element to check
 	 * @param visibility - "visible" or "invisible"
 	 */
 	@Then("^the element \"(.*)\" is \"(.*)\"$")

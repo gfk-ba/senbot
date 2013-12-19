@@ -1,9 +1,13 @@
 package com.gfk.senbot.framework.data;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
 
@@ -77,7 +81,7 @@ public class SenBotReferenceServiceTest {
     }
 
     @Test
-    public void testAddReference() {
+    public void testAddReference() throws IllegalAccessException, InvocationTargetException {
         SenBotReferenceService referenceService = SenBotContext.getSenBotContext().getReferenceService();
         MockRefObject expected = new MockRefObject();
         referenceService.addReference(MockRefObject.class, "mock_ref", expected);
@@ -86,15 +90,33 @@ public class SenBotReferenceServiceTest {
 
         assertEquals(expected, found);
     }
+    
+    
 
     @Test
-    public void testGetElementLocatorForElementReference() throws Exception {
+    public void testGetElementLocatorForElementReference_withApendix() throws Exception {
         SenBotReferenceService referenceService = SenBotContext.getSenBotContext().getReferenceService();
         String result = referenceService.getElementLocatorForElementReference("Ref by ID", "//apendix").toString();
         assertEquals("By.xpath: //*[@id='idRef']//apendix", result);
 
         result = referenceService.getElementLocatorForElementReference("Ref by XPath", "//apendix").toString();
         assertEquals("By.xpath: //*XPathRef//apendix", result);
+    }
+    
+    @Test
+    public void testAddReference_propertiesConfigures() throws IOException, IllegalAccessException, InvocationTargetException {
+    	SenBotReferenceService referenceService = SenBotContext.getSenBotContext().getReferenceService();
+        MockRefObject created = new MockRefObject();
+        created.setName("name1");
+        created.setType("a type");
+        
+        referenceService.addReference(MockRefObject.class, "mock_ref", created);
+        
+        MockRefObject found = referenceService.getReference(MockRefObject.class, "mock_ref");
+        
+        assertNotSame("The name should have been overwritten buy the contributed properties file", "name1", found.getName());
+        assertEquals("The name should be changed to that in the contributed properties file", "The new name", found.getName());
+        assertEquals("The type should stay the same", "a type", found.getType());
     }
 
 }
