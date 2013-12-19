@@ -19,6 +19,7 @@
 	            <value>classpath:senbot-runner-default.properties</value>
 	           	<!-- They can be overwritten by senbot-runner.properties file on the classpath -->
 	            <value>classpath:senbot-runner.properties</value>
+	            <value>classpath:senbot-dev.properties</value>
 	            <value>file:///${user.home}/senbot.properties</value>
 	            <value>file://${senbot.properties}</value>
     		</list>

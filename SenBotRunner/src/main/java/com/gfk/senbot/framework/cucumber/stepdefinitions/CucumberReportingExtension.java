@@ -42,7 +42,7 @@ public class CucumberReportingExtension extends BaseServiceHub {
         log.debug("Scenarion finished");
         ScenarioGlobals scenarioGlobals = getCucumberManager().getCurrentScenarioGlobals();
     	TestEnvironment testNev = getSeleniumManager().getAssociatedTestEnvironment();
-    	if (testNev != null) {
+    	if (testNev != null && scenarioGlobals != null) {
     		boolean scenarioUsedSelenium = testNev.isWebDriverAccessedSince(scenarioGlobals.getScenarioStart());
     		if (scenarioUsedSelenium) {
     			if (scenario.isFailed()) {
