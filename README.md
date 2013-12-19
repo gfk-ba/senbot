@@ -43,9 +43,10 @@ Runtime configuration
 You can configure by means of properties files and runtime variables. The properties files can be contributed as part of your project but can also be configured outside of the project on your local system to 
 allow for flexible development setups.
 
-* Provide a properties file directly on the on the classpath root starting with ```senbot-```. So using the format ```senbot-*.properties```. An example being ```senbot-my-app.properties```
+* Provide a properties file directly on the on the classpath named ```senbot-runner.properties```.
 * Add a properties file in your user root folder by the name senbot.properties. So ```~/senbot.properties```.
 * Run you commands with a runtime variable ```-Dsenbot.properties``` pointing to your properties file. eg.  ```mvn clean install -Dsenbot.properties=/Users/me/Desktop/my-overwrite.properties```
+* Last, you can provide a ```senbot-dev.properties``` file directly on your classpath which would generally be excluded form your version control to allow every dev to manage their different senbot projects with a user specific configuration.
 
 It is also possible to overwrite reference data values by providing property values in your properties file. So let's say you have used an implementation of [ReferenceServicePopulator](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/ReferenceServicePopulator.java)
 to register a [GenericUser](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/GenericUser.java) to the [SenBotReferenceService](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/SenBotReferenceService.java).addUser("loginUser1", new GenericUser(...values...)) method.
