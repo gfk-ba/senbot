@@ -29,7 +29,7 @@
 	<properties>
 		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
 		<info.cukes.version>1.1.2</info.cukes.version>
-		<selenium.version>2.33.0</selenium.version>
+		<selenium.version>2.39.0</selenium.version>
 		<surefire.version>2.16</surefire.version>
 	</properties>
 
@@ -108,7 +108,7 @@
 			<dependency>
 				<groupId>com.github.detro.ghostdriver</groupId>
 				<artifactId>phantomjsdriver</artifactId>
-				<version>1.0.4</version>
+				<version>1.1.0</version>
 			</dependency>
 
 			<dependency>

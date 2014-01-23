@@ -8,12 +8,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import org.apache.commons.lang.LocaleUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.arquillian.phantom.resolver.ResolvingPhantomJSDriverService;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnexpectedAlertBehaviour;
@@ -24,8 +22,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.Augmenter;
@@ -463,9 +459,7 @@ public class TestEnvironment {
             		//service_log_path='/var/log/phantomjs/ghostdriver.log
             		DesiredCapabilities phantomJsCapabilities = DesiredCapabilities.phantomjs();
             		phantomJsCapabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "target/logs/phantomjs.log"); 
-            		driver = new PhantomJSDriver(
-            				ResolvingPhantomJSDriverService.createDefaultService(), // service resolving phantomjs binary automatically
-            				phantomJsCapabilities);
+            		driver = new PhantomJSDriver(phantomJsCapabilities);
             	}
             	catch (Exception e){
             		throw new RuntimeException(e);

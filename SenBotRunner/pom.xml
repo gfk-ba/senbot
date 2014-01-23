@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -52,18 +53,10 @@
 			<scope>compile</scope>
 		</dependency>
 
-		
-		<!-- <dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-driver</artifactId>
-			<scope>compile</scope>
-		</dependency>
 
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-			<scope>compile</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.seleniumhq.selenium</groupId> <artifactId>selenium-remote-driver</artifactId> 
+			<scope>compile</scope> </dependency> <dependency> <groupId>org.seleniumhq.selenium</groupId> 
+			<artifactId>selenium-server</artifactId> <scope>compile</scope> </dependency> -->
 
 		<dependency>
 			<groupId>com.github.detro.ghostdriver</groupId>
@@ -227,17 +220,48 @@
 		</plugins>
 	</build>
 
-	<!-- <profiles> <profile> run the tests multithreaded by using the arallel 
-		profile like: mvn clean install -Parallel <id>arallel</id> <build> <plugins> 
-		<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
-		<version>${surefire.version}</version> skip the test phase as all tests will 
-		be run in the integration-test phase <configuration> <skipTests>true</skipTests> 
-		</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-		<artifactId>maven-failsafe-plugin</artifactId> <version>${surefire.version}</version> 
-		<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
-		</goals> </execution> </executions> <configuration> <includes> <include>com/gfk/senbot/framework/cucumber/tests/*Test.java</include> 
-		</includes> <parallel>classes</parallel> <forkMode>perthread</forkMode> <threadCount>1</threadCount> 
-		</configuration> </plugin> </plugins> </build> </profile> </profiles> -->
+	<profiles>
+		<profile>
+			<!-- run the tests multithreaded by using the arallel
+			profile like: mvn clean install -Parallel -->
+			<id>arallel</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${surefire.version}</version>
+						<!-- skip the test phase as all tests will
+						be run in the integration-test phase -->
+						<configuration>
+							<skipTests>true</skipTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${surefire.version}</version>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<includes>
+								<include>com/gfk/senbot/framework/cucumber/tests/*Test.java</include>
+							</includes>
+							<parallel>classes</parallel>
+							<forkMode>perthread</forkMode>
+							<threadCount>1</threadCount>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<!-- Disabled parrallel execution due to not reporting of errors. <reporting> 
 		<plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-report-plugin</artifactId> 
