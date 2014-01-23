@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 
 import com.gfk.senbot.framework.context.MockExampleTablePage;
 import com.gfk.senbot.framework.context.SenBotContext;
+import com.gfk.senbot.framework.cucumber.stepdefinitions.selenium.views.TablePage;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.selenium.views.TestPage1;
 
 public class MockReferenceDatePopulator implements ReferenceServicePopulator {
@@ -20,6 +21,7 @@ public class MockReferenceDatePopulator implements ReferenceServicePopulator {
         referenceService.addPageReference("Table page", TABLE_TEST_PAGE_URL);
         
         referenceService.addPageRepresentationReference("Test page1", TestPage1.class);
+        referenceService.addPageRepresentationReference("Table page1", TablePage.class);
         
         referenceService.addLocatorReference("Table locator", By.xpath("//table"));
         referenceService.addLocatorReference("Ref by ID", By.id("idRef"));

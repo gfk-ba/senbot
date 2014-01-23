@@ -39,7 +39,25 @@ public class SeleniumTableSteps extends BaseServiceHub {
 		ExpectedTableDefinition expected = new ExpectedTableDefinition(expectedContent);
 		seleniumTableService.compareTable(expected, table);
 	}
+
+	@Then("^the \"(.*)\" table on view \"(.*)\" should match$")
+	public void the_table_x_should_match(String tableName, String view, DataTable expectedContent) throws Throwable {
+		WebElement table = seleniumElementService.getElementFromReferencedView(view, tableName);
+		
+		ExpectedTableDefinition expected = new ExpectedTableDefinition(expectedContent);
+		seleniumTableService.compareTable(expected, table);
+	}
 	
+
+	@Then("^the \"(.*)\" table on view \"(.*)\" should contain the columns$")
+	public void the_table_x_should_contain_columns(String tableElement, String viewName, DataTable expectedContent) throws Throwable {
+		WebElement table = seleniumElementService.getElementFromReferencedView(viewName, tableElement);
+		
+		ExpectedTableDefinition expected = new ExpectedTableDefinition(expectedContent);
+		expected.setMatchOnlyPassedInColumns(true);
+		
+		seleniumTableService.compareTable(expected, table);
+	}
 
 	@Then("^the table \"(.*)\" should contain the columns$")
 	public void the_table_x_should_contain_columns(String tableDescriptor, DataTable expectedContent) throws Throwable {
