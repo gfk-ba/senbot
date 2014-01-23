@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -149,74 +150,127 @@
 	<!-- another maven test excecution option can be found at: https://groups.google.com/d/msg/cukes/1DSrCLkhXZo/h_NQazBhcfcJ -->
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
+		<pluginManagement>
 
-			<plugin>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<quiet>true</quiet>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<!-- explicitly define maven-deploy-plugin after other to force exec 
-					order -->
-				<artifactId>maven-deploy-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+					</configuration>
+				</plugin>
 
-			<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
-				<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
-				<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
-				</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
-				</includes> <useFile>false</useFile> <forkCount>10</forkCount> <reuseForks>false</reuseForks> 
-				</configuration> </plugin> -->
-		</plugins>
+				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<quiet>true</quiet>
+						<linksource>true</linksource>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-scm-publish-plugin</artifactId>
+				    <version>1.0-beta-2</version>
+				    <configuration>
+				        <checkoutDirectory>${project.build.directory}/scmpublish</checkoutDirectory>
+				        <checkinComment>Publishing javadoc for ${project.artifactId}:${project.version}</checkinComment>
+				        <content>${project.reporting.outputDirectory}/apidocs</content>
+				        <skipDeletedFiles>true</skipDeletedFiles>
+				        <pubScmUrl>${scm.connection}</pubScmUrl>
+				        <scmBranch>gh-pages</scmBranch> <!-- branch with static site -->
+				    </configuration>
+				</plugin>
+				<plugin>
+					<!-- explicitly define maven-deploy-plugin after other to force exec 
+						order -->
+					<artifactId>maven-deploy-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>deploy</id>
+							<phase>deploy</phase>
+							<goals>
+								<goal>deploy</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<configuration>
+						<reportPlugins>
+
+							<plugin>
+								<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-javadoc-plugin</artifactId>
+								<version>2.9.1</version>
+								<configuration>
+									<quiet>true</quiet>
+									<linksource>true</linksource>
+								</configuration>
+								<executions>
+									<execution>
+										<id>attach-javadocs</id>
+										<goals>
+											<goal>jar</goal>
+										</goals>
+									</execution>
+								</executions>
+							</plugin>
+						</reportPlugins>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-descriptor</id>
+							<goals>
+								<goal>attach-descriptor</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
+					<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
+					<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
+					</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
+					</includes> <useFile>false</useFile> <forkCount>10</forkCount> <reuseForks>false</reuseForks> 
+					</configuration> </plugin> -->
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<profiles>

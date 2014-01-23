@@ -11,10 +11,18 @@
 	<version>0.4.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<properties>
+		<scm.connection>scm:git:git@github.com:gfk-ba/senbot.git</scm.connection>
+		<org.springframework.version>3.1.0.RELEASE</org.springframework.version>
+		<info.cukes.version>1.1.2</info.cukes.version>
+		<selenium.version>2.33.0</selenium.version>
+		<surefire.version>2.16</surefire.version>
+	</properties>
+
 	<scm>
-		<connection>scm:git:git@github.com:gfk-ba/senbot.git</connection>
-		<url>scm:git:git@github.com:gfk-ba/senbot.git</url>
-		<developerConnection>scm:git:git@github.com:gfk-ba/senbot.git</developerConnection>
+		<connection>${scm.connection}</connection>
+		<url>${scm.connection}</url>
+		<developerConnection>${scm.connection}</developerConnection>
 	</scm>
 
 	<name>SenBot Parent</name>
@@ -24,6 +32,7 @@
 	<modules>
 		<module>SenBotRunner</module>
 		<module>SenBotDemo</module>
+		<module>SenBotDocumenter</module>
 	</modules>
 
 	<properties>
