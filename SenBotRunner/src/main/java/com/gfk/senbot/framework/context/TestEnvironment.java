@@ -407,7 +407,10 @@ public class TestEnvironment {
             capability.setVersion(browserVersion);
             capability.setPlatform(os);
 
-            driver = new Augmenter().augment(new RemoteWebDriver(seleniumManager.getSeleniumHub(), capability));
+            RemoteWebDriver remoteWebDriver = new RemoteWebDriver(seleniumManager.getSeleniumHub(), capability);
+			driver = new Augmenter().augment(remoteWebDriver);
+           
+            
         } else {
 
             log.debug("Local WebDriver should be created to run on this local machine for environment: " + this.toPrettyString());
