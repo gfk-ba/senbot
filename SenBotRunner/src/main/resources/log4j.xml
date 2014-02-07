@@ -20,7 +20,7 @@
     </appender>
  
     <category name="com.gfk.senbot" additivity="false">
-        <priority value="ERROR"/>
+        <priority value="WARN"/>
         <appender-ref ref="FILE"/>
       <!--   <appender-ref ref="CONSOLE"/> -->
     </category>

@@ -22,7 +22,7 @@ public class CucumberManagerTest {
 
 	@Test
 	public void testStartNewScenario() throws SecurityException, IllegalArgumentException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		CucumberManager manager = new CucumberManager("com.gfk.senbot.framework.context.MockScenarioCreationHook", null, false);
+		CucumberManager manager = new CucumberManager("com.gfk.senbot.framework.context.MockScenarioCreationHook", null, false, 1);
 		assertNull("No globals should be associated with the current thread when not yet started", manager.getCurrentScenarioGlobals());
 		
 		ScenarioGlobals instantiatedScenario = manager.startNewScenario();
@@ -39,7 +39,7 @@ public class CucumberManagerTest {
 
 	@Test
 	public void testStopNewScenario() throws SecurityException, IllegalArgumentException, NoSuchMethodException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		CucumberManager manager = new CucumberManager("com.gfk.senbot.framework.context.MockScenarioCreationHook", null, false);
+		CucumberManager manager = new CucumberManager("com.gfk.senbot.framework.context.MockScenarioCreationHook", null, false, 1);
 		manager.startNewScenario();
 		
 		ScenarioGlobals stopNewScenario = manager.stopNewScenario();

@@ -3,11 +3,11 @@ package com.gfk.senbot.framework.cucumber.tests;
 import org.junit.runner.RunWith;
 
 import com.gfk.senbot.framework.cucumber.CucumberTestBase;
-import com.gfk.senbot.framework.cucumber.ParameterizedCucumber;
 
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
+//@CucumberOptions
 @Cucumber.Options(
 		format={"json", "json:target/test-results/result.json"},
 		monochrome = true,

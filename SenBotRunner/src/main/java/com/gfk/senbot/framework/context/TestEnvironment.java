@@ -175,7 +175,8 @@ public class TestEnvironment {
      * Quits the latest driver
      */
     public void cleanupDriver() {
-        getWebDriver().quit();
+        WebDriver webDriver = getWebDriver();
+        webDriver.quit();
         threadedWebDriver.set(null);
     }
 

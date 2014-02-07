@@ -35,6 +35,11 @@ public class CucumberManager {
 	 */
 	private boolean openResultingReportAfterCompletion;
 
+	/**
+	 * How many threads should be spawned for the different feature files
+	 */
+	private int parallelFeatureThreads;
+
 	private static Thread shutDownHook;
 	
 	/**
@@ -51,10 +56,13 @@ public class CucumberManager {
 	 * @throws InstantiationException 
 	 * @throws IllegalArgumentException 
 	 */
-	public CucumberManager(String scenarioGlobalsCreationHookClass, 
+	public CucumberManager(
+			String scenarioGlobalsCreationHookClass, 
 			String defaultCucumberOptionsString,
-			boolean openResultingReportAfterCompletion) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+			boolean openResultingReportAfterCompletion,
+			int parallelFeatureThreads) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		
+		this.parallelFeatureThreads = parallelFeatureThreads;
 		this.setOpenResultingReportAfterCompletion(openResultingReportAfterCompletion);
 		if(System.getProperty("cucumber.options") == null) {		
 			String overwrite = null;
@@ -158,6 +166,10 @@ public class CucumberManager {
 			};
 		}
 		return shutDownHook;
+	}
+
+	public int getParallelFeatureThreads() {
+		return parallelFeatureThreads;
 	}
 
 }
