@@ -1,11 +1,11 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 import javax.annotation.Resource;
 
+import org.junit.Assert;
+import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.WebElement;
 
 import com.gfk.senbot.framework.BaseServiceHub;

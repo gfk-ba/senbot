@@ -72,3 +72,21 @@ Changing target browser to run your tests against using the -Denv variable as sh
 mvn test -Denv=FF
 ```
 Available options: FF, CH, IE, SF and phantomjs (for a headless browser). It is also possible to run your tests to multiple environments by providing the a variable like -Denv=FF,CH,phantomjs
+
+
+Logging options
+=======
+SenBot uses [slf4j](http://www.slf4j.org/) configured though [log4j](http://logging.apache.org/log4j/) for its logging. This allows you to overwrite how senbot logs it's messages out and in what format in your projects using SenBot.
+The default SenBot logger is configured to log out to PROJECT_ROOT/target/logs/senbot.log as specified in the [log4j.xml](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/resources/log4j.xml) file. If you need to add
+log messages to your own StepDefinitions you can do so by adding a logger like so (example taken from the [SenBotContext](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/context/SenBotContext.java)):
+```
+private static Logger log = LoggerFactory.getLogger(SenBotContext.class);
+```
+In your code you can then log your messages out by calling:
+```
+log.trace("Trace message");
+log.debug("Debug message");
+log.info("Info message");
+log.warn("Warn message");
+log.error("Error message");
+```

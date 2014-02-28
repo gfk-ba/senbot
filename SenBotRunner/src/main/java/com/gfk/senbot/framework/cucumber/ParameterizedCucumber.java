@@ -242,7 +242,7 @@ public class ParameterizedCucumber extends Parameterized {
 		}
 	}
 
-	private final class ThreadAwareFormatter implements Formatter {
+	private final class ThreadAwareFormatter implements Formatter, Reporter {
 		private final FormatterFactory FORMATTER_FACTORY = new FormatterFactory();
 		private final RuntimeOptions runtimeOptions;
 		private final ClassLoader classLoader;
@@ -333,6 +333,66 @@ public class ParameterizedCucumber extends Parameterized {
 		@Override
 		public void uri(String arg0) {
 			getWrapped().uri(arg0);
+		}
+
+		@Override
+		public void after(Match arg0, Result arg1) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.after(arg0, arg1);
+			}
+		}
+		
+		private Reporter getWrappedReporter() {
+			if(Reporter.class.isAssignableFrom(getWrapped().getClass())) {
+				return (Reporter) getWrapped();
+			}
+			return null;
+		}
+
+		@Override
+		public void before(Match arg0, Result arg1) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.before(arg0, arg1);
+			}
+			
+		}
+
+		@Override
+		public void embedding(String arg0, byte[] arg1) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.embedding(arg0, arg1);
+			}
+			
+		}
+
+		@Override
+		public void match(Match arg0) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.match(arg0);
+			}
+			
+		}
+
+		@Override
+		public void result(Result arg0) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.result(arg0);
+			}
+			
+		}
+
+		@Override
+		public void write(String arg0) {
+			Reporter wrappedReporter = getWrappedReporter();
+			if(wrappedReporter != null) {
+				wrappedReporter.write(arg0);
+			}
+			
 		}
 	}
 

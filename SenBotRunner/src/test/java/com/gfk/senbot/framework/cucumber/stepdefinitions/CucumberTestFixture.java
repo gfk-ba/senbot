@@ -42,7 +42,7 @@ public class CucumberTestFixture {
 	@When("^I call a custom function in my view definition$")
 	public void I_call_a_custom_funtion_in_my_view_defintion() throws IOException {
 		SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
-		TestPage1 viewRepresentation = seleniumManager.getViewRepresentation(TestPage1.class);		
+		TestPage1 viewRepresentation = seleniumManager.getViewRepresentation(TestPage1.class);	
 		
 		viewRepresentation.doSomeStuff();
 	}
