@@ -52,6 +52,11 @@ It is also possible to overwrite reference data values by providing property val
 to register a [GenericUser](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/GenericUser.java) to the [SenBotReferenceService](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/SenBotReferenceService.java).addUser("loginUser1", new GenericUser(...values...)) method.
 By providing the property ```GenericUser.loginUser1.userName=anotherUserName```, you will overwrite the default value during execution allowing for execution specific data configurations. This setup applies to all POJO's contributed to the reference service.
 
+Running cucumber selenium tests in parallel
+=======
+SenBot supports running cucumber selenium tests in parallel. If you use the [ParameterizedCucumber](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/cucumber/ParameterizedCucumber.java) class as shown in the example test 
+[ParameterizedCucumberTestBaseTest](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/test/java/com/gfk/senbot/framework/cucumber/tests/ParameterizedCucumberTestBaseTest.java) the feature files will be devided over multiple threads. By default 5 threads 
+will be used but this can be overwritten by using the ```-Dthreads=n``` commandline argument. 
 
 Some usefull runtime tips
 =======
@@ -67,22 +72,24 @@ Changing the default domain or test environment can be done with
 ```
 mvn test -Durl=mydomain.com -Denv=FF
 ```
-Changing target browser to run your tests against using the -Denv variable as shown below.
+Changing target browser to run your tests against using the -Denv variable as shown below. Available options: FF, CH, IE, SF and phantomjs (for a headless browser). It is also possible to run your tests to multiple environments by providing the a variable like -Denv=FF,CH,phantomjs
 ```
 mvn test -Denv=FF
 ```
-Available options: FF, CH, IE, SF and phantomjs (for a headless browser). It is also possible to run your tests to multiple environments by providing the a variable like -Denv=FF,CH,phantomjs
-
+If you add this option, the cucumber test results report is opened automatically for you at the end of your build.
+```
+mvn test -DopenReport
+```
 
 Logging options
 =======
-SenBot uses [slf4j](http://www.slf4j.org/) configured though [log4j](http://logging.apache.org/log4j/) for its logging. This allows you to overwrite how senbot logs it's messages out and in what format in your projects using SenBot.
-The default SenBot logger is configured to log out to PROJECT_ROOT/target/logs/senbot.log as specified in the [log4j.xml](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/resources/log4j.xml) file. If you need to add
+SenBot uses [slf4j](http://www.slf4j.org/) configured though [log4j](http://logging.apache.org/log4j/) for its logging. This allows you to overwrite how senbot logs its messages in your projects using SenBot.
+The default SenBot logger is configured to log to PROJECT_ROOT/target/logs/senbot.log as specified in the [log4j.xml](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/resources/log4j.xml) file. If you need to add
 log messages to your own StepDefinitions you can do so by adding a logger like so (example taken from the [SenBotContext](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/context/SenBotContext.java)):
 ```
 private static Logger log = LoggerFactory.getLogger(SenBotContext.class);
 ```
-In your code you can then log your messages out by calling:
+In your code you can then log your messages by calling:
 ```
 log.trace("Trace message");
 log.debug("Debug message");
