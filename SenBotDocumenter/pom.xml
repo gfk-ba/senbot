@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.gfk.senbot</groupId>
 		<artifactId>SenBotParent</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.4.6-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>SenBotDocumenter</artifactId>
@@ -16,19 +16,21 @@
 
 	<dependencies>
 
+		<!-- <dependency> <groupId>sun.jdk</groupId> <artifactId>tools</artifactId> 
+			<version>1.6.0</version> <scope>system</scope> <systemPath>${java.home}/../lib/tools.jar</systemPath> 
+			</dependency> -->
+
 		<dependency>
-			<groupId>sun.jdk</groupId>
-			<artifactId>tools</artifactId>
-			<version>1.6.0</version>
-			<scope>system</scope>
-			<systemPath>${java.home}/../lib/tools.jar</systemPath>
+			<groupId>com.gfk.senbot</groupId>
+			<artifactId>SenBotRunner</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-		
+
 		<dependency>
-	         <groupId>org.reflections</groupId>
-	         <artifactId>reflections</artifactId>
-	         <version>0.9.9-RC1</version>
-	     </dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.9-RC1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>info.cukes</groupId>
@@ -70,22 +72,51 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- another maven test excecution option can be found at: https://groups.google.com/d/msg/cukes/1DSrCLkhXZo/h_NQazBhcfcJ -->
 
 	<build>
 		<plugins>
-			<plugin>
+
+<!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
-					<source>1.6</source>
-					<target>1.6</target>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>dependency-jars/</classpathPrefix>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/dependency-jars/
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -121,44 +152,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<!-- explicitly define maven-deploy-plugin after other to force exec 
-					order -->
-				<artifactId>maven-deploy-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
-			<!-- Disabled parrallel execution due to not reporting of errors. <plugin> 
-				<groupId>org.apache.maven.plugins</groupId> <artifactId>maven-failsafe-plugin</artifactId> 
-				<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
-				</goals> </execution> </executions> <configuration> <includes> <include>**/*Test.java</include> 
-				</includes> <useFile>false</useFile> <forkCount>10</forkCount> <reuseForks>false</reuseForks> 
-				</configuration> </plugin> -->
 		</plugins>
 	</build>
 
-	<!-- <profiles> <profile> run the tests multithreaded by using the arallel 
-		profile like: mvn clean install -Parallel <id>arallel</id> <build> <plugins> 
-		<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId> 
-		<version>${surefire.version}</version> skip the test phase as all tests will 
-		be run in the integration-test phase <configuration> <skipTests>true</skipTests> 
-		</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-		<artifactId>maven-failsafe-plugin</artifactId> <version>${surefire.version}</version> 
-		<executions> <execution> <phase>integration-test</phase> <goals> <goal>integration-test</goal> 
-		</goals> </execution> </executions> <configuration> <includes> <include>com/gfk/senbot/framework/cucumber/tests/*Test.java</include> 
-		</includes> <parallel>classes</parallel> <forkMode>perthread</forkMode> <threadCount>1</threadCount> 
-		</configuration> </plugin> </plugins> </build> </profile> </profiles> -->
-
-	<!-- Disabled parrallel execution due to not reporting of errors. <reporting> 
-		<plugins> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-report-plugin</artifactId> 
-		<reportSets> <reportSet> <id>integration-tests</id> <reports> <report>failsafe-report-only</report> 
-		</reports> </reportSet> </reportSets> </plugin> </plugins> </reporting> -->
 </project>
