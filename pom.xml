@@ -9,11 +9,7 @@
 
 	<groupId>com.gfk.senbot</groupId>
 	<artifactId>SenBotParent</artifactId>
-<<<<<<< HEAD
 	<version>0.4.6-SNAPSHOT</version>
-=======
-	<version>0.5-SNAPSHOT</version>
->>>>>>> Furthered the documentation tests
 	<packaging>pom</packaging>
 
 	<properties>

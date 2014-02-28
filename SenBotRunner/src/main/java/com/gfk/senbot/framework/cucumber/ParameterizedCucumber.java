@@ -429,7 +429,6 @@ public class ParameterizedCucumber extends Parameterized {
 			log.debug("Scenario run call started on: " + getDescription().toString());
 			try {
 				SenBotContext.getSenBotContext().getSeleniumManager().associateTestEnvironment(environment);
-				
 				super.run(notifier);
 				SenBotContext.getSenBotContext().getSeleniumManager().deAssociateTestEnvironment();
 				environment.cleanupDriver();
