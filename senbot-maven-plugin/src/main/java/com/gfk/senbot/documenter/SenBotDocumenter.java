@@ -48,17 +48,9 @@ public class SenBotDocumenter extends AbstractMojo {
 	public void generateDocumentation() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
 			
 		
-//		ClassLoader senbotClassPath = SenBotContext.class.getClassLoader();
-//	    Set<URL> senbotUrls = ClasspathHelper.forClassLoader(senbotClassPath);
-
-//	    ClassLoader cucumberApiClassPath = When.class.getClassLoader();
-//	    Set<URL> cucmberurls = ClasspathHelper.forClassLoader(cucumberApiClassPath);
-	    
 	    ConfigurationBuilder cb = new ConfigurationBuilder();
 	    cb.addUrls(SenBotContext.class.getProtectionDomain().getCodeSource().getLocation());
-//	    Reflections gfkReflections = new Reflections(cb);
 
-//	    ConfigurationBuilder cbcuce = new ConfigurationBuilder();
 	    cb.addUrls(When.class.getProtectionDomain().getCodeSource().getLocation());
 	    Reflections cucumberStepDefReflections = new Reflections(cb);
 		
