@@ -3,18 +3,18 @@ Senbot
 
 Java based Cucumber and Selenium framework.
 
-goals
+Goals
 ------
 Our goal is to make it easy to create, run and report on automated tests for webbased applications (by using behavior driven development).
 
-features
+Features
 ------
 * Cucumber based tests
 * Selenium based tests using different browsers
 * Run tests in parallel (Has some issue's)
 * Generate readable reports (Work in progress)
 
-prerequisites
+Prerequisites
 ------
 To run the framework tests you minimal need:
 * Java JDK v1.6+ (http://www.java.com)
@@ -23,13 +23,7 @@ To run the framework tests you minimal need:
 * Chrome WebDriver (http://code.google.com/p/chromedriver/downloads/list, put the executable in your local path)
 * Firefox (www.firefox.com, for the default configured example tests)
 
-initial test run
-------
-After the prerequisites are installed clone the repository<br>
-Run a ```mvn clean install``` in the cloned directory<br>
-This will build the senbot and fire the example tests
-
-new project
+Getting started
 ------
 If you want to get started with SenBot use our Demo Archetype to create a new SenBot project showcasing the SenBot possibilities. First create your project using:
 ```
@@ -38,7 +32,13 @@ mvn archetype:generate -DarchetypeGroupId=com.gfk.senbot -DarchetypeArtifactId=S
 
 This will result in a new folder in your current directory called 'YourProjectName', ```cd``` into it and call ```mvn clean install```. This will start the maven build cycle which will also run all included cucumber tests utilizing Selenium. 
 
-Runtime configuration
+Build from sources
+------
+After the prerequisites are installed clone the repository ```git clone git@github.com:gfk-ba/senbot.git```<br>
+Run a ```mvn clean install``` in the cloned directory<br>
+This will build the senbot and fire the its own test run containg many examples.
+
+Configuration
 ------
 You can configure by means of properties files and runtime variables. The properties files can be contributed as part of your project but can also be configured outside of the project on your local system to 
 allow for flexible development setups.
@@ -51,12 +51,6 @@ allow for flexible development setups.
 It is also possible to overwrite reference data values by providing property values in your properties file. So let's say you have used an implementation of [ReferenceServicePopulator](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/ReferenceServicePopulator.java)
 to register a [GenericUser](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/GenericUser.java) to the [SenBotReferenceService](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/data/SenBotReferenceService.java).addUser("loginUser1", new GenericUser(...values...)) method.
 By providing the property ```GenericUser.loginUser1.userName=anotherUserName```, you will overwrite the default value during execution allowing for execution specific data configurations. This setup applies to all POJO's contributed to the reference service.
-
-Running cucumber selenium tests in parallel
-------
-SenBot supports running cucumber selenium tests in parallel. If you use the [ParameterizedCucumber](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/cucumber/ParameterizedCucumber.java) class as shown in the example test 
-[ParameterizedCucumberTestBaseTest](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/test/java/com/gfk/senbot/framework/cucumber/tests/ParameterizedCucumberTestBaseTest.java) the feature files will be devided over multiple threads. By default 5 threads 
-will be used but this can be overwritten by using the ```-Dthreads=n``` commandline argument. 
 
 Runtime arguments
 ------
@@ -82,6 +76,12 @@ If this needs to be different use ```mvn clean install -Durl=http://www.domain.c
 
 ### -DopenReport ###
 If you want the senbot report to open automaticaly at the end of your run use: ```mvn clean install -DopenReport```
+
+Running cucumber selenium tests in parallel
+------
+SenBot supports running cucumber selenium tests in parallel. If you use the [ParameterizedCucumber](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/main/java/com/gfk/senbot/framework/cucumber/ParameterizedCucumber.java) class as shown in the example test 
+[ParameterizedCucumberTestBaseTest](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/test/java/com/gfk/senbot/framework/cucumber/tests/ParameterizedCucumberTestBaseTest.java) the feature files will be devided over multiple threads. By default 5 threads 
+will be used but this can be overwritten by using the ```-Dthreads=n``` commandline argument. 
 
 Logging options
 ------
