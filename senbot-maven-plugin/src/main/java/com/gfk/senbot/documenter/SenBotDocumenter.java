@@ -140,7 +140,7 @@ public class SenBotDocumenter extends AbstractMojo {
 			generateDocumentation();
 			File outputToFile = outputToFile();
 			getLog().info( availableStepDefs.size() + " SenBot available cucumber steps are found and documented in file: " + outputToFile.toURI().toString() );
-		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IOException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
