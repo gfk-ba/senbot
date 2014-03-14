@@ -13,20 +13,29 @@ import java.util.Set;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Component;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.project.MavenProject;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
-//import org.apache.maven.plugins.annotations.Mojo;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 
 import cucumber.api.java.en.When;
 import cucumber.runtime.java.StepDefAnnotation;
 
-@Mojo
+@Mojo(name = "document", 
+	defaultPhase = LifecyclePhase.PACKAGE)
 public class SenBotDocumenter extends AbstractMojo {
+	
+	@Component
+    private MavenProject project;
+	
 	
 	private Map<String, StepDef> availableStepDefs = new HashMap<String, StepDef>();
 	
@@ -86,14 +95,22 @@ public class SenBotDocumenter extends AbstractMojo {
 		}
 	}
 	
-	public void outputToFile() throws IOException {
-		File outputFolderFile = new File("target/stepdef.html");
+	public File outputToFile() throws IOException {
+		
+		String buildDir = project.getBuild().getDirectory();
+		File targetFolderFile = new File(buildDir);
+		//ensure all folders are available for writing to
+		targetFolderFile.mkdirs();
+		
+		File outputFolderFile = new File(buildDir + "/stepdef.html");
 		FileWriter fileWriter = new FileWriter(outputFolderFile);
 		
 		XMLOutputter outputter = new XMLOutputter();
 		outputter.output(generateHtml(), fileWriter);
 		
 		fileWriter.close();
+		
+		return outputFolderFile;
 	}
 	
 	private Document generateHtml() {
@@ -124,10 +141,16 @@ public class SenBotDocumenter extends AbstractMojo {
 		return document;
 	}
 
-	@Override
+	
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		// TODO Auto-generated method stub
-		
+		try {
+			getLog().info("SenBot documenter maven plugin will scan your calsspath for all available stepdefinitions" );
+			generateDocumentation();
+			File outputToFile = outputToFile();
+			getLog().info( availableStepDefs.size() + " SenBot available cucumber steps are found and documented in file: " + outputToFile.toURI().toString() );
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

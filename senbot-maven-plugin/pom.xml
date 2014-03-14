@@ -10,22 +10,28 @@
 
 
 
-	<artifactId>SenBotDocumenter-maven-plugin</artifactId>
+	<artifactId>senbot-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 
-	<name>SenBot documenter</name>
+	<name>senbot-maven-plugin</name>
 	<description>The Documenter that will gather all available cucumber stepdefinitions on the classpath and document them</description>
 
 	<dependencies>
 
-		<!-- <dependency> <groupId>sun.jdk</groupId> <artifactId>tools</artifactId> 
-			<version>1.6.0</version> <scope>system</scope> <systemPath>${java.home}/../lib/tools.jar</systemPath> 
-			</dependency> -->
-
 		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>2.0.6</version>
+			<groupId>org.apache.maven.plugin-tools</groupId>
+			<artifactId>maven-plugin-annotations</artifactId>
+			<version>3.2</version>
+			<!-- annotations are not needed for plugin execution so you can remove 
+				this dependency for execution with using provided scope -->
+				
+			<scope>provided</scope>
+		</dependency>
+		<!-- generated help mojo has a dependency to plexus-utils -->
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 
 		<dependency>
@@ -39,25 +45,6 @@
 			<artifactId>reflections</artifactId>
 			<version>0.9.9-RC1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-core</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-java</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>info.cukes</groupId>
-			<artifactId>cucumber-spring</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -79,6 +66,10 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -89,27 +80,32 @@
 	<!-- another maven test excecution option can be found at: https://groups.google.com/d/msg/cukes/1DSrCLkhXZo/h_NQazBhcfcJ -->
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>3.2</version>
+					<configuration>
+						<skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+						<goalPrefix>senbot</goalPrefix>
+					</configuration>
+					<executions>
+						<execution>
+							<id>mojo-descriptor</id>
+							<phase>process-classes</phase>
+							<goals>
+								<goal>descriptor</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+
+
 		<plugins>
-
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
-				<version>2.4</version> <configuration> <archive> <manifest> <addClasspath>true</addClasspath> 
-				<classpathPrefix>dependency-jars/</classpathPrefix> </manifest> </archive> 
-				</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-dependency-plugin</artifactId> <version>2.5.1</version> 
-				<executions> <execution> <id>copy-dependencies</id> <phase>package</phase> 
-				<goals> <goal>copy-dependencies</goal> </goals> <configuration> <outputDirectory> 
-				${project.build.directory}/dependency-jars/ </outputDirectory> </configuration> 
-				</execution> </executions> </plugin> -->
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
 
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>

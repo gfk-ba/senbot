@@ -58,28 +58,30 @@ SenBot supports running cucumber selenium tests in parallel. If you use the [Par
 [ParameterizedCucumberTestBaseTest](https://github.com/gfk-ba/senbot/blob/master/SenBotRunner/src/test/java/com/gfk/senbot/framework/cucumber/tests/ParameterizedCucumberTestBaseTest.java) the feature files will be devided over multiple threads. By default 5 threads 
 will be used but this can be overwritten by using the ```-Dthreads=n``` commandline argument. 
 
-Some usefull runtime tips
+Runtime arguments
 =======
-When running your SenBot through maven you can provide custom cucumber runtime options to append to the variables defined in your JUnit tests like so
-```
-mvn test -Dfeatures="--tags @myOtherTag"
-```
-or run a single feature file on a single runner like so
-```
-mvn test -Dtest=com.domain.NameOfYourJUnitTest -Dfeatures="path/to/your/file.feature"
-```
-Changing the default domain or test environment can be done with
-```
-mvn test -Durl=mydomain.com -Denv=FF
-```
-Changing target browser to run your tests against using the -Denv variable as shown below. Available options: FF, CH, IE, SF and phantomjs (for a headless browser). It is also possible to run your tests to multiple environments by providing the a variable like -Denv=FF,CH,phantomjs
-```
-mvn test -Denv=FF
-```
-If you add this option, the cucumber test results report is opened automatically for you at the end of your build.
-```
-mvn test -DopenReport
-```
+SenBot uses [Maven](https://maven.apache.org) as a build, dependency and test execution tool. Both for building SenBot itself as for
+running projects using SenBot maven is used. You can configure SenBot by means of runtime arguments. The following options are available:
+
+### -Dfeatures ###
+This is a shorthand for the [-Dcucumber.options](https://github.com/cucumber/cucumber-jvm/tree/master/examples/java-helloworld#overriding-options) and can be used as such.
+Provide the path to the folder file from which to read the fature files from. ```mvn test -Dfeatures=path/to/folder/file.feature```. It is also possible to specify you wish to run
+scenario's with specific tags defined ```mvn test -Dfeatures="path/to/folder --tags @mytag"```. You can even isolate a single scenario by name like so: ```mvn test -Dfeatures="path/to/folder -n='name of scenario'"```
+
+### -Dtest ###
+Maven uses the surefire plugin to run JUnit tests which in turn will fireup the cucumber tests. If you use multiple JUnit runners to run your tests you can choose to run just one of them
+by passing in the -Dtest parameter with the fully qualified name of the JUnit class. ```mvn test -Dtest=com.domain.NameOfYourJUnitTest```
+
+### -Denv ###
+Changing the default test environment (read:browser) can be done with -Denv. ```mvn test -Denv=FF``` will run the tests against FireFox where ```mvn test -Denv=CH;IE,IE7,XP``` will
+run the tests against any Chrome version on any Operating System and run them against IE7 on Windows XP. Available options: FF, CH, IE, SF and phantomjs (for a headless browser). 
+
+### -Durl ###
+Senbot allows you to define a default url to use. If not specified ```http://localhost:8080``` is used. 
+If this needs to be different use ```mvn clean install -Durl=http://www.domain.com/context/path/```.
+
+### -DopenReport ###
+If you want the senbot report to open automaticaly at the end of your run use: ```mvn clean install -DopenReport```
 
 Logging options
 =======
