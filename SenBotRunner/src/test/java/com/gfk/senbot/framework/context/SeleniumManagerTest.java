@@ -12,6 +12,7 @@ import java.awt.HeadlessException;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.openqa.selenium.Platform;
 
 import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.NavigationService;
+import org.openqa.selenium.WebDriver;
 
 public class SeleniumManagerTest {
 
@@ -33,14 +35,14 @@ public class SeleniumManagerTest {
      * @throws AWTException 
      */
     @Test
-    public void testSeleniumManager_timeoutSetting() throws IOException, AWTException {
+    public void testSeleniumManager_timeoutSetting() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(5, localSeleniumManager.getTimeout());
     }
 
     @Test 
     @Ignore
-    public void testSeleniumManager_mousePosition() throws IOException, AWTException {
+    public void testSeleniumManager_mousePosition() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     	SeleniumManager localSeleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	
     	//only run the test if we are not in a headless process
@@ -55,26 +57,44 @@ public class SeleniumManagerTest {
     }
 
     @Test
-    public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException, AWTException {
+    public void testSenBotContext_domainProtocolAdditionWhenMissing() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     	SeleniumManager seleniumManager = new SeleniumManager("www.gfk.com", "", "FF,LATEST,WINDOWS", 1000, 800, 5);
     	
     	assertEquals("http://www.gfk.com", seleniumManager.getDefaultDomain());
     }
 
     @Test
-    public void testSenBotContext_hubProperlySet() throws IOException, AWTException {
+    public void testSenBotContext_hubProperlySet() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         String expectedHub = "http://some_hub";
         SeleniumManager manager = new SeleniumManager("http://www.gfk.com", expectedHub, "FF,LATEST,WINDOWS", 1000, 800, 5);
         assertEquals(new URL(expectedHub), manager.getSeleniumHub());
     }
 
+  @Test
+  public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
+
+    assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());
+    assertEquals("Ensure the created hook is of the right type", MockWebDriverCreationHook.class, manager.getWebDriverCreationHook().getClass());
+    assertTrue("Ensure the hook is not yet called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+
+    TestEnvironment createdFFenv = manager.getSeleniumTestEnvironments().get(0);
+    WebDriver ffWebDriver = createdFFenv.getWebDriver();
+
+    assertFalse("Ensure the hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+    assertTrue("Ensure the hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(createdFFenv.getWebDriver()));
+
+    SenBotContext.cleanupSenBot();
+
+  }
+
     @Test(expected = IllegalArgumentException.class)
-    public void testSenBotContext_missingSeleniumTestTarget() throws IOException, AWTException {
+    public void testSenBotContext_missingSeleniumTestTarget() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         new SeleniumManager("http://www.gfk.com", "http://someHub", "", 1000, 800, 5);
     }
 
     @Test
-    public void testSenBotContext_shortenedTargetEnvironment() throws IOException, AWTException {
+    public void testSenBotContext_shortenedTargetEnvironment() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST;CH", 1000, 800, 5);
         
         List<TestEnvironment> seleniumTestEnvironments = seleniumManager.getSeleniumTestEnvironments();
@@ -89,24 +109,24 @@ public class SeleniumManagerTest {
     }
 
     @Test(expected = MalformedURLException.class)
-    public void testSenBotContext_mallformattedHubUrl() throws IOException, AWTException {
+    public void testSenBotContext_mallformattedHubUrl() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         new SeleniumManager("http://www.gfk.com", "I'm an invalid URL", "FF,LATEST,WINDOWS", 1000, 800, 5);
     }
 
     @Test
-    public void testSenBotContext_blankImplicitWait() throws IOException {
-    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "");
+    public void testSenBotContext_blankImplicitWait() throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, NoSuchMethodException, IllegalAccessException {
+    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "", null);
     	assertNull(seleniumManager.getImplicitTimeout());
     }
 
     @Test
-    public void testSenBotContext_implicitWait() throws IOException {
-    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "4");
+    public void testSenBotContext_implicitWait() throws IOException, ClassNotFoundException, InvocationTargetException, InstantiationException, NoSuchMethodException, IllegalAccessException {
+    	SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,WINDOWS", 1000, 800, 5, "4", null);
     	assertEquals(new Integer(4), seleniumManager.getImplicitTimeout());
     }
 
     @Test
-    public void testSenBotContext_seleniumTestEnvironmentTargetCreation() throws IOException, AWTException {
+    public void testSenBotContext_seleniumTestEnvironmentTargetCreation() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         SeleniumManager seleniumManager = new SeleniumManager("http://www.gfk.com", "http://someHub", "FF,LATEST,ANY;CH,LATEST,ANY", 1000, 800, 5);
 
         assertFalse(seleniumManager.getSeleniumTestEnvironments().isEmpty());

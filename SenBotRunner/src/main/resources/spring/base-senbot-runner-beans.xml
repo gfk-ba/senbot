@@ -55,6 +55,7 @@
     	<constructor-arg value="${senBotContext.selenium.defaultWindowHeight}" index="4"/>
         <constructor-arg value="#{defaultTimeoutEnvironmentPropertyEvaluator.property}" index="5"/>
         <constructor-arg value="#{implicitTimeoutEnvironmentPropertyEvaluator.property}" index="6"/>
+        <constructor-arg value="${senBotContext.selenium.webDriverCreationHookClass}" index="7"/>
     </bean>
     
     <bean id="defaultDomainPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">

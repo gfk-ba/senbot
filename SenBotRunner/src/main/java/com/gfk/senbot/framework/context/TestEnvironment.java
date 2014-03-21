@@ -331,7 +331,15 @@ public class TestEnvironment {
          */
         @Override
         protected WebDriver initialValue() {
-            return constructWebDriver();
+          WebDriver constructedWebDriver = constructWebDriver();
+
+          WebDriverCreationHook webdriverCreationHook = SenBotContext.getSenBotContext().getSeleniumManager().getWebDriverCreationHook();
+          if(webdriverCreationHook != null) {
+            webdriverCreationHook.webdriverInitialized(constructedWebDriver);
+          }
+
+          return constructedWebDriver;
+
         }
 
         /**

@@ -3,12 +3,15 @@ package com.gfk.senbot.framework.context;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gfk.senbot.framework.data.ReferenceServicePopulator;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -44,17 +47,19 @@ public class SeleniumManager {
     private int                          timeout;
     private Integer                      implicitTimeout;
 
-    private Map<Thread, TestEnvironment> associatedEnvironment    = new HashMap<Thread, TestEnvironment>();
 
-    public SeleniumManager(
+    private Map<Thread, TestEnvironment> associatedEnvironment    = new HashMap<Thread, TestEnvironment>();
+    private WebDriverCreationHook webDriverCreationHook;
+
+  public SeleniumManager(
     		String defaultDomain, 
     		String seleniumHubIP, 
     		String target, 
     		int defaultWindowWidth, 
     		int defaultWindowHeight, 
-    		int aTimeout) throws IOException, AWTException {
-        this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null);
-        
+    		int aTimeout) throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null, null);
+
         try {
         	//move the mouse to 0,50 so that it won't interfere with IE native events. 50 to avoid trigger of hotcorners
         	Robot robot = new Robot();
@@ -83,8 +88,14 @@ public class SeleniumManager {
     		int defaultWindowWidth, 
     		int defaultWindowHeight, 
     		int aTimeout, 
-    		String implicitTimeout)
-            throws IOException {
+    		String implicitTimeout,
+        String webdriverCreationHookClassName)
+        throws IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
+
+      if(!StringUtils.isBlank(webdriverCreationHookClassName)) {
+        Constructor<?> constructor = Class.forName(webdriverCreationHookClassName).getConstructor();
+        webDriverCreationHook = (WebDriverCreationHook) constructor.newInstance();
+      }
 
         
         if(defaultDomain != null) {
@@ -120,9 +131,11 @@ public class SeleniumManager {
             }
         }
     }
-    
-    
-    /**
+
+
+
+
+  /**
      * Check {@link PageFactory} for how these Objects are instantiated using the {@link FindBy} and {@link FindBys} annotations.
      * Senbot will cache your objects in the Scenario globals so that they only get initialized once
      * 
@@ -247,4 +260,8 @@ public class SeleniumManager {
         return implicitTimeout;
     }
 
+
+  public WebDriverCreationHook getWebDriverCreationHook() {
+    return webDriverCreationHook;
+  }
 }
