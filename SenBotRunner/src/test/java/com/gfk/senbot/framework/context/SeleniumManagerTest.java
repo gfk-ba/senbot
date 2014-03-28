@@ -76,15 +76,21 @@ public class SeleniumManagerTest {
 
     assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());
     assertEquals("Ensure the created hook is of the right type", MockWebDriverCreationHook.class, manager.getWebDriverCreationHook().getClass());
-    assertTrue("Ensure the hook is not yet called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+    assertTrue("Ensure the startup hook is not yet called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
 
     TestEnvironment createdFFenv = manager.getSeleniumTestEnvironments().get(0);
     WebDriver ffWebDriver = createdFFenv.getWebDriver();
 
-    assertFalse("Ensure the hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
-    assertTrue("Ensure the hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(createdFFenv.getWebDriver()));
+    assertFalse("Ensure the startup hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+    WebDriver driver = createdFFenv.getWebDriver();
+    assertTrue("Ensure the startup hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(driver));
+    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
 
     SenBotContext.cleanupSenBot();
+
+    assertFalse("Ensure the shutdown hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+    assertTrue("Ensure the shutdown hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(driver));
 
   }
 

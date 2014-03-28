@@ -176,6 +176,13 @@ public class TestEnvironment {
      */
     public void cleanupDriver() {
         WebDriver webDriver = getWebDriver();
+        WebDriverCreationHook hooker = SenBotContext.getSenBotContext().getSeleniumManager().getWebDriverCreationHook();;
+        if(hooker != null) {
+          hooker.webdriverDestroyed(webDriver);
+        }
+
+
+
         webDriver.quit();
         threadedWebDriver.set(null);
     }
@@ -298,7 +305,6 @@ public class TestEnvironment {
          * 
          * @param testEnvironment
          *            The test environment
-         * @param webDriverConstructor
          *            The web driver constructor
          */
         public WebDriverThreadLocale(TestEnvironment testEnvironment) {

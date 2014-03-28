@@ -6,4 +6,5 @@ public interface WebDriverCreationHook {
 
   void webdriverInitialized(WebDriver constructWebDriver);
 
+  void webdriverDestroyed(WebDriver webDriver);
 }
