@@ -94,13 +94,17 @@ public class SeleniumManagerTest {
 	    WebDriver ffWebDriver = createdFFenv.getWebDriver();
 	
 	    assertFalse("Ensure the startup hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
-	    assertTrue("Ensure the startup hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(ffWebDriver));
+	    assertEquals("Only one webdriver should be created", 1, MockWebDriverCreationHook.createdWebDrivers.size());
+	    WebDriver foundWebdriver = MockWebDriverCreationHook.createdWebDrivers.get(0);
+	    assertEquals("Ensure the startup hook is called with the correct webdriver", ffWebDriver, foundWebdriver);
 	    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
 	
 	    SenBotContext.cleanupSenBot();
 	
 	    assertFalse("Ensure the shutdown hook is called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
-	    assertTrue("Ensure the shutdown hook is called with the correct webdriver", MockWebDriverCreationHook.destroyedWebdrivers.contains(ffWebDriver));
+	    assertEquals("Only one webdriver should be removed", 1, MockWebDriverCreationHook.destroyedWebdrivers.size());
+	    WebDriver foundRemovedWebdriver = MockWebDriverCreationHook.destroyedWebdrivers.get(0);
+	    assertEquals("Ensure the shutdown hook is called with the correct webdriver", ffWebDriver, foundRemovedWebdriver);
     }
 
     @Test(expected = IllegalArgumentException.class)
