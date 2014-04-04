@@ -29,13 +29,6 @@ import org.openqa.selenium.WebDriver;
 
 public class SeleniumManagerTest {
 	
-	@Before
-	public void setup() {
-		//clear the webdriver storage hooks
-		MockWebDriverCreationHook.createdWebDrivers.clear();
-    	MockWebDriverCreationHook.destroyedWebdrivers.clear();
-	}
-
     /**
      * Is the timeout given to the constructor is test to a value, the vallue
      * has to be set in the object
@@ -81,7 +74,7 @@ public class SeleniumManagerTest {
 
     @Test
     public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    	
+    	SenBotContext.cleanupSenBot();
     	
     	SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
 	
