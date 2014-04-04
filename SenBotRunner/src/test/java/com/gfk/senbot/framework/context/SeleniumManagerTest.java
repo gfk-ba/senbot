@@ -96,7 +96,8 @@ public class SeleniumManagerTest {
 	    assertFalse("Ensure the startup hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
 	    assertEquals("Only one webdriver should be created", 1, MockWebDriverCreationHook.createdWebDrivers.size());
 	    WebDriver foundWebdriver = MockWebDriverCreationHook.createdWebDrivers.get(0);
-	    assertEquals("Ensure the startup hook is called with the correct webdriver", ffWebDriver, foundWebdriver);
+	    //when remote webdrivers are used, they will be proxies and the equeals methods won't work. Let's equal on the toString
+	    assertEquals("Ensure the startup hook is called with the correct webdriver", ffWebDriver.toString(), foundWebdriver.toString());
 	    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
 	
 	    SenBotContext.cleanupSenBot();
@@ -104,7 +105,7 @@ public class SeleniumManagerTest {
 	    assertFalse("Ensure the shutdown hook is called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
 	    assertEquals("Only one webdriver should be removed", 1, MockWebDriverCreationHook.destroyedWebdrivers.size());
 	    WebDriver foundRemovedWebdriver = MockWebDriverCreationHook.destroyedWebdrivers.get(0);
-	    assertEquals("Ensure the shutdown hook is called with the correct webdriver", ffWebDriver, foundRemovedWebdriver);
+	    assertEquals("Ensure the shutdown hook is called with the correct webdriver", ffWebDriver.toString(), foundRemovedWebdriver.toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
