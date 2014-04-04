@@ -17,15 +17,24 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
 
 import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.NavigationService;
+
 import org.openqa.selenium.WebDriver;
 
 public class SeleniumManagerTest {
+	
+	@Before
+	public void setup() {
+		//clear the webdriver storage hooks
+		MockWebDriverCreationHook.createdWebDrivers.clear();
+    	MockWebDriverCreationHook.destroyedWebdrivers.clear();
+	}
 
     /**
      * Is the timeout given to the constructor is test to a value, the vallue
@@ -72,7 +81,9 @@ public class SeleniumManagerTest {
 
     @Test
     public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-	    SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
+    	
+    	
+    	SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
 	
 	    assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());
 	    assertEquals("Ensure the created hook is of the right type", MockWebDriverCreationHook.class, manager.getWebDriverCreationHook().getClass());
