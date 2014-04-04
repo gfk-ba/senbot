@@ -29,6 +29,13 @@ import org.openqa.selenium.WebDriver;
 
 public class SeleniumManagerTest {
 	
+	@Before
+	public void setup() {
+		//clear the webdriver storage hooks
+		MockWebDriverCreationHook.createdWebDrivers.clear();
+    	MockWebDriverCreationHook.destroyedWebdrivers.clear();
+	}
+
     /**
      * Is the timeout given to the constructor is test to a value, the vallue
      * has to be set in the object
