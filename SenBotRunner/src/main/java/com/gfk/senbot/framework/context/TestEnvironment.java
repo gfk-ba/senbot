@@ -176,15 +176,16 @@ public class TestEnvironment {
      */
     public void cleanupDriver() {
         WebDriver webDriver = getWebDriver();
-        WebDriverCreationHook hooker = SenBotContext.getSenBotContext().getSeleniumManager().getWebDriverCreationHook();;
-        if(hooker != null) {
-          hooker.webdriverDestroyed(webDriver);
-        }
-
-
-
-        webDriver.quit();
+        cleanupSingleWebdriver(webDriver);
         threadedWebDriver.set(null);
+    }
+    
+    private void cleanupSingleWebdriver(WebDriver driver) {
+    	WebDriverCreationHook hooker = SenBotContext.getSenBotContext().getSeleniumManager().getWebDriverCreationHook();
+        if(hooker != null) {
+        	hooker.webdriverDestroyed(driver);
+        }
+        driver.quit();
     }
 
     /**
@@ -196,7 +197,7 @@ public class TestEnvironment {
 
         for (WebDriver driver : threadedWebDriver.getAllDrivers()) {
             try {
-                driver.quit();
+            	cleanupSingleWebdriver(driver);
             } catch (WebDriverException webDriverEx) {
                 // Already quite or unavailable.
             }

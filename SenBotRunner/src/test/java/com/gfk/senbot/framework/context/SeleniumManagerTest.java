@@ -70,29 +70,27 @@ public class SeleniumManagerTest {
         assertEquals(new URL(expectedHub), manager.getSeleniumHub());
     }
 
-  @Test
-  public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
-
-    assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());
-    assertEquals("Ensure the created hook is of the right type", MockWebDriverCreationHook.class, manager.getWebDriverCreationHook().getClass());
-    assertTrue("Ensure the startup hook is not yet called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
-    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
-
-    TestEnvironment createdFFenv = manager.getSeleniumTestEnvironments().get(0);
-    WebDriver ffWebDriver = createdFFenv.getWebDriver();
-
-    assertFalse("Ensure the startup hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
-    WebDriver driver = createdFFenv.getWebDriver();
-    assertTrue("Ensure the startup hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(driver));
-    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
-
-    SenBotContext.cleanupSenBot();
-
-    assertFalse("Ensure the shutdown hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
-    assertTrue("Ensure the shutdown hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(driver));
-
-  }
+    @Test
+    public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+	    SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
+	
+	    assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());
+	    assertEquals("Ensure the created hook is of the right type", MockWebDriverCreationHook.class, manager.getWebDriverCreationHook().getClass());
+	    assertTrue("Ensure the startup hook is not yet called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+	    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
+	
+	    TestEnvironment createdFFenv = manager.getSeleniumTestEnvironments().get(0);
+	    WebDriver ffWebDriver = createdFFenv.getWebDriver();
+	
+	    assertFalse("Ensure the startup hook is called", MockWebDriverCreationHook.createdWebDrivers.isEmpty());
+	    assertTrue("Ensure the startup hook is called with the correct webdriver", MockWebDriverCreationHook.createdWebDrivers.contains(ffWebDriver));
+	    assertTrue("Ensure the shutdown hook is not yet called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
+	
+	    SenBotContext.cleanupSenBot();
+	
+	    assertFalse("Ensure the shutdown hook is called", MockWebDriverCreationHook.destroyedWebdrivers.isEmpty());
+	    assertTrue("Ensure the shutdown hook is called with the correct webdriver", MockWebDriverCreationHook.destroyedWebdrivers.contains(ffWebDriver));
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSenBotContext_missingSeleniumTestTarget() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
