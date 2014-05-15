@@ -44,7 +44,7 @@ public class FormService extends BaseServiceHub {
 
 	public void isFormFieldOnViewSetTo(String viewName, String fieldName, String value) throws IllegalArgumentException, IllegalAccessException {
 		WebElement fieldEl = seleniumElementService.getElementFromReferencedView(viewName, fieldName);
-		assertEquals(value, fieldEl.getAttribute("value"));
+		assertEquals(getReferenceService().namespaceString(value), fieldEl.getAttribute("value"));
 	}
 	
 	public void setSelectOptionOnView(String viewName, String elementName, String optionText) throws IllegalArgumentException, IllegalAccessException {

@@ -25,17 +25,17 @@ public class SeleniumFormSteps extends BaseServiceHub {
 	protected FormService seleniumFormService;
 
 	
-	@When("^I fill the field \"(.*)\" with \"(.*)\"$")
+	@When("^I fill the field \"[^\"]*\" with \"[^\"]*\"$")
 	public void fill_the_field_with(String field, String value) {
 		seleniumFormService.fillFormField_locator(field, value);
 	}
 
-	@When("^I fill the \"(.*)\" field on view \"(.*)\" with \"(.*)\"$")
+	@When("^I fill the \"[^\"]*\" field on view \"[^\"]*\" with \"[^\"]*\"$")
 	public void fill_the_field_with(String field, String view, String value) throws IllegalArgumentException, IllegalAccessException {
 		seleniumFormService.fillFormField_fromView(view, field, value);
 	}
 
-	@Then("^the field \"(.*)\" on view \"(.*)\" is set to \"(.*)\"$")
+	@Then("^the field \"[^\"]*\" on view \"[^\"]*\" is set to \"[^\"]*\"$")
 	public void the_field_x_on_view_y_is_set_to_z(String field, String view, String value) throws IllegalArgumentException, IllegalAccessException {
 		seleniumFormService.isFormFieldOnViewSetTo(view, field, value);
 	}

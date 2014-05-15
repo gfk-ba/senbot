@@ -1,8 +1,11 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.annotation.Resource;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
@@ -68,5 +71,11 @@ public class SeleniumElementSteps extends BaseServiceHub {
 	@Then("^I should see the text \"([^\"]*)\"$")
 	public void I_should_see_the_text(String expectedText) throws Throwable {
 		seleniumElementService.findExpectedElement(By.xpath("//*[contains(text(),'" + expectedText + "')]"));
+	}
+	
+	@Then("^the text of element \"([^\"]*)\" on the \"([^\"]*)\" view should be \"([^\"]*)\"$")
+	public void the_text_of_element_on_the_view_should_be(String elementIdentifier, String view, String expectedText) throws Throwable {
+		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(view, elementIdentifier);
+		assertEquals("The element following element should match the expected text: " + seleniumElementService.getElementLocatorFromReferencedView(view, elementIdentifier), expectedText, elementFromReferencedView.getText());
 	}
 }
