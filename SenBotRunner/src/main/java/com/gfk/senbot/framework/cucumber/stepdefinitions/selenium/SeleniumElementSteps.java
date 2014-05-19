@@ -76,6 +76,7 @@ public class SeleniumElementSteps extends BaseServiceHub {
 	@Then("^the text of element \"([^\"]*)\" on the \"([^\"]*)\" view should be \"([^\"]*)\"$")
 	public void the_text_of_element_on_the_view_should_be(String elementIdentifier, String view, String expectedText) throws Throwable {
 		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(view, elementIdentifier);
-		assertEquals("The element following element should match the expected text: " + seleniumElementService.getElementLocatorFromReferencedView(view, elementIdentifier), expectedText, elementFromReferencedView.getText());
+		assertEquals("The element following element should match the expected text: " + seleniumElementService.getElementLocatorFromReferencedView(view, elementIdentifier), 
+				getReferenceService().namespaceString(expectedText), elementFromReferencedView.getText());
 	}
 }

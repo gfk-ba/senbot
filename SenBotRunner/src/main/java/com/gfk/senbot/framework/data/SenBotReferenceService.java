@@ -290,7 +290,11 @@ public class SenBotReferenceService {
     }
 
     public <T> T getReference(Class<T> referenceClass, String referenceName) {
-        return getObjectReferenceMap(referenceClass).get(referenceName);
+        T ret = getObjectReferenceMap(referenceClass).get(referenceName);
+        if(ret instanceof PreAccessExecutable) {
+        	((PreAccessExecutable) ret ).preAccess();
+        }
+		return ret;
     }
 
 

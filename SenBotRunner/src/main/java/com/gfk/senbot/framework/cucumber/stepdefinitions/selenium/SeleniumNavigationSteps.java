@@ -113,12 +113,12 @@ public class SeleniumNavigationSteps extends BaseServiceHub {
         seleniumNavigationService.isCurrentlyOnPage(getSeleniumManager().getDefaultDomain());
     }
 
-    @Then("^the page title is \"[^\"]*\"$")
+    @Then("^the page title is \"([^\"]*)\"$")
     public void the_page_title_is_x(String expectedPageTitle) {
         assertEquals(expectedPageTitle, SenBotContext.getSeleniumDriver().getTitle());
     }
 
-    @Then("^the \"[^\"]*\" page is shown$")
+    @Then("^the \"([^\"])*\" page is shown$")
     public void the_x_page_is_shown(String pageName) throws IOException {
         String url = getReferenceService().getUrlForPageReference(pageName);
         seleniumNavigationService.isCurrentlyOnPage(SenBotContext.getSenBotContext().getSeleniumManager().getDefaultDomain() + url);

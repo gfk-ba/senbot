@@ -2,6 +2,7 @@ package com.gfk.senbot.framework.services.selenium;
 
 import static org.junit.Assert.*;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -48,9 +49,17 @@ public class FormService extends BaseServiceHub {
 	}
 	
 	public void setSelectOptionOnView(String viewName, String elementName, String optionText) throws IllegalArgumentException, IllegalAccessException {
+		String checkValue = getReferenceService().namespaceString(optionText);
+		
 		WebElement elementFromReferencedView = seleniumElementService.getElementFromReferencedView(viewName, elementName);
 		Select select = new Select(elementFromReferencedView);
-		select.selectByVisibleText(optionText);
+		try{			
+			select.selectByVisibleText(checkValue);
+		}
+		catch(NoSuchElementException nse) {
+			//could mean the value to use is an actual value
+			select.selectByValue(checkValue);
+		}
 	}
 
 	public void isOptionOfSelectForViewSelected(String viewName, String selectElementName, String optionText) throws IllegalArgumentException, IllegalAccessException {
