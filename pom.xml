@@ -8,7 +8,7 @@
 
 	<groupId>com.gfk.senbot</groupId>
 	<artifactId>SenBotParent</artifactId>
-	<version>0.4.7</version>
+	<version>0.4.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
