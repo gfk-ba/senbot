@@ -422,6 +422,11 @@ public class TestEnvironment {
             capability.setVersion(browserVersion);
             capability.setPlatform(os);
 
+            // Set BrowserStack specific environment only if browserstack is used - see also: https://www.browserstack.com/automate/java
+            if( seleniumManager.getSeleniumHub().toString().indexOf("browserstack") >= 0) {
+            	capability.setCapability("browserstack.debug", "true");
+            }
+
             RemoteWebDriver remoteWebDriver = new RemoteWebDriver(seleniumManager.getSeleniumHub(), capability);
 			driver = new Augmenter().augment(remoteWebDriver);
            
