@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -14,14 +15,10 @@
 	<description>The SenBot runner which will actually run all your acceptance tests and report the outcome</description>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
 		</dependency>
 
 		<dependency>
@@ -32,13 +29,24 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
 		</dependency>
+
+
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -101,7 +109,7 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -191,17 +199,18 @@
 					</executions>
 				</plugin>
 				<plugin>
-				    <groupId>org.apache.maven.plugins</groupId>
-				    <artifactId>maven-scm-publish-plugin</artifactId>
-				    <version>1.0-beta-2</version>
-				    <configuration>
-				        <checkoutDirectory>${project.build.directory}/scmpublish</checkoutDirectory>
-				        <checkinComment>Publishing javadoc for ${project.artifactId}:${project.version}</checkinComment>
-				        <content>${project.reporting.outputDirectory}/apidocs</content>
-				        <skipDeletedFiles>true</skipDeletedFiles>
-				        <pubScmUrl>${scm.connection}</pubScmUrl>
-				        <scmBranch>gh-pages</scmBranch> <!-- branch with static site -->
-				    </configuration>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-publish-plugin</artifactId>
+					<version>1.0-beta-2</version>
+					<configuration>
+						<checkoutDirectory>${project.build.directory}/scmpublish</checkoutDirectory>
+						<checkinComment>Publishing javadoc for
+							${project.artifactId}:${project.version}</checkinComment>
+						<content>${project.reporting.outputDirectory}/apidocs</content>
+						<skipDeletedFiles>true</skipDeletedFiles>
+						<pubScmUrl>${scm.connection}</pubScmUrl>
+						<scmBranch>gh-pages</scmBranch> <!-- branch with static site -->
+					</configuration>
 				</plugin>
 				<plugin>
 					<!-- explicitly define maven-deploy-plugin after other to force exec 
@@ -261,10 +270,10 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<reporting>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -273,15 +282,12 @@
 					<!-- <doclet>com.gfk.senbot.documenter.CucumberDoclet</doclet> -->
 					<docletPath>SenBotDocumenter/src/main/java/com/gfk/senbot/documenter/CucumberDoclet</docletPath>
 
-					<!-- <docletArtifact>
-						<groupId>com.gfk.senbot</groupId>
-						<artifactId>SenBotDocumenter</artifactId>
-						<version>${project.version}</version>
-					</docletArtifact> -->
+					<!-- <docletArtifact> <groupId>com.gfk.senbot</groupId> <artifactId>SenBotDocumenter</artifactId> 
+						<version>${project.version}</version> </docletArtifact> -->
 					<additionalparam>-views</additionalparam>
 					<useStandardDocletOptions>true</useStandardDocletOptions>
 					<aggregate>true</aggregate>
-					
+
 				</configuration>
 			</plugin>
 		</plugins>
@@ -289,8 +295,8 @@
 
 	<profiles>
 		<profile>
-			<!-- run the tests multithreaded by using the arallel
-			profile like: mvn clean install -Parallel -->
+			<!-- run the tests multithreaded by using the arallel profile like: mvn 
+				clean install -Parallel -->
 			<id>arallel</id>
 			<build>
 				<plugins>
@@ -298,8 +304,8 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-surefire-plugin</artifactId>
 						<version>${surefire.version}</version>
-						<!-- skip the test phase as all tests will
-						be run in the integration-test phase -->
+						<!-- skip the test phase as all tests will be run in the integration-test 
+							phase -->
 						<configuration>
 							<skipTests>true</skipTests>
 						</configuration>

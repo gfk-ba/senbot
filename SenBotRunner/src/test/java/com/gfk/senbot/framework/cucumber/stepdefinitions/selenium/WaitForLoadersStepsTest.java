@@ -13,7 +13,9 @@ import com.gfk.senbot.framework.services.selenium.SynchronisationService;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.runtime.java.StepDefAnnotation;
 
+@StepDefAnnotation
 public class WaitForLoadersStepsTest extends BaseServiceHub {
 	
     public static final By GFK_LOADER       = By.id("gfkLogo");

@@ -107,4 +107,15 @@ public class WrappedJSONFormatter implements Formatter, Reporter {
 		wrapped.write(arg0);
 	}
 
+	@Override
+	public void endOfScenarioLifeCycle(Scenario arg0) {
+		wrapped.endOfScenarioLifeCycle(arg0);
+		
+	}
+
+	@Override
+	public void startOfScenarioLifeCycle(Scenario arg0) {
+		wrapped.startOfScenarioLifeCycle(arg0);
+	}
+
 }

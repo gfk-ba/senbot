@@ -10,11 +10,17 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/cucumber.xml"})
 public class SenBotReferenceServiceTest {
-    public static final String BUTTON_TEST_PAGE_URL = SenBotContext.RESOURCE_LOCATION_PREFIX + "/test_pages/exampleButton.html";
+    
+	public static final String BUTTON_TEST_PAGE_URL = SenBotContext.RESOURCE_LOCATION_PREFIX + "/test_pages/exampleButton.html";
 
     @Test
     public void testSeleniumManager_NameSpace() {

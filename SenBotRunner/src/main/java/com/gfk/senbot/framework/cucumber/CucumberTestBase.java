@@ -50,12 +50,11 @@ public class CucumberTestBase {
     	
     	log.debug("@BeforeClass initiated");
     	
-        SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
-        TestEnvironment associatedEnvironment = seleniumManager.getAssociatedTestEnvironment();
-        if (associatedEnvironment == null) {
-            TestEnvironment environment = seleniumManager.getSeleniumTestEnvironments().get(0);
-            seleniumManager.associateTestEnvironment(environment);
-        }
+//        TestEnvironment associatedEnvironment = seleniumManager.getAssociatedTestEnvironment();
+//        if (associatedEnvironment == null) {
+//            TestEnvironment environment = seleniumManager.getSeleniumTestEnvironments().get(0);
+//            seleniumManager.associateTestEnvironment(environment);
+//        }
     }
 
     /**
@@ -65,12 +64,12 @@ public class CucumberTestBase {
     @AfterClass
     public static void tearDown() throws Exception {
     	
-    	SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
-    	if(seleniumManager.getAssociatedTestEnvironment() != null) {
-    		seleniumManager.deAssociateTestEnvironment();
-    	}
+//    	SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
+//    	if(seleniumManager.getAssociatedTestEnvironment() != null) {
+//    		seleniumManager.deAssociateTestEnvironment();
+//    	}
     	
-        SenBotContext.cleanupSenBot();
+//        SenBotContext.cleanupSenBot();
     }
 
     /**
@@ -78,6 +77,9 @@ public class CucumberTestBase {
      */
     @Parameters
     public static List<Object[]> getParameters() throws IOException {
+    	
+    	log.debug("getParameters() called");
+    	
         SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
         final List<TestEnvironment> seleniumTestEnvironments = seleniumManager.getSeleniumTestEnvironments();
 

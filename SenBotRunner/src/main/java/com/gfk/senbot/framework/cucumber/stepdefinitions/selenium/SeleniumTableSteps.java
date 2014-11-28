@@ -1,8 +1,7 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
-import javax.annotation.Resource;
-
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.services.selenium.ElementService;
@@ -22,10 +21,10 @@ import cucumber.runtime.java.StepDefAnnotation;
 @StepDefAnnotation
 public class SeleniumTableSteps extends BaseServiceHub {
 	
-	@Resource
+	@Autowired
 	protected ElementService seleniumElementService;
 
-	@Resource
+	@Autowired
 	protected TableService seleniumTableService;
 	
 	/*

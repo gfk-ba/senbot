@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.context.CucumberManager;
+import com.gfk.senbot.framework.context.SeleniumManager;
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.context.TestEnvironment;
 
@@ -27,7 +28,15 @@ public class CucumberReportingExtension extends BaseServiceHub {
     private static Logger log = LoggerFactory.getLogger(CucumberManager.class);
 
     @Before
-    public void beforeScenario(Scenario scenario) {
+    public void beforeScenario(Scenario scenario) throws Exception {
+    	SeleniumManager seleniumManager = getSenBotContext().getSeleniumManager();
+        TestEnvironment associatedEnvironment = seleniumManager.getAssociatedTestEnvironment();
+        if (associatedEnvironment == null) {
+            TestEnvironment environment = seleniumManager.getSeleniumTestEnvironments().get(0);
+            getSeleniumManager().associateTestEnvironment(environment);
+        }
+    	
+    	
         log.debug("Scenarion started");
         ScenarioGlobals startNewScenario = getCucumberManager().startNewScenario();
     }
@@ -54,6 +63,11 @@ public class CucumberReportingExtension extends BaseServiceHub {
     		}
     	}
         getCucumberManager().stopNewScenario();
+        
+        SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
+    	if(seleniumManager.getAssociatedTestEnvironment() != null) {
+    		seleniumManager.deAssociateTestEnvironment();
+    	}
     }
 
 }

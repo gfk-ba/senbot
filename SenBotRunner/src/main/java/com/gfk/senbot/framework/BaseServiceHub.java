@@ -18,7 +18,6 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
 public abstract class BaseServiceHub {
 	
 	public BaseServiceHub() {
-		
 	}
 	
 	/**
@@ -34,7 +33,7 @@ public abstract class BaseServiceHub {
 	 * @return the {@link WebDriver} for the currently active {@link TestEnvironment}
 	 */
 	public WebDriver getWebDriver() {
-		return SenBotContext.getSeleniumDriver();
+		return getSenBotContext().getSeleniumDriver();
 	}
 
 	public SeleniumManager getSeleniumManager() {
@@ -52,5 +51,6 @@ public abstract class BaseServiceHub {
 	public ScenarioGlobals getScenarioGlobals() {
 		return getCucumberManager().getCurrentScenarioGlobals();
 	}
+	
 
 }

@@ -2,16 +2,15 @@ package com.gfk.senbot.framework.services.selenium;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.openqa.selenium.WebDriver;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 
-public class NavigationServiceMockedEnvTest  extends AbstractSenbotServiceTest{
+public class NavigationServiceMockedEnvTest extends AbstractSenbotServiceTest {
 	
 	private String alternateRuntimeResources;
 
@@ -36,6 +35,10 @@ public class NavigationServiceMockedEnvTest  extends AbstractSenbotServiceTest{
         SenBotContext.cleanupSenBot();
         System.setProperty("senbotContext.alternateRuntimeResources", "/some/path");
         final WebDriver mockDriver = Mockito.mock(WebDriver.class);
+        
+        //setup spring again after it has been cleared
+    	ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext(new String[]{"classpath*:/cucumber.xml"});
+    	classPathXmlApplicationContext.getBean(SenBotContext.class);
         
         String pageUnderTest = "/test_pages/exampleButton.html";
         String expectedUrl = "file:///some/path" + pageUnderTest;

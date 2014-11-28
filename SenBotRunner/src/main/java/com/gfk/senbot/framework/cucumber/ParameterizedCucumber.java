@@ -12,6 +12,7 @@ import gherkin.formatter.model.Scenario;
 import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,39 +21,39 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.internal.AssumptionViolatedException;
-import org.junit.internal.runners.model.EachTestNotifier;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runner.Runner;
 import org.junit.runner.notification.RunNotifier;
-import org.junit.runner.notification.StoppedByUserException;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.Parameterized;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerScheduler;
-import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.context.CucumberManager;
 import com.gfk.senbot.framework.context.SeleniumManager;
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.context.TestEnvironment;
 
+import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
+import cucumber.runtime.ClassFinder;
 import cucumber.runtime.Runtime;
 import cucumber.runtime.RuntimeOptions;
+import cucumber.runtime.RuntimeOptionsFactory;
+import cucumber.runtime.SummaryPrinter;
 import cucumber.runtime.formatter.FormatterFactory;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.io.ResourceLoaderClassFinder;
 import cucumber.runtime.junit.Assertions;
 import cucumber.runtime.junit.FeatureRunner;
 import cucumber.runtime.junit.JUnitReporter;
-import cucumber.runtime.junit.RuntimeOptionsFactory;
 import cucumber.runtime.model.CucumberFeature;
-import cucumber.runtime.snippets.SummaryPrinter;
 
 /**
  * This is the aggregation of the {@link Parameterized} runner, that allows to
@@ -64,7 +65,7 @@ import cucumber.runtime.snippets.SummaryPrinter;
  * 
  */
 public class ParameterizedCucumber extends Parameterized {
-
+	
 	private static Logger log = LoggerFactory.getLogger(ParameterizedCucumber.class);
 
 	private final JUnitReporter jUnitReporter;
@@ -89,15 +90,15 @@ public class ParameterizedCucumber extends Parameterized {
         final ClassLoader classLoader = klass.getClassLoader();
         Assertions.assertNoCucumberAnnotatedMethods(klass);
 
-//        Class<? extends Annotation>[] annotationClasses = new Class[]{CucumberOptions.class, Options.class};
-//        RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(klass, annotationClasses);
-        RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(klass);
+        Class<? extends Annotation>[] annotationClasses = new Class[]{CucumberOptions.class};
+        RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(klass, annotationClasses);
+//        RuntimeOptionsFactory runtimeOptionsFactory = new RuntimeOptionsFactory(klass);
         final RuntimeOptions runtimeOptions = runtimeOptionsFactory.create();
 
         ResourceLoader resourceLoader = new MultiLoader(classLoader);
-//        ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, classLoader);
-//        runtime = new Runtime(resourceLoader, classFinder, classLoader, runtimeOptions);
-        runtime = new Runtime(resourceLoader, classLoader, runtimeOptions);
+        ClassFinder classFinder = new ResourceLoaderClassFinder(resourceLoader, classLoader);
+        runtime = new Runtime(resourceLoader, classFinder, classLoader, runtimeOptions);
+//        runtime = new Runtime(resourceLoader, classLoader, runtimeOptions);
         
         final ThreadAwareFormatter threadAwareWrappedFormatter = new ThreadAwareFormatter(runtimeOptions, classLoader);
         
@@ -105,10 +106,10 @@ public class ParameterizedCucumber extends Parameterized {
         Reporter threadAwareReporter = new ThreadAwareReporter(threadAwareWrappedFormatter, classLoader, runtimeOptions);
         
 		
-		runtimeOptions.formatters.clear();
-		runtimeOptions.formatters.add(threadAwareWrappedFormatter);
+//		runtimeOptions.formatters.clear();
+		runtimeOptions.addFormatter(threadAwareWrappedFormatter);
 		
-        jUnitReporter = new JUnitReporter(threadAwareReporter, threadAwareWrappedFormatter, runtimeOptions.strict);
+        jUnitReporter = new JUnitReporter(threadAwareReporter, threadAwareWrappedFormatter, runtimeOptions.isStrict());
         //overwrite the reporter so we can alter the path to write to
         
         List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
@@ -313,6 +314,17 @@ public class ParameterizedCucumber extends Parameterized {
 		public void scenario(Scenario arg0) {
 			getWrapped().scenario(arg0);
 			
+		}
+		
+		@Override
+		public void endOfScenarioLifeCycle(Scenario arg0) {
+			getWrapped().endOfScenarioLifeCycle(arg0);
+			
+		}
+
+		@Override
+		public void startOfScenarioLifeCycle(Scenario arg0) {
+			getWrapped().startOfScenarioLifeCycle(arg0);
 		}
 
 		@Override

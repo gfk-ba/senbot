@@ -12,6 +12,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.ResourceUtils;
 
 import com.gfk.senbot.framework.BaseServiceHub;
@@ -24,6 +26,8 @@ import com.gfk.senbot.framework.context.SenBotContext;
  *
  */
 public class NavigationService extends BaseServiceHub {
+	
+	
     private final ElementService seleniumElementService;
 
     /**

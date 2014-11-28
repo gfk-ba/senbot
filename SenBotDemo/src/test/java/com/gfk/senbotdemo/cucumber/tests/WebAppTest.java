@@ -4,10 +4,13 @@ import org.junit.runner.RunWith;
 
 import com.gfk.senbot.framework.cucumber.CucumberTestBase;
 import com.gfk.senbot.framework.cucumber.ParameterizedCucumber;
+
+import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(ParameterizedCucumber.class)
-@Cucumber.Options(
+@CucumberOptions(
+//@Cucumber.Options(
         format = {"json", "json:target/test-results/result.json"}, 
         monochrome = true, 
         features = "features", 

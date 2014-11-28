@@ -9,9 +9,12 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.data.MockReferenceDatePopulator;
@@ -19,6 +22,8 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
 
 import cucumber.api.DataTable;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/cucumber.xml"})
 public class TableServiceTest extends AbstractSenbotServiceTest {
 
     private TableService seleniumTableService;

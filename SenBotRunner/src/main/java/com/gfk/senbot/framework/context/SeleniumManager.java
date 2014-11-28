@@ -55,14 +55,15 @@ public class SeleniumManager {
     		int aTimeout) throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         this(defaultDomain, seleniumHubIP, target, defaultWindowWidth, defaultWindowWidth, aTimeout, null, null);
 
-        try {
+        //this is way too annoying and has too little effect to keep moving the cursor
+//        try {
         	//move the mouse to 0,50 so that it won't interfere with IE native events. 50 to avoid trigger of hotcorners
-        	Robot robot = new Robot();
-        	robot.mouseMove(0, 50);        	
-        }
-        catch (AWTException awte) {
+//        	Robot robot = new Robot();
+//        	robot.mouseMove(0, 50);        	
+//        }
+//        catch (AWTException awte) {
         	//thrown when the process is running headless, just continue without moving the cursor
-        }
+//        }
     }
 
     /**
@@ -217,7 +218,12 @@ public class SeleniumManager {
         Thread currentThread = Thread.currentThread();
         TestEnvironment removed = associatedEnvironment.remove(currentThread);
 
-        log.debug("Deassociated TestEnvironment: " + removed.toPrettyString() + " from thread: " + currentThread.toString());
+        if(removed != null) {        	
+        	log.debug("Deassociated TestEnvironment: " + removed.toPrettyString() + " from thread: " + currentThread.toString());
+        }
+        else {
+        	log.debug("Deassociation of TestEnvironment called without a TestEnvironment being present on thread: " + currentThread.toString());        	
+        }
         
         return removed;
 

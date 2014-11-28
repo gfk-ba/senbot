@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
@@ -25,7 +26,8 @@ import cucumber.runtime.java.StepDefAnnotation;
 public class SeleniumElementSteps extends BaseServiceHub {
 	
 	@Resource
-	protected ElementService seleniumElementService;
+	protected ElementService seleniumElementService;	
+	
 
 	/*
 	 * Given 

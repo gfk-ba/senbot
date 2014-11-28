@@ -2,11 +2,10 @@ package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
 import static org.junit.Assert.fail;
 
-import javax.annotation.Resource;
-
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.services.selenium.ElementService;
@@ -18,7 +17,7 @@ import cucumber.runtime.java.StepDefAnnotation;
 @StepDefAnnotation
 public class SeleniumPageRepresentationSteps extends BaseServiceHub {
 	
-	@Resource
+	@Autowired
 	protected ElementService seleniumElementService;
 	
 	@When("^I click \"([^\"]*)\" on the \"([^\"]*)\" view$")

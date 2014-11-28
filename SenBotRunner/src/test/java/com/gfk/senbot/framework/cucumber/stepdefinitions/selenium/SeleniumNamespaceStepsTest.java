@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.BaseServiceHub;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
@@ -14,10 +15,12 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
 import com.gfk.senbot.framework.services.selenium.ElementService;
 
 import cucumber.api.java.en.Then;
+import cucumber.runtime.java.StepDefAnnotation;
 
+@StepDefAnnotation
 public class SeleniumNamespaceStepsTest extends BaseServiceHub {
 	
-	@Resource
+	@Autowired
     private ElementService seleniumElementService;
 
     @Then("^table cell \"([^\"]*)\" should have a namespaced value \"([^\"]*)\"$")

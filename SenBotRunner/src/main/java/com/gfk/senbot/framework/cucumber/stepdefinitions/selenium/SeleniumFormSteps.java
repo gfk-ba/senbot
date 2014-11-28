@@ -1,11 +1,9 @@
 package com.gfk.senbot.framework.cucumber.stepdefinitions.selenium;
 
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gfk.senbot.framework.BaseServiceHub;
-import com.gfk.senbot.framework.cucumber.stepdefinitions.BaseStepDefinition;
-import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.FormService;
 
 import cucumber.api.java.en.Then;
@@ -21,7 +19,7 @@ import cucumber.runtime.java.StepDefAnnotation;
 @StepDefAnnotation
 public class SeleniumFormSteps extends BaseServiceHub {
 	
-	@Resource
+	@Autowired
 	protected FormService seleniumFormService;
 
 	

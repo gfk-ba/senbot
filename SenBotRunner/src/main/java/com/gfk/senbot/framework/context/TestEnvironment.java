@@ -438,7 +438,7 @@ public class TestEnvironment {
 
             RemoteWebDriver remoteWebDriver = new RemoteWebDriver(seleniumManager.getSeleniumHub(), capability);
 			driver = new Augmenter().augment(remoteWebDriver);
-           
+			
             
         } else {
 

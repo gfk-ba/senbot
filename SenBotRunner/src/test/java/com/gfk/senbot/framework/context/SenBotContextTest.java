@@ -1,23 +1,27 @@
 package com.gfk.senbot.framework.context;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.lf5.util.StreamUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/cucumber.xml"})
 public class SenBotContextTest {
 
     private String alternateRuntimeResources;
@@ -67,16 +71,12 @@ public class SenBotContextTest {
     @Test
     public void testGetRuntimeResourcesPopulatedFromProperties() {
     	//make sure to cleanup the senbot so the new system property is used
-    	SenBotContext senBotContext = SenBotContext.getSenBotContext();
     	SenBotContext.cleanupSenBot();
         System.setProperty(SenBotContext.SENBOT_CONTEXT_ALTERNATE_RUNTIME_RESOURCES_PROPERTY_NAME, "some/path");
 
-        senBotContext = SenBotContext.getSenBotContext();
+        SenBotContext senBotContext = SenBotContext.getSenBotContext();
         assertNotNull(senBotContext.getRuntimeResources());
         assertEquals("some/path", senBotContext.getRuntimeResources());
-        
-        //make sure to cleanup the senbot so that this test does not interfere with other tests
-        SenBotContext.cleanupSenBot();
 
     }
 

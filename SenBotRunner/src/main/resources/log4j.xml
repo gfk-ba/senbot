@@ -18,29 +18,42 @@
             <param name="ConversionPattern" value="%-5p %-10d{dd MMM yyyy HH:mm:ss,SSS} [%t] %l - %m%n"/>
         </layout>
     </appender>
- 
-    <category name="com.gfk.senbot" additivity="false">
-        <priority value="WARN"/>
+
+    <category name="cucumber" additivity="false">
+        <priority value="DEBUG"/>
         <appender-ref ref="FILE"/>
-      <!--   <appender-ref ref="CONSOLE"/> -->
+    </category>
+
+    <category name="org.slf4j" additivity="false">
+        <priority value="DEBUG"/>
+        <appender-ref ref="FILE"/>
+    </category>
+
+    <category name="org.log4j" additivity="false">
+        <priority value="DEBUG"/>
+        <appender-ref ref="FILE"/>
+    </category>
+
+    <category name="com.gfk.senbot" additivity="false">
+        <priority value="DEBUG"/>
+        <appender-ref ref="FILE"/>
+    </category>
+    
+    <category name="org.springframework" additivity="false">
+        <priority value="DEBUG"/>
+        <appender-ref ref="FILE"/>
     </category>
 
     <category name="org.junit" additivity="false">
         <priority value="ERROR"/>
         <appender-ref ref="FILE"/>
-        <!-- <appender-ref ref="CONSOLE"/> -->
     </category>
     
     <category name="org.openqa.selenium" additivity="false">
         <priority value="ERROR"/>
         <appender-ref ref="FILE"/>
-        <!-- <appender-ref ref="CONSOLE"/> -->
     </category>
     
-    <category name="org.springframework" additivity="false">
-        <priority value="ERROR"/>
-        <appender-ref ref="FILE"/>
-    </category>
     
     <root>
         <priority value="FATAL"/>

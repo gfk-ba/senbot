@@ -55,7 +55,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id='textField']")));
-        driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + senBotContext.getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
+        driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + SenBotContext.getSenBotContext().getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
 
         seleniumElementService.findExpectedElement(By.cssSelector("button[id='openBrowserWindow']")).click();
         seleniumSynchronisationService.waitAndSwitchToNewBrowserWindow(seleniumManager.getTimeout());
@@ -70,7 +70,7 @@ public class SynchronisationServiceTest extends AbstractSenbotServiceTest {
         seleniumNavigationService.navigate_to_url(TEST_PAGE_URL);
 
         seleniumSynchronisationService.checkAndAssertForExpectedCondition(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id='textField']")));
-        driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + senBotContext.getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
+        driver.findElement(By.cssSelector("input[id='textField']")).sendKeys("file:///" + SenBotContext.getSenBotContext().getRuntimeResources() + EXAMPLE_FORM_PAGE_URL);
 
         seleniumElementService.findExpectedElement(By.cssSelector("button[id='openBrowserWindow']")).click();
         seleniumSynchronisationService.waitAndSwitchToNewBrowserWindow(seleniumManager.getTimeout());

@@ -7,15 +7,23 @@ import static org.junit.Assert.assertNull;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
 
-
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/cucumber.xml"})
 public class CucumberManagerTest {
 	
-	@Before
+	@After
 	public void setup() {
 		SenBotContext.cleanupSenBot();
 	}

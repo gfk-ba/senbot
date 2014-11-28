@@ -6,6 +6,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -24,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import com.gfk.senbot.framework.BaseServiceHub;
+import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ExpectedGlobalCondition;
 import com.gfk.senbot.framework.data.SenBotReferenceService;
 
@@ -35,6 +38,9 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
  * 
  */
 public class ElementService extends BaseServiceHub {
+	
+	@Resource
+	protected SenBotContext senBotContext;
 
 	private static Logger log = LoggerFactory.getLogger(ElementService.class);
 

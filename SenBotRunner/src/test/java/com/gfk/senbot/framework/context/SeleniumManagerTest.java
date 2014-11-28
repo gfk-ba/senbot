@@ -20,13 +20,21 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.Platform;
 
 import com.gfk.senbot.framework.services.selenium.ElementService;
 import com.gfk.senbot.framework.services.selenium.NavigationService;
 
 import org.openqa.selenium.WebDriver;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath*:/cucumber.xml"})
 public class SeleniumManagerTest {
 	
 	@Before
@@ -81,8 +89,6 @@ public class SeleniumManagerTest {
 
     @Test
     public void testSenBotContext_webdriverCreationHookInitialized() throws IOException, AWTException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-    	SenBotContext.cleanupSenBot();
-    	
     	SeleniumManager manager = SenBotContext.getSenBotContext().getSeleniumManager();
 	
 	    assertNotNull("Ensure hook created", manager.getWebDriverCreationHook());

@@ -10,8 +10,11 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import com.gfk.senbot.framework.data.SenBotReferenceService;
@@ -23,7 +26,7 @@ import com.gfk.senbot.framework.data.SenBotReferenceService;
  * @author joostschouten
  *
  */
-public class SenBotContext {
+public class SenBotContext implements ApplicationContextAware {
 	
 	public static final String SPRING_CONFIG_LOCATION = "springConfig";
 
@@ -38,14 +41,14 @@ public class SenBotContext {
     private File                         testResultsFolder      = null;
     private final SeleniumManager        seleniumManager;
     private final CucumberManager        cucumberManager;
-    private static ApplicationContext    context;
+    private ApplicationContext           applicationContext;
 
     private final SenBotReferenceService referenceService;
 	public static final String SENBOT_CONTEXT_ALTERNATE_RUNTIME_RESOURCES_PROPERTY_NAME = "senbotContext.alternateRuntimeResources";
     public static final String RESOURCE_LOCATION_PREFIX = "resource_location:";
 
 	private static Thread reportingCreationHook;
-
+	
     /**
      * Constructor
      * 
@@ -98,6 +101,8 @@ public class SenBotContext {
         	Runtime.getRuntime().addShutdownHook(reportingCreationHook);
         }
     }
+    
+    
 
     /**
      * Obtain the {@link SenBotContext} singleton. Instantiate it if not yet available
@@ -105,20 +110,22 @@ public class SenBotContext {
      */
     public static SenBotContext getSenBotContext() {
         if (senBotContextSingleton == null) {
-            //synchronize instantiation
-            synchronized (SenBotContext.class) {
-                //another null check as two threads might have passed the first null check, wait in line on the 
-                //synchronized block and both instantiate the singleton.
-                if (senBotContextSingleton == null) {
-                	String springConfigLocation = System.getProperty(SPRING_CONFIG_LOCATION);
-                	if(springConfigLocation == null) {
-                		springConfigLocation = "classpath*:cucumber.xml";
-                	}
-                	
-                    context = new ClassPathXmlApplicationContext(new String[]{springConfigLocation});
-                    senBotContextSingleton = context.getBean(SenBotContext.class);
-                }
-            }
+			//synchronize instantiation
+//            synchronized (SenBotContext.class) {
+//            	ClassPathXmlApplicationContext context = null;
+//                //another null check as two threads might have passed the first null check, wait in line on the 
+//                //synchronized block and both instantiate the singleton.
+//                if (senBotContextSingleton == null) {
+//                	String springConfigLocation = System.getProperty(SPRING_CONFIG_LOCATION);
+//                	if(springConfigLocation == null) {
+//                		springConfigLocation = "classpath*:/senbot.xml";
+//                	}
+//                	
+//                	context = new ClassPathXmlApplicationContext(new String[]{springConfigLocation});
+//                	SenBotContext.senBotContextSingleton = context.getBean(SenBotContext.class);
+//                }
+//                senBotContextSingleton = context.getBean(SenBotContext.class);
+//            }
         }
         return senBotContextSingleton;
     }
@@ -129,7 +136,7 @@ public class SenBotContext {
      * @return {@link Object} Spring service mapped to the passed in class 
      */
     public static <T> T getBean(Class<T> clazz) {
-        return getSenBotContext().context.getBean(clazz);
+        return getSenBotContext().applicationContext.getBean(clazz);
     }
 
     /**
@@ -140,7 +147,7 @@ public class SenBotContext {
      * @return {@link Object} Spring service mapped to the passed in Spring id
      */
     public static <T> T getBean(String name, Class<T> requiredType) {
-    	return getSenBotContext().context.getBean(name, requiredType);
+    	return getSenBotContext().applicationContext.getBean(name, requiredType);
     }
 
     /**
@@ -236,4 +243,10 @@ public class SenBotContext {
     public String getRuntimeResources() {
         return runtimeResources;
     }
+
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		SenBotContext.senBotContextSingleton = applicationContext.getBean(SenBotContext.class);
+		this.applicationContext = applicationContext;
+	}
 }
