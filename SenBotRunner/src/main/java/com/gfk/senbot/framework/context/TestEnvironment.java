@@ -266,9 +266,18 @@ public class TestEnvironment {
             if (other.os != null) {
                 return false;
             }
-        } else if (os != other.os) {
-            if (!matchAnyAndWindowsOs || !other.os.is(os)) {
-                return false;
+        } 
+        else if (other.os == null) {
+        	return false;
+        }
+        else if (os != other.os) {
+        	if(matchAnyAndWindowsOs && 
+        			this.os.equals(Platform.WINDOWS) &&
+        			Platform.ANY.equals(other.os)) {
+        		return true;
+        	}
+        	else {
+                return other.os.is(os);
             }
 
         }

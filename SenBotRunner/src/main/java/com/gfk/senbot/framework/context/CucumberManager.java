@@ -40,6 +40,11 @@ public class CucumberManager {
 	 */
 	private int parallelFeatureThreads;
 
+	/**
+	 * After how many seconds should SenBot cancel the cucumber feature file execution.
+	 */
+	private int featureFileTimeout;
+
 	private static Thread shutDownHook;
 	
 	/**
@@ -60,9 +65,11 @@ public class CucumberManager {
 			String scenarioGlobalsCreationHookClass, 
 			String defaultCucumberOptionsString,
 			boolean openResultingReportAfterCompletion,
-			int parallelFeatureThreads) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+			int parallelFeatureThreads,
+			int featureFileTimeout) throws SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		
 		this.parallelFeatureThreads = parallelFeatureThreads;
+		this.featureFileTimeout = featureFileTimeout;
 		this.setOpenResultingReportAfterCompletion(openResultingReportAfterCompletion);
 		if(System.getProperty("cucumber.options") == null) {		
 			String overwrite = null;
@@ -170,6 +177,10 @@ public class CucumberManager {
 
 	public int getParallelFeatureThreads() {
 		return parallelFeatureThreads;
+	}
+
+	public int getFeatureFileTimeout() {
+		return featureFileTimeout;
 	}
 
 }

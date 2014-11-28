@@ -36,6 +36,7 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gfk.senbot.framework.context.CucumberManager;
 import com.gfk.senbot.framework.context.SeleniumManager;
 import com.gfk.senbot.framework.context.SenBotContext;
 import com.gfk.senbot.framework.context.TestEnvironment;
@@ -113,6 +114,7 @@ public class ParameterizedCucumber extends Parameterized {
         List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(resourceLoader);
         List<Runner> parameterizedChildren = super.getChildren();
         final SeleniumManager seleniumManager = SenBotContext.getSenBotContext().getSeleniumManager();
+        final CucumberManager cucumberManager = SenBotContext.getSenBotContext().getCucumberManager();
 
         for (int i = 0; i < parameterizedChildren.size(); i++) {
         	BlockJUnit4ClassRunner paramRunner = (BlockJUnit4ClassRunner) parameterizedChildren.get(i);
@@ -128,7 +130,8 @@ public class ParameterizedCucumber extends Parameterized {
             	ThreadPoolFeatureRunnerScheduler environmentFeatureRunner = new ThreadPoolFeatureRunnerScheduler(environment, 
             			cucumberFeature, 
             			runtime, 
-            			jUnitReporter);
+            			jUnitReporter,
+            			cucumberManager.getFeatureFileTimeout());
             	
             	setScheduler(environmentFeatureRunner);
 				children.add(environmentFeatureRunner);
@@ -404,19 +407,24 @@ public class ParameterizedCucumber extends Parameterized {
 	 * 
 	 */
 	private static class ThreadPoolFeatureRunnerScheduler extends FeatureRunner implements RunnerScheduler {
+		
 		private ExecutorService executor;
 		private TestEnvironment environment;
 		private CucumberFeature cucumberFeature;
 		private JUnitReporter jUnitReporter;
+		private int featureFileTimout;
+
 
 		public ThreadPoolFeatureRunnerScheduler(TestEnvironment environment, 
 				CucumberFeature cucumberFeature,
 				Runtime runtime, 
-				JUnitReporter jUnitReporter) throws InitializationError {
+				JUnitReporter jUnitReporter,
+				int featureFileTimout) throws InitializationError {
 			super(cucumberFeature, runtime, jUnitReporter);
 			this.environment = environment;
 			this.cucumberFeature = cucumberFeature;
 			this.jUnitReporter = jUnitReporter;
+			this.featureFileTimout = featureFileTimout;
 			
 			Integer defaultNumThreads = SenBotContext.getSenBotContext().getCucumberManager().getParallelFeatureThreads();
 			String threads = System.getProperty("junit.parallel.threads", defaultNumThreads.toString());
@@ -456,8 +464,9 @@ public class ParameterizedCucumber extends Parameterized {
 		public void finished() {
 			executor.shutdown();
 			try {
-				executor.awaitTermination(10, TimeUnit.MINUTES);
+				executor.awaitTermination(featureFileTimout, TimeUnit.SECONDS);
 			} catch (Exception exc) {
+				log.error("The maximum timeout of " + featureFileTimout + " seconds has been exceded for feature file: " + getName() + ". It will be terminated.");
 			}
 		}
 

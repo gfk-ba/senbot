@@ -40,6 +40,7 @@
     	<constructor-arg value="${senBotContext.cucumberManager.defaultCucumberOptions}" index="1"/>
     	<constructor-arg value="#{openCucumberReportPropertyEvaluator.booleanProperty}" index="2"/>
     	<constructor-arg value="#{parallelFeatureThreadsPropertyEvaluator.property}" index="3"/>
+    	<constructor-arg value="#{featureFileTimeoutPropertyEvaluator.property}" index="4"/>
     </bean>
 
     <bean id="com.gfk.senbot.framework.data.SenBotReferenceService" class="com.gfk.senbot.framework.data.SenBotReferenceService">
@@ -73,6 +74,15 @@
     	<constructor-arg index="1">
 	    	<array value-type="java.lang.String">
 		        <value>threads</value>
+		    </array>
+		</constructor-arg>
+    </bean>
+
+    <bean id="featureFileTimeoutPropertyEvaluator" class="com.gfk.senbot.framework.context.PropertyOverwritePlaceholder">
+    	<constructor-arg value="${senBotContext.cucumberManager.featureFileTimeout}" index="0"/>
+    	<constructor-arg index="1">
+	    	<array value-type="java.lang.String">
+		        <value>featureFileTimout</value>
 		    </array>
 		</constructor-arg>
     </bean>

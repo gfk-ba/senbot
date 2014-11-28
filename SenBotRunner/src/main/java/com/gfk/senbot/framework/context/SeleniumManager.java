@@ -11,11 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gfk.senbot.framework.data.ReferenceServicePopulator;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.internal.seleniumemulation.GetText;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
@@ -23,8 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gfk.senbot.framework.cucumber.stepdefinitions.ScenarioGlobals;
-
-import cucumber.deps.com.thoughtworks.xstream.converters.extended.CurrencyConverter;
 
 /**
  * Manager of all selenium related configuration and runtime variables.
