@@ -82,7 +82,7 @@
     	<constructor-arg value="${senBotContext.cucumberManager.featureFileTimeout}" index="0"/>
     	<constructor-arg index="1">
 	    	<array value-type="java.lang.String">
-		        <value>featureFileTimout</value>
+		        <value>featureFileTimeout</value>
 		    </array>
 		</constructor-arg>
     </bean>
